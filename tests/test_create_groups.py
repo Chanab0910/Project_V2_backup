@@ -1,10 +1,10 @@
 import pytest
-from create_groups import GroupGenerator
+# from create_groups import GroupGenerator
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Country, Match
-import models as m
+from code.models import Country, Match
+import code.models as m
 import random
 
 # Connect to the activities database
@@ -29,6 +29,7 @@ def setup_db(session, request):
 
     # Create some content within the test database
     countries = [Country(country_name='England', attack=78, defense=85, tier=1),
+                 Country(country_name='Spain', attack=94, defense=83, tier=2)
                  # Country('Spain', 87, 83, 2),
                  # Country('Germany', 81, 79, 3),
                  # Country('Sweden', 78, 76, 4)
@@ -43,7 +44,7 @@ def setup_db(session, request):
 
 def test_Countries(session):
     countries = session.query(m.Country).all()
-    assert len(countries) == 4
+    assert len(countries) == 2
 
 
 
