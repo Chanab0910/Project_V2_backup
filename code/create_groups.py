@@ -25,7 +25,8 @@ class GroupGenerator:
 
 class SimulateGroups:
     def __init__(self):
-        self.Home_team_score = None
+        self.changed_minute_base = 0
+        self.Home_team_score = 0
         self.base = 0.0128125
         self.groups = GroupGenerator.group_draw()
         self.engine = self.create_engine('sqlite:///World_cup.sqlite3', echo=True)
@@ -35,8 +36,12 @@ class SimulateGroups:
     def sim_match(self):
         for group in self.groups:
             if self.calculate_goals(
-                    self.sess.query(self.Country.Attack).filter_by(self.Country.Country_name == group[0])):
+                    self.sess.query(self.Country.Attack).filter_by(self.Country.Country_name == group[0]),
+                    self.sess.query(self.Country.Defense).filter_by(self.Country.Country_name == group[0])) :
                 ...
 
-    def calculate_goals(self):
-        ...
+    def calculate_goals(self,attack, defense):
+        self.changed_minute_base = self.base * attack / defense
+        self.num_goals = self.random.poisson(self.changed_minute_base)
+        return self.num_goals
+
