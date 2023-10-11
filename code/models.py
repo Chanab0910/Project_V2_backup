@@ -7,7 +7,7 @@ Base = declarative_base()
 
 class Country(Base):
     __tablename__ = 'Country'
-    id = Column('id', Integer, primary_key=True)
+    country_id = Column('id', Integer, primary_key=True)
     country_name = Column('country_name', String, unique=True, nullable=False)
     attack = Column('attack', Integer, unique=False, nullable=False)
     defense = Column('defense', Integer, unique=False, nullable=False)
@@ -19,7 +19,7 @@ class Country(Base):
 
 class Match(Base):
     __tablename__ = 'Match'
-    id = Column('id', Integer, primary_key=True)
+    Match_id = Column('id', Integer, primary_key=True)
     Home_team = Column(String, primary_key=True, unique=False, nullable=False)
     Away_team = Column(String, primary_key=True, unique=False, nullable=False)
     Stage = Column(Integer, unique=False, nullable=False)
@@ -29,3 +29,22 @@ class Match(Base):
 
     def __repr__(self):
         return f'Match({self.Home_team}) v Match({self.Away_team})'
+
+
+class Country_match(Base):
+    __tablename__ = 'Country_match'
+    Match_id = Column('id', Integer, primary_key=True)
+    Home_team_id = Column(String, primary_key=True, unique=False, nullable=False)
+    Away_team_id = Column(String, primary_key=True, unique=False, nullable=False)
+
+    def __repr__(self):
+        return f'Match({self.Home_team}) v Match({self.Away_team})'
+
+
+class Group(Base):
+    __tablename__ = 'Group'
+    Group_id = Column(Integer, primary_key=True)
+    Match_id = Column(Integer, primary_key=True)
+
+    def __repr__(self):
+        return f'{self.Group_id}'
