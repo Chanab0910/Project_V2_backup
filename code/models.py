@@ -20,8 +20,6 @@ class Country(Base):
 class Match(Base):
     __tablename__ = 'Match'
     Match_id = Column('id', Integer, primary_key=True)
-    Home_team = Column(String, primary_key=True, unique=False, nullable=False)
-    Away_team = Column(String, primary_key=True, unique=False, nullable=False)
     Stage = Column(Integer, unique=False, nullable=False)
     Home_goals = Column(Integer, unique=False, nullable=False)
     Away_goals = Column(Integer, unique=False, nullable=False)
