@@ -1,7 +1,4 @@
-from numpy import random
 from random import randint, shuffle, sample
-
-import numpy as numpy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -28,32 +25,18 @@ class GroupGenerator:
 
 class SimulateGroups:
     def __init__(self):
-        self.order = [[1,3], [2,4], [1,4],[2,3],[3,4],[1,2]]
         self.Home_team_score = None
         self.base = 0.0128125
-        self.groups = self.GroupGenerator.group_draw()
+        self.groups = GroupGenerator.group_draw()
         self.engine = self.create_engine('sqlite:///World_cup.sqlite3', echo=True)
 
         self.sess = self.Session(self.engine)
 
     def sim_match(self):
-
         for group in self.groups:
-            for i, matches in enumerate(group):
-                if self.calculate_goals(
-                        self.sess.query(self.Country.Attack).filter_by(
-                            self.Country.Country_name == matches[self.order[i][0]]),
-                        self.sess.query(self.Country.Defense).filter_by(
-                            self.Country.Country_name == matches[self.order[i][1]])) > self.calculate_goals(
-                    self.sess.query(self.Country.Attack).filter_by(self.Country.Country_name == matches[self.order[i][1]]),
-                    self.sess.query(self.Country.Defense).filter_by(self.Country.Country_name == matches[self.order[i][0]])):
-                    ...
-                    
+            if self.calculate_goals(
+                    self.sess.query(self.Country.Attack).filter_by(self.Country.Country_name == group[0])):
+                ...
 
-
-    def calculate_goals(self, attack, defense):
-        self.goals = random.poisson(self.base * (attack/defense))
-        return self.goals
-
-    def __repr__(self):
-        return f'{self.goals}'
+    def calculate_goals(self):
+        ...
