@@ -1,42 +1,38 @@
 from random import randint, shuffle, sample
+
+import numpy.random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
+
+from code.models import Country
 
 
 class GroupGenerator:
     def __init__(self):
-        self.engine = self.create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///World_cup_1.sqlite3', echo=True)
 
-        self.sess = self.Session(self.engine)
+        self.sess = Session(self.engine)
         self.team = ''
-        self.groups = [[] for i in range(8)]
-        self.country = self.sess.query(self.Country).first()
+        self.group = []
+        self.country = self.sess.query(Country).first()
 
-        self.countries = [sample(self.sess.query(self.Country).filter_by(tier=i).all()) for i in range(4)]
+        self.countries = [sample(self.sess.query(Country).filter_by(tier=i + 1).all(),
+                                 k=len(self.sess.query(Country).filter_by(tier=i + 1).all())) for i in range(4)]
 
     def group_draw(self):
-        group = []
-        for i, group in enumerate(self.groups):
-            self.team = self.countries[i][randint(0, len(self.countries[i]))]
-            group.append(self.team)
-            self.countries[i].remove(self.team)
-        return group
+        for i, group in enumerate(self.countries):
+            self.team = group[randint(0, len(group) - 1)]
+            self.group.append(self.team)
+            group.remove(self.team)
+        return self.group
+
+    def collate_groups(self):
+        self.collated_groups = []
+        for i in range(8):
+            self.collated_groups.append(self.group_draw())
+        self.collated_groups = self.collated_groups[0]
+        self.collated_groups = [self.collated_groups[x:x + 4] for x in range(0, len(self.collated_groups), 4)]
+        return self.collated_groups
 
 
-class SimulateGroups:
-    def __init__(self):
-        self.Home_team_score = None
-        self.base = 0.0128125
-        self.groups = GroupGenerator.group_draw()
-        self.engine = self.create_engine('sqlite:///World_cup.sqlite3', echo=True)
 
-        self.sess = self.Session(self.engine)
-
-    def sim_match(self):
-        for group in self.groups:
-            if self.calculate_goals(
-                    self.sess.query(self.Country.Attack).filter_by(self.Country.Country_name == group[0])):
-                ...
-
-    def calculate_goals(self):
-        ...
