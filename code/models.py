@@ -19,7 +19,7 @@ class Country(Base):
 
 class Match(Base):
     __tablename__ = 'Match'
-    Match_id = Column('id', Integer, primary_key=True)
+    Match_id = Column('id', Integer, primary_key=True, autoincrement=True)
     Stage = Column(Integer, unique=False, nullable=False)
     Home_goals = Column(Integer, unique=False, nullable=False)
     Away_goals = Column(Integer, unique=False, nullable=False)
