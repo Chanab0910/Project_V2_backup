@@ -5,6 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from code.models import Country, Match, Group_match, Country_match
+from create_groups import GroupGenerator
+
+group_generator = GroupGenerator
 
 
 class SimulateGroups:
@@ -14,7 +17,6 @@ class SimulateGroups:
         self.country_match_input = None
         self.Away_team_score = None
         self.goals = None
-        self.collated_groups = []
         self.away_country_defense = None
         self.away_country_attack = None
         self.home_country_defense = None
@@ -29,6 +31,8 @@ class SimulateGroups:
         self.team = ''
         self.group = []
         self.country = self.sess.query(Country).first()
+        self.collated_groups = []
+
         self.countries = [sample(self.sess.query(Country).filter_by(tier=i + 1).all(),
                                  k=len(self.sess.query(Country).filter_by(tier=i + 1).all())) for i in range(4)]
 
@@ -40,6 +44,7 @@ class SimulateGroups:
         return self.group
 
     def collate_groups(self):
+
         for i in range(8):
             self.collated_groups.append(self.group_draw())
         self.collated_groups = self.collated_groups[0]
@@ -65,15 +70,15 @@ class SimulateGroups:
             self.add_to_match(away_country)
         else:
             self.add_to_match('draw')
-        self.add_to_country_match(home_country,away_country)
+        self.add_to_country_match(home_country, away_country)
         self.add_to_group()
 
     def get_attack(self, country):
-        self.attack = self.sess.query(Country.attack).filter_by(Country.country_name == country).first()
+        self.attack = self.sess.query(Country.attack).filter_by(country_name=country).first()
         return self.attack
 
     def get_defense(self, country):
-        self.defense = self.sess.query(Country.defense).filter_by(Country.country_name == country).first()
+        self.defense = self.sess.query(Country.defense).filter_by(country_name=country).first()
         return self.defense
 
     def calculate_goals(self, attack, defense):
@@ -88,8 +93,8 @@ class SimulateGroups:
 
     def add_to_country_match(self, home_country, away_country):
         self.country_match_input = Country_match(
-            Home_team_id=self.sess.query(Country.country_id).filter_by(Country.country_name == home_country),
-            Away_team_id=self.sess.query(Country.country_id).filter_by(Country.country_name == away_country))
+            Home_team_id=self.sess.query(Country.country_id).filter_by(country_name=home_country),
+            Away_team_id=self.sess.query(Country.country_id).filter_by(country_name=away_country))
         self.sess.add(self.country_match_input)
         self.sess.commit()
 
@@ -101,4 +106,4 @@ class SimulateGroups:
 
 if __name__ == '__main__':
     gg = SimulateGroups()
-    print(gg.add_to_match('Japan'))
+    print(gg.sim_game('England', 'Germany'))

@@ -9,6 +9,7 @@ from code.models import Country
 
 class GroupGenerator:
     def __init__(self):
+        self.collated_groups = None
         self.engine = create_engine('sqlite:///World_cup_1.sqlite3', echo=True)
 
         self.sess = Session(self.engine)
