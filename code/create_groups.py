@@ -30,8 +30,7 @@ class GroupGenerator:
         collated_groups = []
         for i in range(8):
             collated_groups.append(self.group_draw())
-        lists_of_groups = [collated_groups[x:x + 4] for x in range(0, len(collated_groups), 4)]
-        return lists_of_groups
+        return collated_groups
 
 
 if __name__ == '__main__':

@@ -72,9 +72,9 @@ class SimulateGroups:
         return self.goals
 
     def add_to_match(self, winner):
-        self.match_input = Match(Stage=1, Home_goals=self.Home_team_score, Away_goals=self.Away_team_score,
+        match_input = Match(Stage=1, Home_goals=self.Home_team_score, Away_goals=self.Away_team_score,
                                  Winner=winner)
-        self.sess.add(self.match_input)
+        self.sess.add(match_input)
         self.sess.commit()
 
     def add_to_country_match(self, home_country, away_country):
