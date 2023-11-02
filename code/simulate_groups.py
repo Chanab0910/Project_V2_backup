@@ -41,7 +41,7 @@ class SimulateGroups:
         for group in self.list_of_groups:
             self.group_id += 1
             for i in range(len(self.order)):
-                self.sim_game(group[self.order[i][0]], group[self.order[i][1]])
+                self.sim_game(str(group[self.order[i][0]]), str(group[self.order[i][1]]))
 
     def sim_game(self, home_country, away_country):
         self.home_country_attack = self.get_attack(home_country)
