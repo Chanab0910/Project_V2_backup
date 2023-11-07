@@ -31,7 +31,7 @@ class Match(Base):
 
 class Country_match(Base):
     __tablename__ = 'Country_match'
-    Match_id = Column('id', Integer, primary_key=True)
+    Match_id = Column('id', Integer, primary_key=True, autoincrement=True)
     Home_team_id = Column(String, primary_key=True, unique=False, nullable=False)
     Away_team_id = Column(String, primary_key=True, unique=False, nullable=False)
 

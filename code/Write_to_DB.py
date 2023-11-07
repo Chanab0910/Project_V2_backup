@@ -12,8 +12,5 @@ def add_country(id, name, attack, defense, tier):
     return sess.add(country)
 
 
-delete="""
-Delete *
-From Match
-"""
-sess.commit(delete)
+delete= sess.query(Match.Match_id).first()
+print(delete)
