@@ -17,6 +17,4 @@ class FindGroupResults:
         self.winner = self.sess.query(Match.Winner).filter_by(Match.Match_id == Group_match.Match_id)
         return self.winner
 
-    def add_to_group_points(self):
-        self.group_points_input = Group_points(Group_id =)
 

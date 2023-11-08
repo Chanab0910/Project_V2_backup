@@ -31,7 +31,7 @@ class Match(Base):
 
 class Country_match(Base):
     __tablename__ = 'Country_match'
-    Match_id = Column('id', Integer, primary_key=True, autoincrement=True)
+    Match_id = Column('id', Integer, primary_key=True)
     Home_team_id = Column(String, primary_key=True, unique=False, nullable=False)
     Away_team_id = Column(String, primary_key=True, unique=False, nullable=False)
 
@@ -51,6 +51,10 @@ class Group_match(Base):
 class Group_points(Base):
     __tablename__ = 'Group_points'
     Group_id = Column(Integer, primary_key=True,autoincrement=True)
+    team1_id = Column(Integer)
+    team2_id = Column(Integer)
+    team3_id = Column(Integer)
+    team4_id = Column(Integer)
     team1_points = Column(Integer)
     team2_points = Column(Integer)
     team3_points = Column(Integer)
