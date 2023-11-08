@@ -61,6 +61,7 @@ class SimulateGroups:
             self.add_to_match('draw')
             pass
         self.add_to_country_match(home_country, away_country)
+        self.add_to_group_match()
         # self.add_to_group()
 
     def get_attack(self, country):
@@ -82,8 +83,10 @@ class SimulateGroups:
         self.sess.commit()
 
     def add_to_country_match(self, home_country, away_country):
+        Get_match_id = self.sess.query(Match.Match_id).order_by(Match.Match_id.desc()).first()[0]
+
         self.country_match_input = Country_match(
-            Match_id=self.sess.query(Match.Match_id).order_by(Match_id.desc()).first(),
+            Match_id=Get_match_id,
             Home_team_id=self.sess.query(Country.country_id).filter_by(
                 country_name=home_country),
             Away_team_id=self.sess.query(Country.country_id).filter_by(
@@ -92,12 +95,12 @@ class SimulateGroups:
         self.sess.commit()
 
     def add_to_group_match(self):
-        # self.group_input = [x[0] for x in Group_match(self.group_id, self.sess.query(Match.Match_id))]
-        group_match_input = Group_match(Group_id=self.group_id, Match_id = ... )
+        group_match_input = Group_match(Group_id=self.group_id, Match_id = self.sess.query(Match.Match_id).order_by(Match.Match_id.desc()).first()[0])
         self.sess.add(group_match_input)
         self.sess.commit()
-        ...
 
+    def add_to_group_points(self, winner):
+        ...
 
 if __name__ == '__main__':
     gg = SimulateGroups()
