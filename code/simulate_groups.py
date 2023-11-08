@@ -108,15 +108,22 @@ class SimulateGroups:
         self.sess.add(group_match_input)
         self.sess.commit()
 
-    def add_to_group_points(self, winner):
-        ...
+    def add_to_group_points(self, country):
+
+        # add_points = self.sess.query(Group_points.team1_points).update(...)
+        self.sess.add(add_points)
+        self.sess.commit()
 
     def create_group_points(self, team1, team2, team3, team4):
         create_new_group = Group_points(Group_id=self.group_id,
-                                        team1_id=self.sess.query(Country.country_id).filter_by(country_name=str(team1)[8:-1]),
-                                        team2_id=self.sess.query(Country.country_id).filter_by(country_name=str(team2)[8:-1]),
-                                        team3_id=self.sess.query(Country.country_id).filter_by(country_name=str(team3)[8:-1]),
-                                        team4_id=self.sess.query(Country.country_id).filter_by(country_name=str(team4)[8:-1]),
+                                        team1_id=self.sess.query(Country.country_id).filter_by(
+                                            country_name=str(team1)[8:-1]),
+                                        team2_id=self.sess.query(Country.country_id).filter_by(
+                                            country_name=str(team2)[8:-1]),
+                                        team3_id=self.sess.query(Country.country_id).filter_by(
+                                            country_name=str(team3)[8:-1]),
+                                        team4_id=self.sess.query(Country.country_id).filter_by(
+                                            country_name=str(team4)[8:-1]),
                                         team1_points=0,
                                         team2_points=0,
                                         team3_points=0,
@@ -125,6 +132,7 @@ class SimulateGroups:
 
         self.sess.add(create_new_group)
         self.sess.commit()
+
 
 if __name__ == '__main__':
     gg = SimulateGroups()
