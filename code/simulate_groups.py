@@ -134,6 +134,26 @@ class SimulateGroups:
         self.sess.commit()
 
 
+def sim_game_object(self, home_country, away_country):
+    self.home_country_attack = self.get_attack(home_country)
+    self.away_country_attack = self.get_attack(away_country)
+    self.home_country_defense = self.get_defense(home_country)
+    self.away_country_defense = self.get_defense(home_country)
+    self.Home_team_score = self.calculate_goals(self.home_country_attack[0], self.home_country_defense[0])
+    self.Away_team_score = self.calculate_goals(self.away_country_attack[0], self.home_country_defense[0])
+    if self.Home_team_score > self.Away_team_score:
+        self.add_to_match(home_country)
+        pass
+    elif self.Home_team_score < self.Away_team_score:
+        self.add_to_match(away_country)
+        pass
+    else:
+        self.add_to_match('draw')
+        pass
+    self.add_to_country_match(home_country, away_country)
+    self.add_to_group_match()
+    # self.add_to_group()
+
 if __name__ == '__main__':
     gg = SimulateGroups()
     print(gg.groups_matches())
