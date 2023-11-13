@@ -10,11 +10,18 @@ sess = Session(engine)
 countries = sess.query(Country).all()
 groups = sess.query(Group).all()
 
-australia = countries[0]
-group_1 = groups[0]
+australia = groups[0]
+austria = groups[0]
+belgium = groups[0]
+canada = groups[0]
+print('\n')
+print('\n')
+print(groups[0].countries)
+print('\n')
 
-australia.group = group_1
-print(group_1.countries)
+
+"""simulate a game 
+result = sim_match(australia,belgium)"""
 
 sess.commit()
 sess.close()

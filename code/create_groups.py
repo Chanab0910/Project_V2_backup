@@ -15,8 +15,8 @@ class GroupGenerator:
         self.team = ''
         self.country = self.sess.query(Country).first()
 
-        self.countries = [sample(self.sess.query(Country).filter_by(tier=i + 1).all(),
-                                 k=len(self.sess.query(Country).filter_by(tier=i + 1).all())) for i in range(4)]
+        self.countries = [sample(self.sess.query(Country.country_id).filter_by(tier=i + 1).all(),
+                                 k=len(self.sess.query(Country.country_id).filter_by(tier=i + 1).all())) for i in range(4)]
 
     def group_draw(self):
         # Creates a single group by taking a random country from each tier and adding it to a list
