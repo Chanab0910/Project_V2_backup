@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="World_cup" uuid="ec79d8e0-0247-4a6e-8fbe-2539a9ca8a6c">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>64e3de8c-3a69-42b7-8f1f-0cd0aca3ac83</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/code/World_cup.sqlite3</jdbc-url>

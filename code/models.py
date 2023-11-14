@@ -17,48 +17,30 @@ class Country(Base):
         return f'Country({self.country_name})'
 
 
+class CountryMatch(Base):
+    __tablename__ = 'country_match'
+    country_match_id = Column('id', Integer, primary_key=True, autoincrement=True)
+    match_id = Column('match_id', Integer,)
+    country_id = Column('country_id', Integer,)
+    score = Column('score', Integer)
+    result = Column('result', String)
+
+    def __repr__(self):
+        pass
+
+
 class Match(Base):
-    __tablename__ = 'Match'
-    Match_id = Column('id', Integer, primary_key=True, autoincrement=True)
-    Stage = Column(Integer, unique=False, nullable=False)
-    Home_goals = Column(Integer, unique=False, nullable=False)
-    Away_goals = Column(Integer, unique=False, nullable=False)
-    Winner = Column(String, unique=False, nullable=False)
+    __tablename__ = 'match'
+    match_id = Column('match_id', Integer, primary_key=True, autoincrement=True)
+    stage_id = Column('stage_id', Integer,)
+    match_number = Column('match_number', Integer)
 
     def __repr__(self):
-        return f'Match({self.Home_team}) v Match({self.Away_team})'
+        return f'Match_id: {self.match_id}'
 
 
-class Country_match(Base):
-    __tablename__ = 'Country_match'
-    Match_id = Column('id', Integer, primary_key=True)
-    Home_team_id = Column(String, primary_key=True, unique=False, nullable=False)
-    Away_team_id = Column(String, primary_key=True, unique=False, nullable=False)
-
-    def __repr__(self):
-        return f'Match({self.Home_team}) v Match({self.Away_team})'
-
-
-class Group_match(Base):
-    __tablename__ = 'Group_match'
-    Group_id = Column(Integer, primary_key=True)
-    Match_id = Column(Integer, primary_key=True)
-
-    def __repr__(self):
-        return f'{self.Group_id, self.Match_id}'
-
-
-class Group_points(Base):
-    __tablename__ = 'Group_points'
-    Group_id = Column(Integer, primary_key=True,autoincrement=True)
-    team1_id = Column(Integer)
-    team2_id = Column(Integer)
-    team3_id = Column(Integer)
-    team4_id = Column(Integer)
-    team1_points = Column(Integer)
-    team2_points = Column(Integer)
-    team3_points = Column(Integer)
-    team4_points = Column(Integer)
-
-    def __repr__(self):
-        return f'{self.Group_id}'
+class Stage(Base):
+    __tablename__ = 'stage'
+    stage_id = Column('stage_id', Integer, primary_key=True)
+    sequence = Column('sequence', String)
+    level = Column('level', String)
