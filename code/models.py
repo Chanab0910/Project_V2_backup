@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Table, UniqueConstraint, ForeignKey, BLOB
+from sqlalchemy import Column, Integer, String, Table, UniqueConstraint, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 

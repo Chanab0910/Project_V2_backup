@@ -18,7 +18,7 @@ countries = [Country(country_name="Australia", attack=70, defense=70, tier=2),
 groups = [Group(),
           Group(),
           ]
-
+...
 sess.add_all(countries)
 sess.add_all(groups)
 sess.commit()

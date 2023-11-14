@@ -4,7 +4,7 @@ from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from code.models import Country, Match
+from code.models import Country
 from create_groups import GroupGenerator
 
 
