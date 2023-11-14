@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from code.models import Country
 from create_groups import GroupGenerator
-
+from sim_game import SimGame
 
 class SimulateGroups:
     def __init__(self):
@@ -25,37 +25,17 @@ class SimulateGroups:
         self.list_of_groups = []
         self.group_generator = GroupGenerator()
         self.list_of_groups = self.group_generator.collate_groups()
+        self.sim_game_class = SimGame()
 
     def groups_matches(self):
-        # Takes each group and simulates it using simulate game and iterating through each game in the group
+        # Takes each group and simulates it using sim_game and iterating through each game in the group
         for group in self.list_of_groups:
             self.group_id += 1
 
-            for i in range(len(self.order)):
-                self.sim_game_object(group[self.order[i - 1][0]], group[self.order[i - 1][1]])
+            for i in range(len(self.order)-1):
+                print(self.sim_game_class.sim_game_object(group[self.order[i - 1][0]], group[self.order[i - 1][1]]))
+                #self.sim_game_object(group[self.order[i - 1][0]], group[self.order[i - 1][1]])
 
-    def sim_game_object(self, home_country, away_country):
-        # takes the object of each country, gets its attack and defense and runs each team through calculate goals.
-        # It then determines who won
-        home_country_attack = home_country.attack
-        away_country_attack = away_country.attack
-        home_country_defense = home_country.defense
-        away_country_defense = away_country.defense
-        Home_team_score = self.calculate_goals(home_country_attack, away_country_defense)
-        Away_team_score = self.calculate_goals(away_country_attack, home_country_defense)
-        if Home_team_score > Away_team_score:
-            print('win')
-            pass
-        elif Home_team_score < Away_team_score:
-            print('loss')
-            pass
-        else:
-            print('draw')
-            pass
-
-    def calculate_goals(self, attack, defense):
-        self.goals = random.poisson(90 * (self.base * (attack / defense)))
-        return self.goals
 
 if __name__ == '__main__':
     gg = SimulateGroups()
