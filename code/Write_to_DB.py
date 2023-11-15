@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from code.models import Country
 
-engine = create_engine('sqlite:///World_cup_1.sqlite3', echo=True)
+engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
 sess = Session(engine)
 
 

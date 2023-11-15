@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 class Country(Base):
-    __tablename__ = 'Country'
+    __tablename__ = 'country'
     country_id = Column('id', Integer, primary_key=True, autoincrement=True)
     country_name = Column('country_name', String, unique=True, nullable=False)
     attack = Column('attack', Integer, unique=False, nullable=False)
@@ -26,7 +26,8 @@ class CountryMatch(Base):
     result = Column('result', String)
 
     def __repr__(self):
-        pass
+        return f'the country_id is {self.country_id}'
+
 
 
 class Match(Base):
