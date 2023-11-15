@@ -16,6 +16,8 @@ class MakeMatches:
         self.country_match_objects = self.sess.query(CountryMatch).all()
         self.ids = []
         self.matches = []
+        self.conn = sqlite3.connect('sqlite:///World_cup.sqlite3')
+        self.cursor = self.conn.cursor()
 
     def make_all_pairs(self):
         self.get_ids_in_list()
@@ -37,11 +39,15 @@ class MakeMatches:
 
 
     def make_match(self):
-        self.match_input = """up"""
-
+        match_input = """
+        UPDATE CountryMatch
+        SET match_id = 1, score = 2
+        """
+        self.cursor.execute(match_input)
+        self.conn.close()
 
 if __name__ == '__main__':
     gg = MakeMatches()
-    print(gg.make_all_pairs())
+    print(gg.make_match())
 
 
