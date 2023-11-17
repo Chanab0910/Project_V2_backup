@@ -61,7 +61,8 @@ class MakeMatches:
         self.get_pair_list_of_objects()
         self.pair_match_object(self.object_pair_list)
         for i, match in enumerate(self.matches):
-            print(self.sim_game_class.sim_game_object(match[0], match[1]))
+            result = self.sim_game_class.sim_game_object(match[0], match[1])
+
 
 if __name__ == '__main__':
     gg = MakeMatches()
