@@ -39,13 +39,16 @@ class MakeMatches:
         self.sess.add(add_to_country_match)
         self.sess.commit()
 
-    def pairwise(self, iterable):
+    def pairing(self, iterable):
         a = iter(iterable)
         return zip(a, a)
+    """from stack overflow"""
 
     def pair_match_object(self, list_to_split):
-        for a, b in self.pairwise(list_to_split):
+        for a, b in self.pairing(list_to_split):
             self.matches.append([a, b])
+
+    """from stack overflow"""
 
     def get_pair_list_of_objects(self):
         for group in self.list_of_groups:
@@ -57,10 +60,8 @@ class MakeMatches:
     def sim_the_game(self):
         self.get_pair_list_of_objects()
         self.pair_match_object(self.object_pair_list)
-
         for i, match in enumerate(self.matches):
             print(self.sim_game_class.sim_game_object(match[0], match[1]))
-
 
 if __name__ == '__main__':
     gg = MakeMatches()

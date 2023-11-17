@@ -4,7 +4,7 @@ from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from code.models import Country, Match, Group_match, Country_match, Group_points
+from code.models import Country, Match,CountryMatch, Stage
 
 
 class FindGroupResults:
@@ -13,8 +13,5 @@ class FindGroupResults:
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
 
-    def get_match_winner(self):
-        self.winner = self.sess.query(Match.Winner).filter_by(Match.Match_id == Group_match.Match_id)
-        return self.winner
 
 
