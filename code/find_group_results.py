@@ -39,6 +39,9 @@ class FindGroupResults:
             print(self.all_points)
         return self.all_points
 
+    def work_out_who_goes_through(self):
+        ...
+
     def collective(self):
         """collates of the functions being done"""
         self.get_all_countries()

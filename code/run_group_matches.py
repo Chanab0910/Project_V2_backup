@@ -57,11 +57,15 @@ class MakeMatches:
                 self.object_pair_list.append(country_object)
         return self.object_pair_list
 
+    def update_table(self, match_id, home_team_id, away_team_id, home_team_score, away_team_score):
+        ...
+
     def sim_the_game(self):
         self.get_pair_list_of_objects()
         self.pair_match_object(self.object_pair_list)
         for i, match in enumerate(self.matches):
             result = self.sim_game_class.sim_game_object(match[0], match[1])
+            print(result)
 
 
 if __name__ == '__main__':
