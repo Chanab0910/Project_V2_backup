@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from project_code.models import Country, Match, CountryMatch, Stage
-from project_code.create_groups import GroupGenerator
+from project_code.create_group_matches import GroupGenerator
 
 
 class FindGroupResults:

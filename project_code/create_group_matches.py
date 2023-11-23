@@ -1,4 +1,4 @@
-from random import randint, shuffle, sample
+from random import randint, sample
 
 from numpy import random
 from sqlalchemy import create_engine

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update
 from sim_game import SimGame
 from project_code.create_group_matches import GroupGenerator
-from project_code.models import Country, CountryMatch, Match
+from project_code.models import Country, CountryMatch
 import sqlite3
 
 
