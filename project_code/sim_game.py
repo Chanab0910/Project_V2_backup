@@ -2,7 +2,7 @@
 from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-
+from project_code.models import Match
 
 class SimGame:
     def __init__(self):
@@ -39,3 +39,6 @@ class SimGame:
     def calculate_goals(self, attack, defense):
         self.goals = random.poisson(90 * (self.base * (attack / defense)))
         return self.goals
+
+    def add_to_match(self):
+        match_addition = Match(stage_id=)

@@ -13,8 +13,8 @@ import sqlite3
 
 class MakeMatches:
     def __init__(self):
-        self.away_goals = None
-        self.home_goals = None
+        self.goals = None
+
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
@@ -64,17 +64,19 @@ class MakeMatches:
         self.pair_match_object(self.object_pair_list)
         for i, match in enumerate(self.matches):
             result = self.sim_game_class.sim_game_object(match[0], match[1])
-            print(result)
-            self.home_goals = result[1]
-            self.away_goals = result[2]
 
-    def update_table(self):
-        match_winner = self.sess.query(CountryMatch).filter_by(country_id=5).first()
-        match_winner.score = 3
+            self.goals = result[1]
+            self.update_table(match[0])
+            self.goals = result[2]
+            self.update_table(match[1])
+
+    def update_table(self, home_team):
+        match_winner = self.sess.query(CountryMatch).filter_by(country_id=home_team.country_id).first()
+        match_winner.score = self.goals
         match_winner.result = 0
         self.sess.commit()
         self.sess.close()
 
 if __name__ == '__main__':
     gg = MakeMatches()
-    print(gg.update_table())
+    print(gg.sim_the_game())
