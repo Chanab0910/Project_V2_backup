@@ -69,8 +69,12 @@ class MakeMatches:
             self.away_goals = result[2]
 
     def update_table(self):
-        ...
+        match_winner = self.sess.query(CountryMatch).filter_by(country_id=5).first()
+        match_winner.score = 3
+        match_winner.result = 0
+        self.sess.commit()
+        self.sess.close()
 
 if __name__ == '__main__':
     gg = MakeMatches()
-    print(gg.sim_the_game())
+    print(gg.update_table())

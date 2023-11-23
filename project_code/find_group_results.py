@@ -18,6 +18,7 @@ class FindGroupResults:
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
+        self.country_dict = {}
 
     def get_all_countries(self):
         """gets all the country objects and adds them to a list"""
