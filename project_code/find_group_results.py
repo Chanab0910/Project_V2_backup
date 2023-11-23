@@ -4,8 +4,8 @@ from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from code.models import Country, Match, CountryMatch, Stage
-from code.create_groups import GroupGenerator
+from project_code.models import Country, Match, CountryMatch, Stage
+from project_code.create_groups import GroupGenerator
 
 
 class FindGroupResults:

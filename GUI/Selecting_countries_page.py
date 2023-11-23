@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-import code.create_groups
+import project_code.create_groups
 
 
 class GUI(tk.Tk):
@@ -20,12 +20,12 @@ class GUI(tk.Tk):
         self.place_widgets()
 
     def place_widgets(self):
-        # This code creates the widgets and grids them
+        # This project_code creates the widgets and grids them
         self.background.grid()
         self.button.grid(rowspan=2, columnspan=2)
 
     def when_pressed(self):
-        return code.create_groups.GroupGenerator
+        return project_code.create_groups.GroupGenerator
 
 
 

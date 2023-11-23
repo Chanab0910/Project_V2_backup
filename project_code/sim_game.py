@@ -28,13 +28,13 @@ class SimGame:
         Home_team_score = self.calculate_goals(home_country_attack, away_country_defense)
         Away_team_score = self.calculate_goals(away_country_attack, home_country_defense)
         if Home_team_score > Away_team_score:
-            return 'win'
+            return 'win', Home_team_score, Away_team_score
 
         elif Home_team_score < Away_team_score:
-            return 'loss'
+            return 'loss', Home_team_score, Away_team_score
 
         else:
-            return 'draw'
+            return 'draw', Home_team_score, Away_team_score
 
     def calculate_goals(self, attack, defense):
         self.goals = random.poisson(90 * (self.base * (attack / defense)))

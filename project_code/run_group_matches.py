@@ -6,13 +6,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from sim_game import SimGame
-from code.create_groups import GroupGenerator
-from code.models import Country, CountryMatch, Match
+from project_code.create_group_matches import GroupGenerator
+from project_code.models import Country, CountryMatch, Match
 import sqlite3
 
 
 class MakeMatches:
     def __init__(self):
+        self.away_goals = None
+        self.home_goals = None
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
@@ -62,7 +64,12 @@ class MakeMatches:
         self.pair_match_object(self.object_pair_list)
         for i, match in enumerate(self.matches):
             result = self.sim_game_class.sim_game_object(match[0], match[1])
+            print(result)
+            self.home_goals = result[1]
+            self.away_goals = result[2]
 
+    def update_table(self):
+        ...
 
 if __name__ == '__main__':
     gg = MakeMatches()

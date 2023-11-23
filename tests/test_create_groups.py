@@ -3,8 +3,8 @@ import pytest
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from code.models import Country, Match
-import code.models as m
+from project_code.models import Country, Match
+import project_code.models as m
 import random
 
 # Connect to the activities database

@@ -60,7 +60,7 @@ class WelcomeScreen(tk.Tk):
         self.place_widgets()
 
     def place_widgets(self):
-        # This code creates the widgets and grids them
+        # This project_code creates the widgets and grids them
         self.background.place(x=0, y=0)
         self.title.place(x=374, y=534)
         self.start.place(x=956, y=594)
@@ -83,7 +83,7 @@ class SelectingCountries(tk.Tk):
         self.place_widgets()
 
     def place_widgets(self):
-        # This code creates the widgets and grids them
+        # This project_code creates the widgets and grids them
         self.background.grid()
         self.button.grid(rowspan=2, columnspan=2)
 

@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from code.models import Country
+from project_code.models import Country
 
 engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
 sess = Session(engine)
