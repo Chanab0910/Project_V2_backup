@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-import project_code.create_groups
+import project_code
 
 
 class GUI(tk.Tk):
@@ -15,17 +15,17 @@ class GUI(tk.Tk):
         self.Argentina = tk.PhotoImage(file="../img/Argentina.png")
 
         self.background = tk.Label(self, image=self.bg_image, highlightthickness=0, borderwidth=0)
-        self.button = tk.Button(self,image=self.Argentina, command=self.when_pressed())
+        self.button = tk.Button(self,image=self.Argentina,command=self.when_pressed())
 
         self.place_widgets()
 
     def place_widgets(self):
         # This project_code creates the widgets and grids them
         self.background.grid()
-        self.button.grid(rowspan=2, columnspan=2)
+        self.button.place(x=270,y=23)
 
     def when_pressed(self):
-        return project_code.create_groups.GroupGenerator
+        print('hello')
 
 
 

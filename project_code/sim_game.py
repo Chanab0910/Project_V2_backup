@@ -42,4 +42,4 @@ class SimGame:
         return self.goals
 
     def add_to_match(self,stage):
-        match_addition = Match(stage_id=stage,match_number = )
+        match_addition = Match(stage_id=stage,match_number = ...)
