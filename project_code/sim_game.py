@@ -18,7 +18,7 @@ class SimGame:
         self.sess = Session(self.engine)
         self.team = ''
 
-    def sim_game_object(self, home_country, away_country):
+    def sim_game_object(self, home_country, away_country, stage):
         # takes the object of each country, gets its attack and defense and runs each team through calculate goals.
         # It then determines who won
         home_country_attack = home_country.attack
@@ -28,6 +28,7 @@ class SimGame:
         Home_team_score = self.calculate_goals(home_country_attack, away_country_defense)
         Away_team_score = self.calculate_goals(away_country_attack, home_country_defense)
         if Home_team_score > Away_team_score:
+            # self.add_to_match(stage)
             return 'win', Home_team_score, Away_team_score
 
         elif Home_team_score < Away_team_score:
@@ -40,5 +41,5 @@ class SimGame:
         self.goals = random.poisson(90 * (self.base * (attack / defense)))
         return self.goals
 
-    def add_to_match(self):
-        match_addition = Match(stage_id=)
+    def add_to_match(self,stage):
+        match_addition = Match(stage_id=stage,match_number = )

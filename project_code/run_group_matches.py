@@ -26,6 +26,8 @@ class MakeMatches:
         self.sim_game_class = SimGame()
         self.order = [[0], [2], [1], [3], [2], [1], [0], [3], [0], [1], [2], [3]]
         self.object_pair_list = []
+        self.stage_id_counter = 0
+        self.stage_id = 1
 
     def creates_ids(self):
         # creates the ID for each entry and sends it to create_initial_country_match to commit
@@ -63,8 +65,12 @@ class MakeMatches:
         self.get_pair_list_of_objects()
         self.pair_match_object(self.object_pair_list)
         for i, match in enumerate(self.matches):
-            result = self.sim_game_class.sim_game_object(match[0], match[1])
 
+            self.stage_id_counter += 1
+            if self.stage_id_counter % 6 == 0:
+                self.stage_id += 1
+            print(self.stage_id)
+            result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id)
             self.goals = result[1]
             self.update_table(match[0])
             self.goals = result[2]

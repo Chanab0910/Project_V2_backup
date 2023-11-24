@@ -51,7 +51,7 @@ class CreateMatches:
     def creates_ids(self):
         # creates the ID for each entry and sends it to create_initial_country_match to commit
         for group in self.list_of_groups:
-            for i in range(len(self.order) - 1):
+            for i in range(len(self.order)):
                 country_object = group[self.order[i][0]]
                 country_object_id = country_object.country_id
                 self.create_initial_country_match(country_object_id)
