@@ -41,6 +41,8 @@ class CreateMatches:
     # Fills in intial information so that it lays out which matches play in what order and makes it easy to simulate
     # through all games
     def __init__(self):
+        self.match_id = 0
+        self.match_id_counter = -1
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
@@ -52,15 +54,22 @@ class CreateMatches:
         # creates the ID for each entry and sends it to create_initial_country_match to commit
         for group in self.list_of_groups:
             for i in range(len(self.order)):
+                self.update_every_second_time()
                 country_object = group[self.order[i][0]]
                 country_object_id = country_object.country_id
                 self.create_initial_country_match(country_object_id)
 
     def create_initial_country_match(self, id):
         # Commits the id
-        add_to_country_match = CountryMatch(country_id=id)
+        add_to_country_match = CountryMatch(country_id=id, match_id=self.match_id)
         self.sess.add(add_to_country_match)
         self.sess.commit()
+
+    def update_every_second_time(self):
+        self.match_id_counter += 1
+        if self.match_id_counter %2 == 0:
+            self.match_id +=1
+        return self.match_id
 
 
 if __name__ == '__main__':
