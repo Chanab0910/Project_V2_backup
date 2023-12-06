@@ -1,16 +1,15 @@
 from random import randint, sample
-
-from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-
-from project_code.models import Country, Match, CountryMatch
+from sqlalchemy import update
+from sim_game import SimGame
+from project_code.models import Country, CountryMatch
 
 
 class GroupGenerator:
     def __init__(self):
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
-
+        self.collated_groups = []
         self.sess = Session(self.engine)
         self.team = ''
         self.country = self.sess.query(Country).first()
@@ -34,7 +33,9 @@ class GroupGenerator:
         for i in range(8):
             collated_groups.append(self.group_draw())
 
-        return collated_groups
+        self.collated_groups = collated_groups
+
+        return self.collated_groups
 
 
 class CreateMatches:
@@ -46,6 +47,7 @@ class CreateMatches:
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
+        self.object_list = []
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
         self.order = [[0], [2], [1], [3], [2], [1], [0], [3], [0], [1], [2], [3]]
@@ -57,6 +59,7 @@ class CreateMatches:
                 self.update_every_second_time()
                 country_object = group[self.order[i][0]]
                 country_object_id = country_object.country_id
+                self.object_list.append(country_object)
                 self.create_initial_country_match(country_object_id)
 
     def create_initial_country_match(self, id):
@@ -67,10 +70,9 @@ class CreateMatches:
 
     def update_every_second_time(self):
         self.match_id_counter += 1
-        if self.match_id_counter %2 == 0:
-            self.match_id +=1
+        if self.match_id_counter % 2 == 0:
+            self.match_id += 1
         return self.match_id
-
 
 if __name__ == '__main__':
     ff = GroupGenerator()

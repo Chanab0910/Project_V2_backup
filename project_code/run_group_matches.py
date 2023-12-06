@@ -19,10 +19,11 @@ class MakeMatches:
 
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
-        self.list_of_groups = self.group_generator.collate_groups()
+        self.list_of_groups = self.group_generator.collated_groups
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
-        self.country_match_objects = self.sess.query(CountryMatch).all()
+        self.country_match_ids = self.sess.query(CountryMatch.country_id).all()
+        self.list_of_objects = []
         self.ids = []
         self.matches = []
         self.sim_game_class = SimGame()
@@ -32,6 +33,7 @@ class MakeMatches:
         self.stage_id = 0
         self.change_num_list = [7, 13, 19, 25, 31]
         self.counter = 0
+
 
     def make_mach_id_list(self):
         for i in range(1,48):
@@ -60,8 +62,12 @@ class MakeMatches:
 
     def sim_the_game(self):
         self.make_mach_id_list()
-        self.get_pair_list_of_objects()
-        self.pair_match_object(self.object_pair_list)
+        for ids in self.country_match_ids:
+            object = self.sess.get(Country, ids)
+            self.list_of_objects.append(object)
+            print(object)
+
+        self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
             self.counter += 1
             self.stage_id_counter += 1
@@ -71,15 +77,17 @@ class MakeMatches:
                 self.match_number = 1
 
             result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id, self.match_number)
+            print(result)
             self.goals = result[1]
-            self.update_table(match[0])
+            print(self.update_table(match[0]))
             self.goals = result[2]
             self.update_table(match[1])
 
     def update_table(self, home_team):
         match_id = self.match_id_lists[self.counter-1]
+        idsss = home_team.country_id
         match_winner = self.sess.query(CountryMatch).filter_by(country_id=home_team.country_id, match_id=match_id).first()
-        match_winner.score = self.goals
+        match_winner.score = 1
         match_winner.result = 0
         self.sess.commit()
         self.sess.close()
