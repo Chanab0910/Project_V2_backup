@@ -17,12 +17,15 @@ class GUI(tk.Tk):
         self.background = tk.Label(self, image=self.bg_image, highlightthickness=0, borderwidth=0)
         self.button = tk.Button(self,image=self.Argentina,command=self.when_pressed())
 
+        self.title = tk.Label(self, text='Select the country whoms stats you would like to see',font='Helvetica 20')
+
         self.place_widgets()
 
     def place_widgets(self):
         # This project_code creates the widgets and grids them
         self.background.grid()
-        self.button.place(x=270,y=23)
+        self.title.place(x=270,y=23)
+        self.button.place(x=370,y=23)
 
     def when_pressed(self):
         print('hello')
