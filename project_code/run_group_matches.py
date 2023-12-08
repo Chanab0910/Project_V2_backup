@@ -79,18 +79,20 @@ class MakeMatches:
             result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id, self.match_number)
             print(result)
             self.goals = result[1]
-            print(self.update_table(match[0]))
+            self.update_table(match[0])
             self.goals = result[2]
             self.update_table(match[1])
 
     def update_table(self, home_team):
         match_id = self.match_id_lists[self.counter-1]
-        idsss = home_team.country_id
-        match_winner = self.sess.query(CountryMatch).filter_by(country_id=home_team.country_id, match_id=match_id).first()
+
+        country_id = home_team.country_id
+
+        match_winner = self.sess.query(CountryMatch).filter_by(country_id=country_id, match_id=match_id).first()
         match_winner.score = 1
         match_winner.result = 0
         self.sess.commit()
-        self.sess.close()
+        # self.sess.close()
 
 
 if __name__ == '__main__':
