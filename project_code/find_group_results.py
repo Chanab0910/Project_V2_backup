@@ -8,6 +8,8 @@ from project_code.models import Country, Match, CountryMatch, Stage
 from project_code.create_group_matches import GroupGenerator
 
 '''Could go through each row in match and check if they are certain group. Then create list of points for each group'''
+
+
 class FindGroupResults:
     def __init__(self):
         self.group_points = []
@@ -27,7 +29,7 @@ class FindGroupResults:
 
     def get_all_countries(self):
         """gets all the country objects and adds them to a list"""
-        print(self.list_of_groups)
+
         for group in self.list_of_groups:
             for country in group:
                 self.countries.append(country)
@@ -50,7 +52,7 @@ class FindGroupResults:
                     points += 1
 
             self.all_points.append(points)
-        print(self.all_points)
+
         return self.all_points
 
     def work_out_who_goes_through(self):
@@ -61,33 +63,65 @@ class FindGroupResults:
         country_index = -1
         self.pair_match_object(self.all_points)
         for group in self.group_points:
-            group_index +=1
-            for country in group:
-                country_index +=1
+            group_index += 1
+            for i,country in enumerate(group):
+                country_index += 1
                 if country > highest:
                     highest = country
+                    country_index = i
                     same = False
-                if country == highest:
+                elif country == highest:
                     same = True
             if same == True:
-                self.check_GA()
-            else:
-                self.came_first.append(self.list_of_groups[group_index][country_index])
+                list_of_ga = self.get_GA(group, group_index)
+                country_index = self.find_highest_ga(list_of_ga)
+
+
+            self.came_first.append(self.list_of_groups[group_index][country_index])
+            country_index = -1
+
+    def get_GA(self, group, group_index):
+        group_goals = []
+        for i,country in enumerate(group):
+            country_object = self.list_of_groups[group_index][i]
+
+            id = country_object.country_id
+            goals = self.get_total_goals(id)
+            group_goals.append(goals)
+        return group_goals
+
+    def find_highest_ga(self, list_of_ga):
+        highest_id = 0
+        highest = 0
+        for i, score in enumerate(list_of_ga):
+            if score > highest:
+                highest = score
+                highest_id = i
+        return highest_id
+
+
+    def get_total_goals(self,id):
+        total_goals = 0
+        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id = id).all()
+
+        for goals in all_goals:
+            goals = str(goals[0])
+            goals = int(goals)
+            total_goals += goals
+        return total_goals
 
 
 
-    def check_GA(self):
-        ...
 
     def pairing(self, iterable):
         a = iter(iterable)
-        return zip(a, a,a,a)
+        return zip(a, a, a, a)
 
     """from stack overflow"""
 
     def pair_match_object(self, list_to_split):
-        for a, b,c,d in self.pairing(list_to_split):
-            self.group_points.append([a, b,c,d])
+        for a, b, c, d in self.pairing(list_to_split):
+            self.group_points.append([a, b, c, d])
 
     def collective(self):
         """collates of the functions being done"""
