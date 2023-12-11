@@ -13,9 +13,9 @@ import sqlite3
 
 class MakeMatches:
     def __init__(self):
-        self.match_id_lists = []
+        self.match_id_lists = [x for x in range(49)]
         self.match_number = 0
-        self.goals = None
+        self.score = []
 
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
@@ -34,12 +34,6 @@ class MakeMatches:
         self.change_num_list = [7, 13, 19, 25, 31]
         self.counter = 0
 
-
-    def make_mach_id_list(self):
-        for i in range(1,48):
-            self.match_id_lists.append(i)
-            self.match_id_lists.append(i)
-        print(self.match_id_lists)
 
     def pairing(self, iterable):
         a = iter(iterable)
@@ -60,13 +54,15 @@ class MakeMatches:
                 self.object_pair_list.append(country_object)
         return self.object_pair_list
 
-    def sim_the_game(self):
-        self.make_mach_id_list()
+    def get_loo(self):
         for ids in self.country_match_ids:
             object = self.sess.get(Country, ids)
             self.list_of_objects.append(object)
-            print(object)
+        return self.list_of_objects
 
+    def sim_the_game(self):
+
+        self.get_loo()
         self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
             self.counter += 1
@@ -78,21 +74,30 @@ class MakeMatches:
 
             result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id, self.match_number)
             print(result)
-            self.goals = result[1]
-            self.update_table(match[0])
-            self.goals = result[2]
-            self.update_table(match[1])
+            self.score.append(result[1])
+            self.score.append(result[2])
 
-    def update_table(self, home_team):
-        match_id = self.match_id_lists[self.counter-1]
+            self.update_table()
+            self.score = []
 
-        country_id = home_team.country_id
+    def update_table(self):
+        match_id = self.match_id_lists[self.counter]
+        country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id).all()
+        country_matches[0].score = self.score[0]
+        country_matches[1].score = self.score[1]
+        if self.score[0] > self.score[1]:
+            country_matches[0].result = 'win'
+            country_matches[1].result = 'loss'
+        elif self.score[1] > self.score[0]:
+            country_matches[0].result = 'loss'
+            country_matches[1].result = 'win'
+        else:
+            country_matches[0].result = 'draw'
+            country_matches[1].result = 'draw'
 
-        match_winner = self.sess.query(CountryMatch).filter_by(country_id=country_id, match_id=match_id).first()
-        match_winner.score = 1
-        match_winner.result = 0
         self.sess.commit()
-        # self.sess.close()
+
+
 
 
 if __name__ == '__main__':
