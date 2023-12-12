@@ -58,40 +58,35 @@ class FindGroupResults:
     def work_out_who_goes_through(self):
         highest = 0
         second = 0
-        same = False
+
         group_index = -1
         self.pair_match_object(self.all_points)
         for group in self.group_points:
+            same = False
             group_index += 1
-            country_index = group.index(max(group))
+            highest_index = group.index(max(group))
             mx = max(group)
-            check_group_list = group
-            check_group_list.pop(check_group_list.index(max(check_group_list)))
-            print(check_group_list)
-            if max(check_group_list) == mx:
+            group_list_minus_mx = group[highest_index:] + group[:highest_index + 1]
+            if max(group_list_minus_mx) == mx:
                 same = True
-
-            if same == True:
+            if same:
                 list_of_ga = self.get_GA(group, group_index)
-                country_index = self.find_highest_ga(list_of_ga, 'first')
+                highest_index = self.find_highest_ga(list_of_ga, 'first')
+            country_index = highest_index
             self.came_first.append(self.list_of_groups[group_index][country_index])
 
             same = False
+            second_max = max(group)
+            second_index = group_list_minus_mx.index(max(group))
 
-
-            '''Searches for second highest'''
-            '''for i, country in enumerate(group):
-
-                if country > second:
-                    second = country
-                    country_index = i
-                    same = False
-                elif country == second:
-                    same = True
-            if same == True:
-                country_index = self.find_highest_ga(list_of_ga, 'second')
-
-            self.came_second.append(self.list_of_groups[group_index][country_index])'''
+            group_list_minus_second = group_list_minus_mx[second_index:] + group_list_minus_mx[:second_index + 1]
+            if max(group_list_minus_second) == second_max:
+                same = True
+            if same:
+                list_of_ga = self.get_GA(group, group_index)
+                second_index = self.find_highest_ga(list_of_ga, 'second')
+            country_index = second_index
+            self.came_second.append(self.list_of_groups[group_index][country_index])
 
     def get_GA(self, group, group_index):
         group_goals = []
@@ -147,8 +142,7 @@ class FindGroupResults:
         self.get_all_countries()
         self.get_countries_points()
         self.work_out_who_goes_through()
-        print(self.came_first)
-        '''print(self.came_second)'''
+
 
 
 if __name__ == '__main__':

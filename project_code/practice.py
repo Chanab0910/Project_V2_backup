@@ -11,9 +11,10 @@ sess = Session(engine)
 
 conn = engine.connect()
 
-list = [1,2,3,4,4]
-mx = list.index(max(list))
-nl = list
-nl.pop(nl.index(max(nl)))
-print(mx)
-print(nl)
+l = [1,5,3,4]
+
+i = l.index(max(l))
+
+print(i)
+print(l[:i]+l[i+1:])
+
