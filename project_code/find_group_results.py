@@ -60,29 +60,42 @@ class FindGroupResults:
         second = 0
         same = False
         group_index = -1
-        country_index = -1
         self.pair_match_object(self.all_points)
         for group in self.group_points:
             group_index += 1
-            for i,country in enumerate(group):
-                country_index += 1
-                if country > highest:
-                    highest = country
-                    country_index = i
-                    same = False
-                elif country == highest:
-                    same = True
+            country_index = group.index(max(group))
+            mx = max(group)
+            check_group_list = group
+            check_group_list.pop(check_group_list.index(max(check_group_list)))
+            print(check_group_list)
+            if max(check_group_list) == mx:
+                same = True
+
             if same == True:
                 list_of_ga = self.get_GA(group, group_index)
-                country_index = self.find_highest_ga(list_of_ga)
-
-
+                country_index = self.find_highest_ga(list_of_ga, 'first')
             self.came_first.append(self.list_of_groups[group_index][country_index])
-            country_index = -1
+
+            same = False
+
+
+            '''Searches for second highest'''
+            '''for i, country in enumerate(group):
+
+                if country > second:
+                    second = country
+                    country_index = i
+                    same = False
+                elif country == second:
+                    same = True
+            if same == True:
+                country_index = self.find_highest_ga(list_of_ga, 'second')
+
+            self.came_second.append(self.list_of_groups[group_index][country_index])'''
 
     def get_GA(self, group, group_index):
         group_goals = []
-        for i,country in enumerate(group):
+        for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
 
             id = country_object.country_id
@@ -90,28 +103,33 @@ class FindGroupResults:
             group_goals.append(goals)
         return group_goals
 
-    def find_highest_ga(self, list_of_ga):
+    def find_highest_ga(self, list_of_ga, f_or_s):
         highest_id = 0
         highest = 0
+        second_id = 0
+        second = 0
         for i, score in enumerate(list_of_ga):
             if score > highest:
+                second = highest
                 highest = score
                 highest_id = i
-        return highest_id
+            elif score > second:
+                second = score
+                second_id = i
+        if f_or_s == 'first':
+            return highest_id
+        else:
+            return second_id
 
-
-    def get_total_goals(self,id):
+    def get_total_goals(self, id):
         total_goals = 0
-        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id = id).all()
+        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id).all()
 
         for goals in all_goals:
             goals = str(goals[0])
             goals = int(goals)
             total_goals += goals
         return total_goals
-
-
-
 
     def pairing(self, iterable):
         a = iter(iterable)
@@ -129,6 +147,8 @@ class FindGroupResults:
         self.get_all_countries()
         self.get_countries_points()
         self.work_out_who_goes_through()
+        print(self.came_first)
+        '''print(self.came_second)'''
 
 
 if __name__ == '__main__':
