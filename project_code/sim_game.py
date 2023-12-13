@@ -11,6 +11,7 @@ class SimGame:
         self.country_match_input = None
         self.Away_team_score = None
         self.goals = None
+        self.time = 90
 
         self.base = 0.0128125
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
@@ -40,7 +41,7 @@ class SimGame:
             return 'draw', Home_team_score, Away_team_score
 
     def calculate_goals(self, attack, defense):
-        self.goals = random.poisson(90 * (self.base * (attack / defense)))
+        self.goals = random.poisson(self.time * (self.base * (attack / defense)))
         return self.goals
 
     def add_to_match(self, stage, match_number):

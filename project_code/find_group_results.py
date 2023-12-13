@@ -88,6 +88,7 @@ class FindGroupResults:
             country_index = second_index
             self.came_second.append(self.list_of_groups[group_index][country_index])
 
+
     def get_GA(self, group, group_index):
         group_goals = []
         for i, country in enumerate(group):
@@ -142,6 +143,7 @@ class FindGroupResults:
         self.get_all_countries()
         self.get_countries_points()
         self.work_out_who_goes_through()
+        return self.came_first, self.came_second
 
 
 
