@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from run_group_matches import MakeMatches
 from project_code.models import Country, Match, CountryMatch, Stage
-from project_code.create_group_matches import GroupGenerator
+
 from find_group_results import FindGroupResults
 from create_group_matches import CreateMatches
 from sim_game import SimGame
