@@ -52,9 +52,6 @@ class Knockouts:
         elif first_goals < second_goals:
             first_result = 'loss'
             second_result = 'win'
-        else:
-            first_result = 'draw'
-            second_result = 'draw'
         return first_result, second_result
 
     def add_to_country_match(self, country_id, score, result):

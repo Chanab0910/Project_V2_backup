@@ -37,8 +37,7 @@ class SimGame:
             return 'loss', Home_team_score, Away_team_score
 
         else:
-            self.add_to_match(stage, match_number)
-            return 'draw', Home_team_score, Away_team_score
+            self.extra_time(Home_team_score,Away_team_score,home_country, away_country, stage, match_number)
 
     def calculate_goals(self, attack, defense):
         self.goals = random.poisson(self.time * (self.base * (attack / defense)))
@@ -48,3 +47,20 @@ class SimGame:
         match_addition = Match(stage_id=stage, match_number=match_number)
         self.sess.add(match_addition)
         self.sess.commit()
+
+    def extra_time(self, home_goals, away_goals,home_country, away_country, stage, match_number):
+        self.time = 30
+        home_country_attack = home_country.attack
+        away_country_attack = away_country.attack
+        home_country_defense = home_country.defense
+        away_country_defense = away_country.defense
+        Home_team_score = self.calculate_goals(home_country_attack, away_country_defense) + home_goals
+        Away_team_score = self.calculate_goals(away_country_attack, home_country_defense) + away_goals
+        self.time = 90
+        if Home_team_score > Away_team_score:
+            self.add_to_match(stage, match_number)
+            return 'win', Home_team_score, Away_team_score
+
+        elif Home_team_score < Away_team_score:
+            self.add_to_match(stage, match_number)
+            return 'loss', Home_team_score, Away_team_score
