@@ -23,27 +23,36 @@ class Knockouts:
         self.match_id = self.sess.query(CountryMatch.match_id).order_by(CountryMatch.match_id.desc()).first()
         self.sim_game_class = SimGame()
         self.match_id = self.match_id[0] + 1
+        self.qf_list = []
 
     def randomise_lists(self):
         self.list_of_first_place = sample(self.list_of_first_place, k=len(self.list_of_first_place))
         self.list_of_second_place = sample(self.list_of_second_place, k=len(self.list_of_second_place))
 
-    def sim_round(self):
+    def first_round(self):
         for i in range(len(self.list_of_first_place)):
 
-            result = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],
+            results = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],
                                                          stage=9 + i, match_number=1)
-            first_goals = result[1]
-            second_goals = result[2]
+            first_goals = results[1]
+            second_goals = results[2]
 
             result = self.get_winner(first_goals, second_goals)
 
             self.add_to_country_match(self.list_of_first_place[0].country_id, first_goals, result[0])
             self.add_to_country_match(self.list_of_second_place[0].country_id, second_goals, result[1])
 
+            if result[0] == 'win':
+                self.qf_list.append(self.list_of_first_place[0])
+            else:
+                self.qf_list.append(self.list_of_second_place[0])
+
             self.list_of_first_place.pop(0)
             self.list_of_second_place.pop(0)
             self.match_id+=1
+
+    def second_round(self):
+
 
     def get_winner(self, first_goals, second_goals):
         if first_goals > second_goals:
@@ -61,7 +70,7 @@ class Knockouts:
 
     def collate(self):
         self.randomise_lists()
-        self.sim_round()
+        self.first_round()
 
 
 if __name__ == '__main__':

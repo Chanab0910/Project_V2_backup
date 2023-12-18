@@ -6,6 +6,7 @@ from project_code.models import Match
 
 class SimGame:
     def __init__(self):
+        self.result = ()
         self.group_input = None
         self.group_id = 0
         self.country_match_input = None
@@ -37,7 +38,11 @@ class SimGame:
             return 'loss', Home_team_score, Away_team_score
 
         else:
-            self.extra_time(Home_team_score,Away_team_score,home_country, away_country, stage, match_number)
+            if stage < 9:
+                return 'draw', Home_team_score, Away_team_score
+            else:
+                self.extra_time(Home_team_score,Away_team_score,home_country, away_country, stage, match_number)
+                return self.result
 
     def calculate_goals(self, attack, defense):
         self.goals = random.poisson(self.time * (self.base * (attack / defense)))
@@ -59,8 +64,11 @@ class SimGame:
         self.time = 90
         if Home_team_score > Away_team_score:
             self.add_to_match(stage, match_number)
-            return 'win', Home_team_score, Away_team_score
+            self.result = ('win', Home_team_score, Away_team_score)
 
         elif Home_team_score < Away_team_score:
             self.add_to_match(stage, match_number)
-            return 'loss', Home_team_score, Away_team_score
+            self.result = ('loss', Home_team_score, Away_team_score)
+
+        else:
+            self.extra_time(Home_team_score, Away_team_score, home_country, away_country, stage, match_number)
