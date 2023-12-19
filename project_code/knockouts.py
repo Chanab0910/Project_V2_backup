@@ -74,6 +74,7 @@ class Knockouts:
                 next_round_list.append(away_team)
             round_list.pop(0)
             round_list.pop(0)
+            self.match_id+=1
 
     def get_winner(self, first_goals, second_goals):
         if first_goals > second_goals:
