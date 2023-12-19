@@ -3,17 +3,17 @@ from run_group_matches import MakeMatches
 from find_group_results import FindGroupResults
 from knockouts import Knockouts
 
-group_generator = GroupGenerator()
-group_generator.collate_groups()
+gg = GroupGenerator()
+print(gg.collate_groups())
+cm = CreateMatches()
+print(cm.creates_ids())
 
-create_matches = CreateMatches()
-create_matches.creates_ids()
+mm = MakeMatches()
+print(mm.sim_the_game())
 
-make_matches = MakeMatches()
-make_matches.sim_the_game()
+fgr = FindGroupResults()
+print(fgr.collective())
 
-find_group_results_ = FindGroupResults()
-find_group_results_.collective()
+ko = Knockouts()
+print(ko.collate())
 
-knockouts_ = Knockouts()
-knockouts_.collate()
