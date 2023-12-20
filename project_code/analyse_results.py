@@ -8,6 +8,8 @@ from project_code.models import Country, CountryMatch, Match
 
 class Analyse:
     def __init__(self):
+        self.average_goals_scored_overall = None
+        self.highest_stage_id = 0
         self.num_of_ko_matches_played = 0
         self.ko_goals = 0
         self.num_of_group_matches_played = 0
@@ -41,6 +43,9 @@ class Analyse:
         self.get_all_ko_goals_and_num_of_matches_played()
         self.get_country_they_lost_or_won_to_most(self.number_of_loses_dict, 'loss')
         self.get_country_they_lost_or_won_to_most(self.number_of_wins_dict, 'win')
+        self.furthest_got_and_average_place()
+
+
 
     def get_all_goals_and_games_played(self):
         goals_list = self.sess.query(CountryMatch.score).filter_by(country_id=self.country_object.country_id).all()
@@ -85,8 +90,19 @@ class Analyse:
                     country_name = self.sess.query(Country.country_name).filter_by(country_id=opponent[1][0]).first()
                     win_or_lose_dict[country_name[0]] += 1
 
-    def furthest_got(self):
-        ...
+    def furthest_got_and_average_place(self):
+
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
+        for match in all_games:
+            stage = self.sess.query(Match.stage_id).filter_by(match_id = match[0]).first()
+            if stage[0] > self.highest_stage_id:
+                self.highest_stage_id = stage[0]
+        '''Doesnt have average place'''
+
+
+
+
+
 
 
 
