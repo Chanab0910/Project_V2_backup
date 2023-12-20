@@ -29,12 +29,13 @@ class SimGame:
         away_country_defense = away_country.defense
         Home_team_score = self.calculate_goals(home_country_attack, away_country_defense)
         Away_team_score = self.calculate_goals(away_country_attack, home_country_defense)
+        self.add_to_match(stage, match_number)
+
         if Home_team_score > Away_team_score:
-            self.add_to_match(stage, match_number)
             return 'win', Home_team_score, Away_team_score
 
         elif Home_team_score < Away_team_score:
-            self.add_to_match(stage, match_number)
+
             return 'loss', Home_team_score, Away_team_score
 
         else:
@@ -63,11 +64,9 @@ class SimGame:
         Away_team_score = self.calculate_goals(away_country_attack, home_country_defense) + away_goals
         self.time = 90
         if Home_team_score > Away_team_score:
-            self.add_to_match(stage, match_number)
             self.result = ('win', Home_team_score, Away_team_score)
 
         elif Home_team_score < Away_team_score:
-            self.add_to_match(stage, match_number)
             self.result = ('loss', Home_team_score, Away_team_score)
 
         else:
