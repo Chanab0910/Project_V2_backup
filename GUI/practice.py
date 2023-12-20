@@ -1,7 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import font as tkfont
-
 
 class SampleApp(tk.Tk):
 
@@ -19,7 +17,7 @@ class SampleApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (WelcomeScreen, SelectingCountries):
+        for F in (StartPage, PageOne, PageTwo):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -37,55 +35,44 @@ class SampleApp(tk.Tk):
         frame.tkraise()
 
 
-class WelcomeScreen(tk.Tk):
-    """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
-    the Frame"""
+class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        self.geometry("1239x697")
+        label = tk.Label(self, text="This is the start page", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
 
-        self.bg_image = tk.PhotoImage(file="../img/bg.png")
-        self.start_image = tk.PhotoImage(file=r"../img/start.png")
-        self.quit_image = tk.PhotoImage(file=r"../img/quit.png")
-        self.title_image = tk.PhotoImage(file=r"../img/title.png")
-
-        self.background = tk.Label(self, image=self.bg_image, highlightthickness=0, borderwidth=0)
-        self.title = tk.Label(self, image=self.title_image, highlightthickness=0, borderwidth=0)
-        self.start = tk.Button(self, image=self.start_image, highlightthickness=0, borderwidth=0,
-                               command=lambda: controller.show_frame("SelectingCountries"))
-        self.quit = tk.Button(self, image=self.quit_image, highlightthickness=0, borderwidth=0, command=quit)
-
-        self.place_widgets()
-
-    def place_widgets(self):
-        # This project_code creates the widgets and grids them
-        self.background.place(x=0, y=0)
-        self.title.place(x=374, y=534)
-        self.start.place(x=956, y=594)
-        self.quit.place(x=1095, y=597)
+        button1 = tk.Button(self, text="Go to Page One",
+                            command=lambda: controller.show_frame("PageOne"))
+        button2 = tk.Button(self, text="Go to Page Two",
+                            command=lambda: controller.show_frame("PageTwo"))
+        button1.pack()
+        button2.pack()
 
 
-class SelectingCountries(tk.Tk):
-    """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
-    the Frame"""
+class PageOne(tk.Frame):
 
-    def __init__(self):
-        super().__init__()
-        self.geometry("1239x697")
-        self.bg_image = tk.PhotoImage(file="../img/bg.png")
-        self.Argentina = tk.PhotoImage(file="../img/Argentina.png")
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is page 1", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
 
-        self.background = tk.Label(self, image=self.bg_image, highlightthickness=0, borderwidth=0)
-        self.button = tk.Button(self, image=self.Argentina, command=self.when_pressed())
 
-        self.place_widgets()
+class PageTwo(tk.Frame):
 
-    def place_widgets(self):
-        # This project_code creates the widgets and grids them
-        self.background.grid()
-        self.button.grid(rowspan=2, columnspan=2)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="This is page 2", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
 
 
 if __name__ == "__main__":

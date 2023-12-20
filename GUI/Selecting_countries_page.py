@@ -45,9 +45,9 @@ class GUI(tk.Tk):
         self.Japan = tk.PhotoImage(file="../img/Japan.png")
         self.China = tk.PhotoImage(file="../img/China.png")
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140)
+        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140,)
         self.Australia_button = tk.Button(self, image=self.Australia, width=220, height=140)
-        self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140,padx=50)
+        self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140, padx=50)
         self.Belgium_button = tk.Button(self, image=self.Belgium, width=220, height=140)
         self.Canada_button = tk.Button(self, image=self.Canada, width=220, height=140)
         self.Croatia_button = tk.Button(self, image=self.Croatia, width=220, height=140)
@@ -78,7 +78,8 @@ class GUI(tk.Tk):
         self.Japan_button = tk.Button(self, image=self.Japan, width=220, height=140)
         self.China_button = tk.Button(self, image=self.China, width=220, height=140)
 
-        self.title = tk.Label(self, text='Select the country whoms stats you would like to see', font='FuturaStd-Medium 50')
+        self.title = tk.Label(self, text='Select the country whoms stats you would like to see',
+                              font='FuturaStd-Medium 50')
         self.Argentina_label = tk.Label(self, text='Argentina', font='FuturaStd-Medium 20')
         self.Australia_label = tk.Label(self, text='Australia', font='FuturaStd-Medium 20')
         self.Austria_label = tk.Label(self, text='Austria', font='FuturaStd-Medium 20')
@@ -112,25 +113,24 @@ class GUI(tk.Tk):
         self.Japan_label = tk.Label(self, text='Japan', font='FuturaStd-Medium 20')
         self.China_label = tk.Label(self, text='China', font='FuturaStd-Medium 20')
 
-
         self.place_widgets()
 
     def place_widgets(self):
         # This project_code creates the widgets and grids them
         '''self.background.grid()'''
-        self.title.grid(columnspan=8, row=0,pady=10)
+        self.title.grid(columnspan=8, row=0, pady=10)
 
-        self.Argentina_button.grid(column=0, row=1,padx=10)
-        self.Australia_button.grid(column=1,row=1,padx=10)
-        self.Austria_button.grid(column=2, row=1,padx=10)
-        self.Belgium_button.grid(column=3, row=1,padx=10)
-        self.Canada_button.grid(column=4,row=1,padx=10)
-        self.Croatia_button.grid(column=5, row=1,padx=10)
-        self.Czech_button.grid(column=6, row=1,padx=10)
-        self.Denmark_button.grid(column=7, row=1,padx=10)
+        self.Argentina_button.grid(column=0, row=1, padx=10)
+        self.Australia_button.grid(column=1, row=1, padx=10)
+        self.Austria_button.grid(column=2, row=1, padx=10)
+        self.Belgium_button.grid(column=3, row=1, padx=10)
+        self.Canada_button.grid(column=4, row=1, padx=10)
+        self.Croatia_button.grid(column=5, row=1, padx=10)
+        self.Czech_button.grid(column=6, row=1, padx=10)
+        self.Denmark_button.grid(column=7, row=1, padx=10)
 
-        self.Argentina_label.place(x=78,y=236)
-        self.Australia_label.place(x=332,y=236)
+        self.Argentina_label.place(x=78, y=236)
+        self.Australia_label.place(x=332, y=236)
         self.Austria_label.place(x=583, y=236)
         self.Belgium_label.place(x=832, y=236)
         self.Canada_label.place(x=1082, y=236)
@@ -138,16 +138,16 @@ class GUI(tk.Tk):
         self.Czech_label.place(x=1541, y=236)
         self.Denmark_label.place(x=1823, y=236)
 
-        self.England_button.grid(column=0, row=2, padx=10,pady=40)
-        self.Finland_button.grid(column=1, row=2, padx=10,pady=40)
-        self.France_button.grid(column=2, row=2, padx=10,pady=40)
-        self.Germany_button.grid(column=3, row=2, padx=10,pady=40)
+        self.England_button.grid(column=0, row=2, padx=10, pady=40)
+        self.Finland_button.grid(column=1, row=2, padx=10, pady=40)
+        self.France_button.grid(column=2, row=2, padx=10, pady=40)
+        self.Germany_button.grid(column=3, row=2, padx=10, pady=40)
         self.Hungary_button.grid(column=4, row=2, padx=10, pady=40)
         self.Iceland_button.grid(column=5, row=2, padx=10, pady=40)
         self.Ireland_button.grid(column=6, row=2, padx=10, pady=40)
         self.Italy_button.grid(column=7, row=2, padx=10, pady=40)
 
-        self.England_label.place(x=85,y=425)
+        self.England_label.place(x=85, y=425)
         self.Finland_label.place(x=338, y=425)
         self.France_label.place(x=588, y=425)
         self.Germany_label.place(x=828, y=425)
@@ -165,7 +165,7 @@ class GUI(tk.Tk):
         self.Portugal_button.grid(column=6, row=3, padx=10, )
         self.Romania_button.grid(column=7, row=3, padx=10, )
 
-        self.Mexico_label.place(x=89, y= 614)
+        self.Mexico_label.place(x=89, y=614)
         self.Ghana_label.place(x=338, y=614)
         self.Netherlands_label.place(x=568, y=614)
         self.Morocco_label.place(x=828, y=614)
@@ -192,10 +192,7 @@ class GUI(tk.Tk):
         self.Japan_label.place(x=1584, y=803)
         self.China_label.place(x=1838, y=803)
 
-
-
-
-    def when_pressed(self):
+    def get_country_object(self, country_name):
         print('hello')
 
 
