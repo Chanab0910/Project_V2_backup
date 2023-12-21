@@ -71,7 +71,8 @@ class FindGroupResults:
                 same = True
             if same:
                 list_of_ga = self.get_GA(group, group_index)
-                highest_index = self.find_highest_ga(list_of_ga, 'first')
+                list_of_gc = self.get_GC(group, group_index)
+                highest_index = self.find_highest_ga(list_of_ga,list_of_gc, 'first')
             country_index = highest_index
             self.came_first.append(self.list_of_groups[group_index][country_index])
 
@@ -84,7 +85,8 @@ class FindGroupResults:
                 same = True
             if same:
                 list_of_ga = self.get_GA(group, group_index)
-                second_index = self.find_highest_ga(list_of_ga, 'second')
+                list_of_gc = self.get_GC(group, group_index)
+                second_index = self.find_highest_ga(list_of_ga,list_of_gc, 'second')
             country_index = second_index
             self.came_second.append(self.list_of_groups[group_index][country_index])
 
@@ -99,17 +101,28 @@ class FindGroupResults:
             group_goals.append(goals)
         return group_goals
 
-    def find_highest_ga(self, list_of_ga, f_or_s):
+    def get_GC(self, group, group_index):
+        group_conceded = []
+        for i, country in enumerate(group):
+            country_object = self.list_of_groups[group_index][i]
+
+            id = country_object.country_id
+            goals = self.get_total_goals_conceded(id)
+            group_conceded.append(goals)
+        return group_conceded
+
+    def find_highest_ga(self, list_of_ga,list_of_gc, f_or_s):
         highest_id = 0
         highest = 0
         second_id = 0
         second = 0
         for i, score in enumerate(list_of_ga):
-            if score > highest:
+            gd = score - list_of_gc[i]
+            if gd > highest:
                 second = highest
                 highest = score
                 highest_id = i
-            elif score > second:
+            elif gd > second:
                 second = score
                 second_id = i
         if f_or_s == 'first':
