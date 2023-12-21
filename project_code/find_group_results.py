@@ -127,6 +127,22 @@ class FindGroupResults:
             total_goals += goals
         return total_goals
 
+    def get_total_goals_conceded(self,id):
+        total = 0
+
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id).all()
+        for game in all_games:
+            ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
+            if ids[0].country_id == id:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[1].country_id).first()
+            else:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[0].country_id).first()
+            total += goals[0]
+
+        return total
+
     def pairing(self, iterable):
         a = iter(iterable)
         return zip(a, a, a, a)

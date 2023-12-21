@@ -8,7 +8,10 @@ from project_code.models import Country, CountryMatch, Match
 
 class Analyse:
     def __init__(self):
-        self.average_goals_scored_overall = None
+
+        self.average_goals_scored_per_game_ko = None
+        self.average_goals_scored_per_game_group = None
+        self.average_goals_scored_per_game_overall = None
         self.highest_stage_id = 0
         self.num_of_ko_matches_played = 0
         self.ko_goals = 0
@@ -25,17 +28,22 @@ class Analyse:
                                      'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
                                      'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
                                      'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
-        self.number_of_wins_dict =  {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
-                                     'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                     'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
-                                     'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                     'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
-                                     'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.number_of_wins_dict = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
+                                    'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
+                                    'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
+                                    'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
+                                    'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
+                                    'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
+                                    'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
     def controller(self, country_name):
         self.country_object = self.sess.query(Country).filter_by(country_name=country_name).first()
         self.get_all_basic_stats()
+        self.average_goals_scored_per_game_overall = self.goals / self.num_of_matches_played
+        self.average_goals_scored_per_game_group = self.group_goals / self.num_of_group_matches_played
+        self.average_goals_scored_per_game_ko = self.ko_goals / self.num_of_ko_matches_played
+        self.team_lost_to_most = max(self.number_of_loses_dict, key=self.number_of_loses_dict.get)
+        self.team_beat_the_most = max(self.number_of_wins_dict, key=self.number_of_wins_dict.get)
 
     def get_all_basic_stats(self):
         self.get_all_goals_and_games_played()
@@ -45,6 +53,9 @@ class Analyse:
         self.get_country_they_lost_or_won_to_most(self.number_of_wins_dict, 'win')
         self.furthest_got_and_average_place()
 
+        self.average_goals_conceded_group = self.average_goals_conceded_group_or_ko('group')
+        self.average_goals_conceded_ko = self.average_goals_conceded_group_or_ko('ko')
+        self.average_goals_conceded = self.average_goals_conceded()
 
 
     def get_all_goals_and_games_played(self):
@@ -94,16 +105,45 @@ class Analyse:
 
         all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
         for match in all_games:
-            stage = self.sess.query(Match.stage_id).filter_by(match_id = match[0]).first()
+            stage = self.sess.query(Match.stage_id).filter_by(match_id=match[0]).first()
             if stage[0] > self.highest_stage_id:
                 self.highest_stage_id = stage[0]
         '''Doesnt have average place'''
 
+    def average_goals_conceded(self):
+        total = 0
+        count = 0
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
+        for game in all_games:
+            ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
+            if ids[0].country_id == self.country_object.country_id:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[1].country_id).first()
+            else:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[0].country_id).first()
+            total += goals[0]
+            count += 1
+        return total / count
 
-
-
-
-
+    def average_goals_conceded_group_or_ko(self, group_or_ko):
+        total = 0
+        count = 0
+        if group_or_ko == 'group':
+            all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
+        else:
+            all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id >8).all()
+        for game in all_group_games:
+            ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
+            if ids[0].country_id == self.country_object.country_id:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[1].country_id).first()
+            else:
+                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
+                                                                      country_id=ids[0].country_id).first()
+            total += goals[0]
+            count += 1
+        return total / count
 
 
 if __name__ == '__main__':
