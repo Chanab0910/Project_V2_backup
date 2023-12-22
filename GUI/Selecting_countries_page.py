@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-
+from project_code.analyse_results import Analyse
 import project_code
 
 
@@ -45,7 +45,9 @@ class GUI(tk.Tk):
         self.Japan = tk.PhotoImage(file="../img/Japan.png")
         self.China = tk.PhotoImage(file="../img/China.png")
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140,)
+
+
+        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140)
         self.Australia_button = tk.Button(self, image=self.Australia, width=220, height=140)
         self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140, padx=50)
         self.Belgium_button = tk.Button(self, image=self.Belgium, width=220, height=140)
@@ -53,7 +55,7 @@ class GUI(tk.Tk):
         self.Croatia_button = tk.Button(self, image=self.Croatia, width=220, height=140)
         self.Czech_button = tk.Button(self, image=self.Czech, width=220, height=140)
         self.Denmark_button = tk.Button(self, image=self.Denmark, width=220, height=140)
-        self.England_button = tk.Button(self, image=self.England, width=220, height=140)
+        self.England_button = tk.Button(self, image=self.England, width=220, height=140, command=self.get_country_stats)
         self.Finland_button = tk.Button(self, image=self.Finland, width=220, height=140)
         self.France_button = tk.Button(self, image=self.France, width=220, height=140)
         self.Germany_button = tk.Button(self, image=self.Germany, width=220, height=140)
@@ -192,8 +194,9 @@ class GUI(tk.Tk):
         self.Japan_label.place(x=1584, y=803)
         self.China_label.place(x=1838, y=803)
 
-    def get_country_object(self, country_name):
-        print('hello')
+    def get_country_stats(self):
+        analyse = Analyse()
+        print(analyse.controller('England'))
 
 
 if __name__ == '__main__':

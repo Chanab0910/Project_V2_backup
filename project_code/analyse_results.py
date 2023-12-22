@@ -37,7 +37,9 @@ class Analyse:
                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
     def controller(self, country_name):
-        self.country_object = self.sess.query(Country).filter_by(country_name=country_name).first()
+        print(country_name)
+        cn = country_name
+        self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats()
         self.average_goals_scored_per_game_overall = self.goals / self.num_of_matches_played
         self.average_goals_scored_per_game_group = self.group_goals / self.num_of_group_matches_played

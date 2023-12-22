@@ -66,7 +66,7 @@ class FindGroupResults:
             group_index += 1
             highest_index = group.index(max(group))
             mx = max(group)
-            group_list_minus_mx = group[highest_index:] + group[:highest_index + 1]
+            group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
             if max(group_list_minus_mx) == mx:
                 same = True
             if same:
@@ -77,15 +77,17 @@ class FindGroupResults:
             self.came_first.append(self.list_of_groups[group_index][country_index])
 
             same = False
-            second_max = max(group)
-            second_index = group_list_minus_mx.index(max(group))
-
-            group_list_minus_second = group_list_minus_mx[second_index:] + group_list_minus_mx[:second_index + 1]
+            group.pop(highest_index)
+            second_max = max(group_list_minus_mx)
+            second_index = group.index(max(group_list_minus_mx))
+            if second_index >= highest_index:
+                second_index+=1
+            group_list_minus_second = group_list_minus_mx[:second_index] + group_list_minus_mx[second_index + 1:]
             if max(group_list_minus_second) == second_max:
                 same = True
             if same:
-                list_of_ga = self.get_GA(group, group_index)
-                list_of_gc = self.get_GC(group, group_index)
+                list_of_ga = self.get_GA(group_list_minus_mx, group_index)
+                list_of_gc = self.get_GC(group_list_minus_mx, group_index)
                 second_index = self.find_highest_ga(list_of_ga,list_of_gc, 'second')
             country_index = second_index
             self.came_second.append(self.list_of_groups[group_index][country_index])
