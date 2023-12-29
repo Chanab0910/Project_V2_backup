@@ -10,6 +10,7 @@ from project_code.create_group_matches import GroupGenerator
 
 class FindGroupResults:
     def __init__(self):
+        self.new_list_of_groups = []
         self.group_points = []
         self.all_points = []
         self.winner = None
@@ -31,7 +32,8 @@ class FindGroupResults:
         self.get_all_countries()
         self.get_countries_points()
         self.work_out_who_goes_through()
-        return self.came_first, self.came_second
+        print(self.came_first)
+        print(self.came_second)
 
     def get_all_countries(self):
         """gets all the country objects and adds them to a list"""
@@ -48,14 +50,25 @@ class FindGroupResults:
         for country in self.countries:
             all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id).all()
             points = 0
+            for result in all_results:
+                result = result[0][0:]
+
+                if result == 'win':
+                    points += 3
+                elif result == 'draw':
+                    points += 1
+
+            self.all_points.append(points)
+
+        return self.all_points
 
     def work_out_who_goes_through(self):
         group_index = -1
         self.get_points_per_group(self.all_points)
         for group in self.group_points:
-            group_index+=1
-            self.find_who_came_first(group,group_index)
-
+            group_index += 1
+            self.highest_id = self.find_who_came_first(group, group_index)
+            self.find_who_came_second(group, group_index)
 
     def get_points_per_group(self, list_to_split):
         for a, b, c, d in self.pairing(list_to_split):
@@ -65,23 +78,44 @@ class FindGroupResults:
         a = iter(iterable)
         return zip(a, a, a, a)
 
-    def find_who_came_first(self,group,group_index):
-        same = False
+    def find_who_came_first(self, group, group_index):
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            same = True
-        if same:
-            self.check_gd_for_first(group,group_index)
+            highest_index = self.check_gd_for_first(group, group_index, mx)
 
-    def check_gd_for_first(self,group,group_index):
+        self.came_first.append(self.list_of_groups[group_index][highest_index])
+        return highest_index
+
+
+    def find_who_came_second(self,group, group_index,):
+        group.pop(self.highest_id)
+        mx = max(group)
+        highest_index = group.index(max(group))
+        group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
+        if max(group_list_minus_mx) == mx:
+            highest_index = self.check_gd_for_first(group, group_index, mx)
+        if highest_index >= self.highest_id:
+            highest_index += 1
+        self.came_second.append(self.list_of_groups[group_index][highest_index])
+
+
+
+
+
+
+
+    def check_gd_for_first(self, group, group_index, highest):
+        gd_list_i = []
         gd = self.get_goal_difference(group, group_index)
+        for i, number in enumerate(group):
+            if number == highest:
+                gd_list_i.append(i)
+        highest_index = max(gd_list_i)
+        return highest_index
 
-
-
-
-    def get_goal_difference(self,group, group_index):
+    def get_goal_difference(self, group, group_index):
         gd_list = []
         gf = self.get_gf(group, group_index)
         ga = self.get_ga(group, group_index)
@@ -92,9 +126,7 @@ class FindGroupResults:
 
         return gd_list
 
-
-
-    def get_gf(self,group, group_index):
+    def get_gf(self, group, group_index):
         group_goals = []
         for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
@@ -124,7 +156,7 @@ class FindGroupResults:
             group_conceded.append(goals)
         return group_conceded
 
-    def get_total_goals_conceded(self,id):
+    def get_total_goals_conceded(self, id):
         total = 0
 
         all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id).all()
@@ -139,13 +171,6 @@ class FindGroupResults:
             total += goals[0]
 
         return total
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

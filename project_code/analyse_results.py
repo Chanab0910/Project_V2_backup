@@ -37,15 +37,12 @@ class Analyse:
                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
     def controller(self, country_name):
-        print(country_name)
         cn = country_name
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats()
-        self.average_goals_scored_per_game_overall = self.goals / self.num_of_matches_played
-        self.average_goals_scored_per_game_group = self.group_goals / self.num_of_group_matches_played
-        self.average_goals_scored_per_game_ko = self.ko_goals / self.num_of_ko_matches_played
         self.team_lost_to_most = max(self.number_of_loses_dict, key=self.number_of_loses_dict.get)
         self.team_beat_the_most = max(self.number_of_wins_dict, key=self.number_of_wins_dict.get)
+        self.print_everything()
 
     def get_all_basic_stats(self):
         self.get_all_goals_and_games_played()
@@ -145,9 +142,26 @@ class Analyse:
                                                                       country_id=ids[0].country_id).first()
             total += goals[0]
             count += 1
-        return total / count
+        if count == 0:
+            return 0
+        else:
+            return total / count
+
+    def print_everything(self):
+        print(f'Average goals conceded overall: {self.average_goals_conceded}')
+        print(f'Average goals conceded in the group: {self.average_goals_conceded_group}')
+        print(f'Average goals conceded in the ko: {self.average_goals_conceded_ko}')
+        print(f'Average goals scored overall: {self.goals/self.num_of_matches_played}')
+        print(f'Average goals scored in the group: {self.group_goals / self.num_of_group_matches_played}')
+        if self.num_of_ko_matches_played == 0:
+            print(f'Average goals scored in the ko: 0')
+        else:
+            print(f'Average goals scored in the ko: {self.ko_goals / self.num_of_ko_matches_played}')
+        print(f'The highest stage reached was: {self.highest_stage_id}')
+        print(f'The country that they beat the most: {self.team_beat_the_most}')
+        print(f'The country that they lost to the most: {self.team_lost_to_most}')
 
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('England'))
+    print(ff.controller('Ghana'))
