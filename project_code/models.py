@@ -24,6 +24,8 @@ class CountryMatch(Base):
     country_id = Column('country_id', Integer,)
     score = Column('score', Integer)
     result = Column('result', String)
+    simulation_number = Column('simulation_number', Integer)
+
 
     def __repr__(self):
         return f'the country_id is {self.country_id}'

@@ -32,7 +32,7 @@ class Knockouts:
         self.list_of_first_place = sample(self.list_of_first_place, k=len(self.list_of_first_place))
         self.list_of_second_place = sample(self.list_of_second_place, k=len(self.list_of_second_place))
 
-    def first_round(self):
+    def first_round(self,sim_num):
         for i in range(len(self.list_of_first_place)):
 
             results = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],
@@ -42,8 +42,8 @@ class Knockouts:
 
             result = self.get_winner(first_goals, second_goals)
 
-            self.add_to_country_match(self.list_of_first_place[0].country_id, first_goals, result[0])
-            self.add_to_country_match(self.list_of_second_place[0].country_id, second_goals, result[1])
+            self.add_to_country_match(self.list_of_first_place[0].country_id, first_goals, result[0],sim_num)
+            self.add_to_country_match(self.list_of_second_place[0].country_id, second_goals, result[1],sim_num)
 
             if result[0] == 'win':
                 self.qf_list.append(self.list_of_first_place[0])
@@ -54,7 +54,7 @@ class Knockouts:
             self.list_of_second_place.pop(0)
             self.match_id += 1
 
-    def other_rounds(self, round_list, iterations, stage_start, next_round_list):
+    def other_rounds(self, round_list, iterations, stage_start, next_round_list,sim_num):
         for i in range(iterations):
             home_team = round_list[0]
             away_team = round_list[1]
@@ -65,8 +65,8 @@ class Knockouts:
 
             result = self.get_winner(home_goals, away_goals)
 
-            self.add_to_country_match(home_team.country_id, home_goals, result[0])
-            self.add_to_country_match(away_team.country_id, away_goals, result[1])
+            self.add_to_country_match(home_team.country_id, home_goals, result[0],sim_num)
+            self.add_to_country_match(away_team.country_id, away_goals, result[1],sim_num)
 
             if result[0] == 'win':
                 next_round_list.append(home_team)
@@ -85,19 +85,19 @@ class Knockouts:
             second_result = 'win'
         return first_result, second_result
 
-    def add_to_country_match(self, country_id, score, result):
-        add_to_country_match = CountryMatch(country_id=country_id, match_id=self.match_id, score=score, result=result)
+    def add_to_country_match(self, country_id, score, result,sim_num):
+        add_to_country_match = CountryMatch(country_id=country_id, match_id=self.match_id, score=score, result=result,simulation_number=sim_num)
         self.sess.add(add_to_country_match)
         self.sess.commit()
 
-    def collate(self):
+    def collate(self,sim_num):
         self.randomise_lists()
-        self.first_round()
-        self.other_rounds(self.qf_list, 4, 17, self.sf_list)
-        self.other_rounds(self.sf_list,2, 21, self.final_list)
-        self.other_rounds(self.final_list,1,23,self.winner)
+        self.first_round(sim_num)
+        self.other_rounds(self.qf_list, 4, 17, self.sf_list,sim_num)
+        self.other_rounds(self.sf_list,2, 21, self.final_list,sim_num)
+        self.other_rounds(self.final_list,1,23,self.winner,sim_num)
         print(self.winner)
 
 if __name__ == '__main__':
     gg = Knockouts()
-    print(gg.collate())
+    print(gg.collate(1))

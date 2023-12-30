@@ -88,8 +88,7 @@ class FindGroupResults:
         self.came_first.append(self.list_of_groups[group_index][highest_index])
         return highest_index
 
-
-    def find_who_came_second(self,group, group_index,):
+    def find_who_came_second(self, group, group_index, ):
         group.pop(self.highest_id)
         mx = max(group)
         highest_index = group.index(max(group))
@@ -99,12 +98,6 @@ class FindGroupResults:
         if highest_index >= self.highest_id:
             highest_index += 1
         self.came_second.append(self.list_of_groups[group_index][highest_index])
-
-
-
-
-
-
 
     def check_gd_for_first(self, group, group_index, highest):
         gd_list_i = []

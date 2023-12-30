@@ -60,8 +60,7 @@ class MakeMatches:
             self.list_of_objects.append(object)
         return self.list_of_objects
 
-    def sim_the_game(self):
-
+    def sim_the_game(self,sim_num):
         self.get_loo()
         self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
@@ -77,12 +76,12 @@ class MakeMatches:
             self.score.append(result[1])
             self.score.append(result[2])
 
-            self.update_table()
+            self.update_table(sim_num)
             self.score = []
 
-    def update_table(self):
+    def update_table(self,sim_num):
         match_id = self.match_id_lists[self.counter]
-        country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id).all()
+        country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id,simulation_number=sim_num).all()
         country_matches[0].score = self.score[0]
         country_matches[1].score = self.score[1]
         if self.score[0] > self.score[1]:
@@ -102,4 +101,4 @@ class MakeMatches:
 
 if __name__ == '__main__':
     gg = MakeMatches()
-    print(gg.sim_the_game())
+    print(gg.sim_the_game(2))
