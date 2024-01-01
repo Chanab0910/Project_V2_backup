@@ -164,4 +164,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('Ghana'))
+    print(ff.controller('England'))

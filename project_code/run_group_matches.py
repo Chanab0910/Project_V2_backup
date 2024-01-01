@@ -22,7 +22,7 @@ class MakeMatches:
         self.list_of_groups = self.group_generator.collated_groups
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
-        self.country_match_ids = self.sess.query(CountryMatch.country_id).all()
+
         self.list_of_objects = []
         self.ids = []
         self.matches = []
@@ -54,14 +54,15 @@ class MakeMatches:
                 self.object_pair_list.append(country_object)
         return self.object_pair_list
 
-    def get_loo(self):
+    def get_loo(self,sim_num):
+        self.country_match_ids = self.sess.query(CountryMatch.country_id).filter_by(simulation_number=sim_num).all()
         for ids in self.country_match_ids:
             object = self.sess.get(Country, ids)
             self.list_of_objects.append(object)
         return self.list_of_objects
 
     def sim_the_game(self,sim_num):
-        self.get_loo()
+        self.get_loo(sim_num)
         self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
             self.counter += 1

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from run_group_matches import MakeMatches
 from project_code.models import Country, Match, CountryMatch, Stage
 
-from find_group_results import FindGroupResults
+from redo_find_group_results import FindGroupResults
 from create_group_matches import CreateMatches
 from sim_game import SimGame
 

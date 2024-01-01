@@ -78,4 +78,4 @@ if __name__ == '__main__':
     ff = GroupGenerator()
     print(ff.collate_groups())
     gg = CreateMatches()
-    print(gg.creates_ids(1))
+    print(gg.creates_ids(2))

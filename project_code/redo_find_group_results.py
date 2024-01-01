@@ -21,7 +21,7 @@ class FindGroupResults:
         self.mm = MakeMatches()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
-        self.list_of_obj = self.mm.get_loo()
+
         self.country_dict = {}
         self.came_first = []
         self.came_second = []
@@ -32,8 +32,7 @@ class FindGroupResults:
         self.get_all_countries()
         self.get_countries_points()
         self.work_out_who_goes_through()
-        print(self.came_first)
-        print(self.came_second)
+        return self.came_first,self.came_second
 
     def get_all_countries(self):
         """gets all the country objects and adds them to a list"""
