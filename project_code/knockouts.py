@@ -13,6 +13,7 @@ from sim_game import SimGame
 
 class Knockouts:
     def __init__(self):
+        self.match_id = None
         self.winner = []
         self.find_group_results = FindGroupResults()
         self.first_and_second_list = self.find_group_results.collective()
@@ -21,9 +22,8 @@ class Knockouts:
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
         self.create_matches = CreateMatches()
-        self.match_id = self.sess.query(CountryMatch.match_id).order_by(CountryMatch.match_id.desc()).first()
         self.sim_game_class = SimGame()
-        self.match_id = self.match_id[0] + 1
+        
         self.qf_list = []
         self.sf_list = []
         self.final_list = []
@@ -33,6 +33,9 @@ class Knockouts:
         self.list_of_second_place = sample(self.list_of_second_place, k=len(self.list_of_second_place))
 
     def first_round(self,sim_num):
+        self.match_id = self.sess.query(CountryMatch.match_id).filter_by(simulation_number=sim_num).order_by(
+            CountryMatch.match_id.desc()).first()
+        self.match_id = self.match_id[0] + 1
         for i in range(len(self.list_of_first_place)):
 
             results = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],

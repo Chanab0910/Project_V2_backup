@@ -9,6 +9,9 @@ from project_code.models import Country, CountryMatch, Match
 class Analyse:
     def __init__(self):
 
+        self.average_goals_conceded = None
+        self.average_goals_conceded_ko = None
+        self.average_goals_conceded_group = None
         self.average_goals_scored_per_game_ko = None
         self.average_goals_scored_per_game_group = None
         self.average_goals_scored_per_game_overall = None
@@ -133,7 +136,15 @@ class Analyse:
         else:
             all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id >8).all()
         for game in all_group_games:
+            print('\n')
+            print('\n')
+            print('\n')
+            print(game)
+            print('\n')
+            print('\n')
+            print('\n')
             ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
+            print(ids)
             if ids[0].country_id == self.country_object.country_id:
                 goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
                                                                       country_id=ids[1].country_id).first()
