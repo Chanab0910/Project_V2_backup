@@ -3,11 +3,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 
-from project_code.models import Country, CountryMatch, Match
+from project_code.models import Country, CountryMatch, Match, Stage
 
 
 class Analyse:
     def __init__(self):
+        self.number_of_wc_wins = 0
         self.average_goals_scored_per_game_ko = None
         self.average_goals_scored_per_game_group = None
         self.average_goals_scored_per_game_overall = None
@@ -52,9 +53,8 @@ class Analyse:
         self.furthest_got_and_average_place()
 
         self.average_goals_conceded_group_or_ko()
-        '''self.average_goals_conceded_ko = self.average_goals_conceded_group_or_ko('ko')'''
         self.average_goals_conceded()
-
+        self.number_of_wins()
 
     def get_all_goals_and_games_played(self):
         goals_list = self.sess.query(CountryMatch.score).filter_by(country_id=self.country_object.country_id).all()
@@ -70,7 +70,6 @@ class Analyse:
             if goals != None:
                 self.group_goals += goals[0]
                 self.num_of_group_matches_played += 1
-
 
     def get_all_ko_goals_and_num_of_matches_played(self):
         all_ko_games = self.sess.query(Match.match_id).filter(Match.stage_id > 8).all()
@@ -101,11 +100,14 @@ class Analyse:
 
     def furthest_got_and_average_place(self):
 
-        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
-        for match in all_games:
-            stage = self.sess.query(Match.stage_id).filter_by(match_id=match[0]).first()
-            if stage[0] > self.highest_stage_id:
-                self.highest_stage_id = stage[0]
+        for i in range(1, 20):
+            all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
+                country_id=self.country_object.country_id, simulation_number=i).all()
+            for match in all_games_in_sim:
+                stage = self.sess.query(Match.stage_id).filter_by(match_id=match[0]).first()
+                if stage[0] > self.highest_stage_id:
+                    self.highest_stage_id = stage[0]
+        self.highest_stage = self.sess.query(Stage.level).filter_by(stage_id=self.highest_stage_id).first()
         '''Doesnt have average place'''
 
     def average_goals_conceded(self):
@@ -122,51 +124,78 @@ class Analyse:
                                                                       country_id=ids[0].country_id).first()
             total += goals[0]
             count += 1
-        self.average_goals_conceded= total / count
+        self.average_goals_conceded = total / count
 
     def average_goals_conceded_group_or_ko(self):
-        count=0
-        total=0
-        all_games_country_match_object = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
+        group_count = 0
+        group_total = 0
+        ko_count = 0
+        ko_total = 0
+        all_games_country_match_object = self.sess.query(CountryMatch).filter_by(
+            country_id=self.country_object.country_id).all()
         for cm in all_games_country_match_object:
-            group=False
             match_id = cm.match_id
             sim_num = cm.simulation_number
-            stage = self.sess.query(Match.stage_id).filter_by(match_id=match_id,simulation_number=sim_num).first()
-            if stage[0] <9:
-                group=True
-                both_countries = self.sess.query(CountryMatch).filter_by(simulation_number=sim_num,match_id=match_id).all()
+            stage = self.sess.query(Match.stage_id).filter_by(match_id=match_id, simulation_number=sim_num).first()
+
+            if stage[0] < 9:
+                both_countries = self.sess.query(CountryMatch).filter_by(simulation_number=sim_num,
+                                                                         match_id=match_id).all()
                 if both_countries[0].country_id == self.country_object.country_id:
                     goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
-                                                                          country_id=both_countries[1].country_id, simulation_number=sim_num).first()
+                                                                          country_id=both_countries[1].country_id,
+                                                                          simulation_number=sim_num).first()
                 else:
                     goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
                                                                           country_id=both_countries[1].country_id,
                                                                           simulation_number=sim_num).first()
-                total += goals[0]
-                count += 1
-        self.average_goals_conceded_in_group = total/count
+                group_total += goals[0]
+                group_count += 1
+            else:
+                both_countries = self.sess.query(CountryMatch).filter_by(simulation_number=sim_num,
+                                                                         match_id=match_id).all()
+                if both_countries[0].country_id == self.country_object.country_id:
+                    goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
+                                                                          country_id=both_countries[1].country_id,
+                                                                          simulation_number=sim_num).first()
+                else:
+                    goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
+                                                                          country_id=both_countries[1].country_id,
+                                                                          simulation_number=sim_num).first()
+                ko_total += goals[0]
+                ko_count += 1
+        self.average_goals_conceded_in_group = group_total / group_count
+        self.average_goals_conceded_in_ko = ko_total / ko_count
 
+    def number_of_wins(self):
+        for i in range(1,20):
+            all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id,simulation_number=i).all()
+            for match in all_games_in_sim:
+                stage=self.sess.query(Match.stage_id).filter_by(match_id=match[0],simulation_number=i).first()
 
-
-
+                if stage[0] == 23:
+                    result = self.sess.query(CountryMatch.result).filter_by(match_id=match[0],simulation_number=i,country_id=self.country_object.country_id).first()
+                    if result[0] == 'win':
+                        self.number_of_wc_wins+=1
 
 
     def print_everything(self):
-        print(f'Average goals conceded overall: {self.average_goals_conceded}')
-        print(f'Average goals conceded in the group: {self.average_goals_conceded_in_group}')
-        '''print(f'Average goals conceded in the ko: {self.average_goals_conceded_ko}')'''
-        print(f'Average goals scored overall: {self.goals/self.num_of_matches_played}')
-        print(f'Average goals scored in the group: {self.group_goals / self.num_of_group_matches_played}')
-        if self.num_of_ko_matches_played == 0:
-            print(f'Average goals scored in the ko: 0')
-        else:
-            print(f'Average goals scored in the ko: {self.ko_goals / self.num_of_ko_matches_played}')
-        print(f'The highest stage reached was: {self.highest_stage_id}')
+        print(f'Average goals conceded per match overall: {self.average_goals_conceded:.2f}')
+        print(f'Average goals conceded in the group per match: {self.average_goals_conceded_in_group:.2f}')
+        print(f'Average goals conceded in the ko per match: {self.average_goals_conceded_in_ko:.2f}')
+        print(f'Average goals scored per match overall: {self.goals / self.num_of_matches_played:.2f}')
+        print(f'Average goals scored in the group per match: {self.group_goals / self.num_of_group_matches_played:.2f}')
+        try:
+            print(f'Average goals scored in the ko per match: {self.ko_goals / self.num_of_ko_matches_played:.2f}')
+        except:
+            print(f'Average goals scored in the ko per match: 0')
+        print(f'The highest stage reached was: {self.highest_stage[0]}')
+        print(f'Number of times they won the World Cup: {self.number_of_wc_wins}')
         print(f'The country that they beat the most: {self.team_beat_the_most}')
         print(f'The country that they lost to the most: {self.team_lost_to_most}')
 
 
+
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('England'))
+    print(ff.controller('Netherlands'))
