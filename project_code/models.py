@@ -34,9 +34,10 @@ class CountryMatch(Base):
 
 class Match(Base):
     __tablename__ = 'match'
-    match_id = Column('match_id', Integer, primary_key=True, autoincrement=True)
+    match_id = Column('match_id', Integer, primary_key=True)
     stage_id = Column('stage_id', Integer,)
     match_number = Column('match_number', Integer)
+    simulation_number = Column('simulation_number', Integer, primary_key=True)
 
     def __repr__(self):
         return f'Match_id: {self.match_id}'

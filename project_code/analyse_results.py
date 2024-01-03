@@ -8,10 +8,6 @@ from project_code.models import Country, CountryMatch, Match
 
 class Analyse:
     def __init__(self):
-
-        self.average_goals_conceded = None
-        self.average_goals_conceded_ko = None
-        self.average_goals_conceded_group = None
         self.average_goals_scored_per_game_ko = None
         self.average_goals_scored_per_game_group = None
         self.average_goals_scored_per_game_overall = None
@@ -55,9 +51,9 @@ class Analyse:
         self.get_country_they_lost_or_won_to_most(self.number_of_wins_dict, 'win')
         self.furthest_got_and_average_place()
 
-        self.average_goals_conceded_group = self.average_goals_conceded_group_or_ko('group')
-        self.average_goals_conceded_ko = self.average_goals_conceded_group_or_ko('ko')
-        self.average_goals_conceded = self.average_goals_conceded()
+        self.average_goals_conceded_group_or_ko()
+        '''self.average_goals_conceded_ko = self.average_goals_conceded_group_or_ko('ko')'''
+        self.average_goals_conceded()
 
 
     def get_all_goals_and_games_played(self):
@@ -74,7 +70,7 @@ class Analyse:
             if goals != None:
                 self.group_goals += goals[0]
                 self.num_of_group_matches_played += 1
-        '''Doesnt add match if they didnt score, but i will know how many games played in group as set number'''
+
 
     def get_all_ko_goals_and_num_of_matches_played(self):
         all_ko_games = self.sess.query(Match.match_id).filter(Match.stage_id > 8).all()
@@ -126,42 +122,40 @@ class Analyse:
                                                                       country_id=ids[0].country_id).first()
             total += goals[0]
             count += 1
-        return total / count
+        self.average_goals_conceded= total / count
 
-    def average_goals_conceded_group_or_ko(self, group_or_ko):
-        total = 0
-        count = 0
-        if group_or_ko == 'group':
-            all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
-        else:
-            all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id >8).all()
-        for game in all_group_games:
-            print('\n')
-            print('\n')
-            print('\n')
-            print(game)
-            print('\n')
-            print('\n')
-            print('\n')
-            ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
-            print(ids)
-            if ids[0].country_id == self.country_object.country_id:
-                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
-                                                                      country_id=ids[1].country_id).first()
-            else:
-                goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
-                                                                      country_id=ids[0].country_id).first()
-            total += goals[0]
-            count += 1
-        if count == 0:
-            return 0
-        else:
-            return total / count
+    def average_goals_conceded_group_or_ko(self):
+        count=0
+        total=0
+        all_games_country_match_object = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
+        for cm in all_games_country_match_object:
+            group=False
+            match_id = cm.match_id
+            sim_num = cm.simulation_number
+            stage = self.sess.query(Match.stage_id).filter_by(match_id=match_id,simulation_number=sim_num).first()
+            if stage[0] <9:
+                group=True
+                both_countries = self.sess.query(CountryMatch).filter_by(simulation_number=sim_num,match_id=match_id).all()
+                if both_countries[0].country_id == self.country_object.country_id:
+                    goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
+                                                                          country_id=both_countries[1].country_id, simulation_number=sim_num).first()
+                else:
+                    goals = self.sess.query(CountryMatch.score).filter_by(match_id=match_id,
+                                                                          country_id=both_countries[1].country_id,
+                                                                          simulation_number=sim_num).first()
+                total += goals[0]
+                count += 1
+        self.average_goals_conceded_in_group = total/count
+
+
+
+
+
 
     def print_everything(self):
         print(f'Average goals conceded overall: {self.average_goals_conceded}')
-        print(f'Average goals conceded in the group: {self.average_goals_conceded_group}')
-        print(f'Average goals conceded in the ko: {self.average_goals_conceded_ko}')
+        print(f'Average goals conceded in the group: {self.average_goals_conceded_in_group}')
+        '''print(f'Average goals conceded in the ko: {self.average_goals_conceded_ko}')'''
         print(f'Average goals scored overall: {self.goals/self.num_of_matches_played}')
         print(f'Average goals scored in the group: {self.group_goals / self.num_of_group_matches_played}')
         if self.num_of_ko_matches_played == 0:

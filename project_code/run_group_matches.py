@@ -34,7 +34,6 @@ class MakeMatches:
         self.change_num_list = [7, 13, 19, 25, 31]
         self.counter = 0
 
-
     def pairing(self, iterable):
         a = iter(iterable)
         return zip(a, a)
@@ -54,17 +53,19 @@ class MakeMatches:
                 self.object_pair_list.append(country_object)
         return self.object_pair_list
 
-    def get_loo(self,sim_num):
+    def get_loo(self, sim_num):
         self.country_match_ids = self.sess.query(CountryMatch.country_id).filter_by(simulation_number=sim_num).all()
         for ids in self.country_match_ids:
             object = self.sess.get(Country, ids)
             self.list_of_objects.append(object)
         return self.list_of_objects
 
-    def sim_the_game(self,sim_num):
+    def sim_the_game(self, sim_num):
+        match_id = 0
         self.get_loo(sim_num)
         self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
+            match_id += 1
             self.counter += 1
             self.stage_id_counter += 1
             self.match_number += 1
@@ -72,7 +73,8 @@ class MakeMatches:
                 self.stage_id += 1
                 self.match_number = 1
 
-            result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id, self.match_number)
+            result = self.sim_game_class.sim_game_object(match[0], match[1], self.stage_id, self.match_number, sim_num,
+                                                         match_id)
             print(result)
             self.score.append(result[1])
             self.score.append(result[2])
@@ -80,9 +82,12 @@ class MakeMatches:
             self.update_table(sim_num)
             self.score = []
 
-    def update_table(self,sim_num):
+            if self.match_number == 63:
+                self.match_number = 0
+
+    def update_table(self, sim_num):
         match_id = self.match_id_lists[self.counter]
-        country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id,simulation_number=sim_num).all()
+        country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id, simulation_number=sim_num).all()
         country_matches[0].score = self.score[0]
         country_matches[1].score = self.score[1]
         if self.score[0] > self.score[1]:
@@ -96,8 +101,6 @@ class MakeMatches:
             country_matches[1].result = 'draw'
 
         self.sess.commit()
-
-
 
 
 if __name__ == '__main__':

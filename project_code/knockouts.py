@@ -39,7 +39,7 @@ class Knockouts:
         for i in range(len(self.list_of_first_place)):
 
             results = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],
-                                                          stage=9 + i, match_number=1)
+                                                          stage=9 + i, match_number=1,sim_num=sim_num,match_id=self.match_id)
             first_goals = results[1]
             second_goals = results[2]
 
@@ -62,7 +62,7 @@ class Knockouts:
             home_team = round_list[0]
             away_team = round_list[1]
             results = self.sim_game_class.sim_game_object(home_team, away_team,
-                                                          stage=stage_start + i, match_number=1)
+                                                          stage=stage_start + i, match_number=1,sim_num=sim_num,match_id=self.match_id)
             home_goals = results[1]
             away_goals = results[2]
 
