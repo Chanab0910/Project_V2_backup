@@ -26,11 +26,11 @@ class FindGroupResults:
         self.came_first = []
         self.came_second = []
 
-    def collective(self):
+    def collective(self,sim_num):
         """collates of the functions being done"""
 
         self.get_all_countries()
-        self.get_countries_points()
+        self.get_countries_points(sim_num)
         self.work_out_who_goes_through()
         return self.came_first,self.came_second
 
@@ -42,12 +42,12 @@ class FindGroupResults:
                 self.countries.append(country)
         return self.countries
 
-    def get_countries_points(self):
+    def get_countries_points(self,sim_num):
         """totals up the points that each country got and creates a list in the order that they are in the Country
         table"""
 
         for country in self.countries:
-            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id).all()
+            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id,simulation_number=sim_num).all()
             points = 0
             for result in all_results:
                 result = result[0][0:]
@@ -167,4 +167,4 @@ class FindGroupResults:
 
 if __name__ == '__main__':
     gg = FindGroupResults()
-    print(gg.collective())
+    print(gg.collective(1))
