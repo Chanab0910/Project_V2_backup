@@ -61,8 +61,7 @@ class Analyse:
         self.get_all_goals_and_games_played()
         self.get_all_group_stage_goals_and_num_of_matches_played()
         self.get_all_ko_goals_and_num_of_matches_played()
-        self.get_country_they_lost_or_won_to_most(self.number_of_loses_dict, 'loss')
-        self.get_country_they_lost_or_won_to_most(self.number_of_wins_dict, 'win')
+        self.get_country_they_lost_or_won_to_most()
         self.furthest_got_and_average_place()
         self.average_goals_conceded_group_or_ko()
         self.average_goals_conceded()
@@ -96,23 +95,24 @@ class Analyse:
                 self.ko_goals += goals[0]
                 self.num_of_ko_matches_played += 1
 
-    def get_country_they_lost_or_won_to_most(self, win_or_lose_dict, win_or_lose_var):
-        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
-        for match in all_games:
-            opponent = self.sess.query(CountryMatch.country_id).filter_by(match_id=match[0]).all()
-            if opponent[0][0] != self.country_object.country_id:
-                result = self.sess.query(CountryMatch.result).filter_by(country_id=opponent[1][0],
-                                                                        match_id=match[0]).first()
-                if result[0] == win_or_lose_var:
-                    country_name = self.sess.query(Country.country_name).filter_by(country_id=opponent[0][0]).first()
-                    win_or_lose_dict[country_name[0]] += 1
+    def get_country_they_lost_or_won_to_most(self):
+        all_games_played = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
 
-            elif opponent[1][0] != self.country_object.country_id:
-                result = self.sess.query(CountryMatch.result).filter_by(country_id=opponent[1][0],
-                                                                        match_id=match[0]).first()
-                if result[0] == win_or_lose_var:
-                    country_name = self.sess.query(Country.country_name).filter_by(country_id=opponent[1][0]).first()
-                    win_or_lose_dict[country_name[0]] += 1
+        for game in all_games_played:
+            match = self.sess.query(CountryMatch).filter_by(match_id=game.match_id,
+                                                            simulation_number=game.simulation_number).all()
+            if match[0].country_id == self.country_object.country_id:
+                opposition = match[1]
+            else:
+                opposition = match[0]
+
+            if opposition.result == 'loss':
+                country_name = self.sess.query(Country.country_name).filter_by(country_id=opposition.country_id).first()
+                self.number_of_wins_dict[country_name[0]] +=1
+
+            if opposition.result == 'win':
+                country_name = self.sess.query(Country.country_name).filter_by(country_id=opposition.country_id).first()
+                self.number_of_loses_dict[country_name[0]] +=1
 
     def furthest_got_and_average_place(self):
 
@@ -268,15 +268,15 @@ class Analyse:
         print(f'The highest stage reached was: {self.highest_stage[0]}')
         print(
             f"{self.country_object.country_name} got knocked out in: The Groups {self.dict_of_where_they_came['Group']} times")
-        print(f"                            The Round of 16 {self.dict_of_where_they_came['Round of 16']} times")
-        print(f"                            The Quarter-Finals {self.dict_of_where_they_came['Quarter-final']} times")
-        print(f"                            The Semi-Finals {self.dict_of_where_they_came['Semi-final']} times")
-        print(f"                            The Final {self.dict_of_where_they_came['Final']} times")
+        print(f"                              The Round of 16 {self.dict_of_where_they_came['Round of 16']} times")
+        print(f"                              The Quarter-Finals {self.dict_of_where_they_came['Quarter-final']} times")
+        print(f"                              The Semi-Finals {self.dict_of_where_they_came['Semi-final']} times")
+        print(f"                              The Final {self.dict_of_where_they_came['Final']} times")
         print(f'Number of times they won the World Cup: {self.number_of_wc_wins}')
         print(f'The country that they beat the most number of times was {self.team_beat_the_most}, but they beat {self.team_they_beat_the_highest_percentage_of_times} with the highest percentage win rate')
-        print(f'The country that they lost to the most: {self.team_lost_to_most} but they lost to {self.team_they_beat_the_highest_percentage_of_times} with the highest percentage loss rate')
+        print(f'The country that they lost to the most was {self.team_lost_to_most}, but they lost to {self.team_they_lost_to_the_highest_percentage_of_times} with the highest percentage loss rate')
 
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('France'))
+    print(ff.controller('Norway'))
