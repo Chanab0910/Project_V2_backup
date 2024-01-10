@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from project_code.analyse_results import Analyse
+
 import project_code
 
 
