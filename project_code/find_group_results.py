@@ -179,4 +179,4 @@ class FindGroupResults:
 
 if __name__ == '__main__':
     gg = FindGroupResults()
-    print(gg.collective())
+    print(gg.collective(i))

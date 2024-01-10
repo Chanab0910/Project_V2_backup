@@ -16,9 +16,7 @@ class Knockouts:
         self.match_id = None
         self.winner = []
         self.find_group_results = FindGroupResults()
-        self.first_and_second_list = self.find_group_results.collective()
-        self.list_of_first_place = self.first_and_second_list[0]
-        self.list_of_second_place = self.first_and_second_list[1]
+
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
         self.create_matches = CreateMatches()
@@ -28,7 +26,11 @@ class Knockouts:
         self.sf_list = []
         self.final_list = []
 
-    def randomise_lists(self):
+
+    def randomise_lists(self,sim_num):
+        self.first_and_second_list = self.find_group_results.collective(sim_num)
+        self.list_of_first_place = self.first_and_second_list[0]
+        self.list_of_second_place = self.first_and_second_list[1]
         self.list_of_first_place = sample(self.list_of_first_place, k=len(self.list_of_first_place))
         self.list_of_second_place = sample(self.list_of_second_place, k=len(self.list_of_second_place))
 
@@ -94,7 +96,7 @@ class Knockouts:
         self.sess.commit()
 
     def collate(self,sim_num):
-        self.randomise_lists()
+        self.randomise_lists(sim_num)
         self.first_round(sim_num)
         self.other_rounds(self.qf_list, 4, 17, self.sf_list,sim_num)
         self.other_rounds(self.sf_list,2, 21, self.final_list,sim_num)
