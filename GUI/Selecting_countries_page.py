@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
-
-import project_code
-
+from Welcome_screen import TestGUI
+from project_code.analyse_results import Analyse
+from project_code.models import Country, CountryMatch
 
 class GUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -10,8 +10,6 @@ class GUI(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        '''self.geometry("1239x697")'''
-
         self.Argentina = tk.PhotoImage(file="../img/Argentina.png")
         self.Australia = tk.PhotoImage(file="../img/Australia.png")
         self.Austria = tk.PhotoImage(file="../img/Austria.png")
@@ -47,15 +45,15 @@ class GUI(tk.Tk):
 
 
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140)
+        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140,command=show_results())
         self.Australia_button = tk.Button(self, image=self.Australia, width=220, height=140)
-        self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140, padx=50)
+        self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140)
         self.Belgium_button = tk.Button(self, image=self.Belgium, width=220, height=140)
         self.Canada_button = tk.Button(self, image=self.Canada, width=220, height=140)
         self.Croatia_button = tk.Button(self, image=self.Croatia, width=220, height=140)
         self.Czech_button = tk.Button(self, image=self.Czech, width=220, height=140)
         self.Denmark_button = tk.Button(self, image=self.Denmark, width=220, height=140)
-        self.England_button = tk.Button(self, image=self.England, width=220, height=140, command=self.get_country_stats)
+        self.England_button = tk.Button(self, image=self.England, width=220, height=140)
         self.Finland_button = tk.Button(self, image=self.Finland, width=220, height=140)
         self.France_button = tk.Button(self, image=self.France, width=220, height=140)
         self.Germany_button = tk.Button(self, image=self.Germany, width=220, height=140)
@@ -131,73 +129,78 @@ class GUI(tk.Tk):
         self.Czech_button.grid(column=6, row=1, padx=10)
         self.Denmark_button.grid(column=7, row=1, padx=10)
 
-        self.Argentina_label.place(x=78, y=236)
-        self.Australia_label.place(x=332, y=236)
-        self.Austria_label.place(x=583, y=236)
-        self.Belgium_label.place(x=832, y=236)
-        self.Canada_label.place(x=1082, y=236)
-        self.Croatia_label.place(x=1331, y=236)
-        self.Czech_label.place(x=1541, y=236)
-        self.Denmark_label.place(x=1823, y=236)
+        self.Argentina_label.grid(column=0, row=2)
+        self.Australia_label.grid(column=1, row=2)
+        self.Austria_label.grid(column=2, row=2)
+        self.Belgium_label.grid(column=3, row=2)
+        self.Canada_label.grid(column=4, row=2)
+        self.Croatia_label.grid(column=5, row=2)
+        self.Czech_label.grid(column=6, row=2)
+        self.Denmark_label.grid(column=7, row=2)
 
-        self.England_button.grid(column=0, row=2, padx=10, pady=40)
-        self.Finland_button.grid(column=1, row=2, padx=10, pady=40)
-        self.France_button.grid(column=2, row=2, padx=10, pady=40)
-        self.Germany_button.grid(column=3, row=2, padx=10, pady=40)
-        self.Hungary_button.grid(column=4, row=2, padx=10, pady=40)
-        self.Iceland_button.grid(column=5, row=2, padx=10, pady=40)
-        self.Ireland_button.grid(column=6, row=2, padx=10, pady=40)
-        self.Italy_button.grid(column=7, row=2, padx=10, pady=40)
+        self.England_button.grid(column=0, row=3, padx=10, )
+        self.Finland_button.grid(column=1, row=3, padx=10, )
+        self.France_button.grid(column=2, row=3, padx=10, )
+        self.Germany_button.grid(column=3, row=3, padx=10, )
+        self.Hungary_button.grid(column=4, row=3, padx=10, )
+        self.Iceland_button.grid(column=5, row=3, padx=10, )
+        self.Ireland_button.grid(column=6, row=3, padx=10, )
+        self.Italy_button.grid(column=7, row=3, padx=10, )
 
-        self.England_label.place(x=85, y=425)
-        self.Finland_label.place(x=338, y=425)
-        self.France_label.place(x=588, y=425)
-        self.Germany_label.place(x=828, y=425)
-        self.Hungary_label.place(x=1078, y=425)
-        self.Iceland_label.place(x=1328, y=425)
-        self.Ireland_label.place(x=1581, y=425)
-        self.Italy_label.place(x=1840, y=425)
+        self.England_label.grid(column=0, row=4)
+        self.Finland_label.grid(column=1, row=4)
+        self.France_label.grid(column=2, row=4)
+        self.Germany_label.grid(column=3, row=4)
+        self.Hungary_label.grid(column=4, row=4)
+        self.Iceland_label.grid(column=5, row=4)
+        self.Ireland_label.grid(column=6, row=4)
+        self.Italy_label.grid(column=7, row=4)
 
-        self.Mexico_button.grid(column=0, row=3, padx=10, )
-        self.Ghana_button.grid(column=1, row=3, padx=10, )
-        self.Netherlands_button.grid(column=2, row=3, padx=10, )
-        self.Morocco_button.grid(column=3, row=3, padx=10, )
-        self.Norway_button.grid(column=4, row=3, padx=10, )
-        self.Poland_button.grid(column=5, row=3, padx=10, )
-        self.Portugal_button.grid(column=6, row=3, padx=10, )
-        self.Romania_button.grid(column=7, row=3, padx=10, )
+        self.Mexico_button.grid(column=0, row=5, padx=10, )
+        self.Ghana_button.grid(column=1, row=5, padx=10, )
+        self.Netherlands_button.grid(column=2, row=5, padx=10, )
+        self.Morocco_button.grid(column=3, row=5, padx=10, )
+        self.Norway_button.grid(column=4, row=5, padx=10, )
+        self.Poland_button.grid(column=5, row=5, padx=10, )
+        self.Portugal_button.grid(column=6, row=5, padx=10, )
+        self.Romania_button.grid(column=7, row=5, padx=10, )
 
-        self.Mexico_label.place(x=89, y=614)
-        self.Ghana_label.place(x=338, y=614)
-        self.Netherlands_label.place(x=568, y=614)
-        self.Morocco_label.place(x=828, y=614)
-        self.Norway_label.place(x=1080, y=614)
-        self.Poland_label.place(x=1328, y=614)
-        self.Portugal_label.place(x=1571, y=614)
-        self.Romania_label.place(x=1822, y=614)
+        self.Mexico_label.grid(column=0, row=6)
+        self.Ghana_label.grid(column=1, row=6)
+        self.Netherlands_label.grid(column=2, row=6)
+        self.Morocco_label.grid(column=3, row=6)
+        self.Norway_label.grid(column=4, row=6)
+        self.Poland_label.grid(column=5, row=6)
+        self.Portugal_label.grid(column=6, row=6)
+        self.Romania_label.grid(column=7, row=6)
 
-        self.Scotland_button.grid(column=0, row=4, padx=10, pady=40)
-        self.Spain_button.grid(column=1, row=4, padx=10, pady=40)
-        self.Sweden_button.grid(column=2, row=4, padx=10, pady=40)
-        self.Ukraine_button.grid(column=3, row=4, padx=10, pady=40)
-        self.USA_button.grid(column=4, row=4, padx=10, pady=40)
-        self.Wales_button.grid(column=5, row=4, padx=10, pady=40)
-        self.Japan_button.grid(column=6, row=4, padx=10, pady=40)
-        self.China_button.grid(column=7, row=4, padx=10, pady=40)
+        self.Scotland_button.grid(column=0, row=7, padx=10, )
+        self.Spain_button.grid(column=1, row=7, padx=10, )
+        self.Sweden_button.grid(column=2, row=7, padx=10, )
+        self.Ukraine_button.grid(column=3, row=7, padx=10,)
+        self.USA_button.grid(column=4, row=7, padx=10, )
+        self.Wales_button.grid(column=5, row=7, padx=10, )
+        self.Japan_button.grid(column=6, row=7, padx=10, )
+        self.China_button.grid(column=7, row=7, padx=10, )
 
-        self.Scotland_label.place(x=82, y=803)
-        self.Spain_label.place(x=338, y=803)
-        self.Sweden_label.place(x=573, y=803)
-        self.Ukraine_label.place(x=829, y=803)
-        self.USA_label.place(x=1091, y=803)
-        self.Wales_label.place(x=1334, y=803)
-        self.Japan_label.place(x=1584, y=803)
-        self.China_label.place(x=1838, y=803)
+        self.Scotland_label.grid(column=0, row=8)
+        self.Spain_label.grid(column=1, row=8)
+        self.Sweden_label.grid(column=2, row=8)
+        self.Ukraine_label.grid(column=3, row=8)
+        self.USA_label.grid(column=4, row=8)
+        self.Wales_label.grid(column=5, row=8)
+        self.Japan_label.grid(column=6, row=8)
+        self.China_label.grid(column=7, row=8)
 
-    def get_country_stats(self):
-        analyse = Analyse()
-        print(analyse.controller('England'))
 
+
+def show_stats():
+    root = TestGUI()
+    root.mainloop()
+
+def show_results():
+    a = Analyse()
+    print(a.controller('England'))
 
 if __name__ == '__main__':
     root = GUI()
