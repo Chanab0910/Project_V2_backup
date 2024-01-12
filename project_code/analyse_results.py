@@ -5,8 +5,8 @@ from sqlalchemy import update
 
 from project_code.models import Country, CountryMatch, Match, Stage
 from project_code.redo_find_group_results import FindGroupResults
-
-
+engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+sess = Session(engine)
 class Analyse:
     def __init__(self):
         self.number_of_wc_wins = 0
@@ -51,7 +51,7 @@ class Analyse:
                                             'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
     def controller(self, country_name):
-        cn = country_name
+        cn = str(country_name)
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats()
 
@@ -279,4 +279,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('Norway'))
+    print(ff.controller('England'))

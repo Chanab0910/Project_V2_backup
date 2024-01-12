@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-
+from tkinter import *
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
+NavigationToolbar2Tk)
 
 class TestGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -30,6 +33,8 @@ class TestGUI(tk.Tk):
         self.title.place(x=374, y=534)
         self.start.place(x=956, y=594)
         self.quit.place(x=1095, y=597)
+
+
 
 
 if __name__ == '__main__':

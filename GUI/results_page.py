@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-
+from project_code.analyse_results import Analyse
 
 class TestGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -8,7 +8,8 @@ class TestGUI(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        self.title_country = tk.Label(self, text='Country', font='helvetica 100')
+        self.geometry("1239x697")
+        self.title_country = tk.Label(self, text='Country', font='helvetica 100', underline=True)
         self.percentage_they_won_wc = tk.Label(self, text=f'Percentage that they won they won the World Cup: ',
                                                font='helvetica 30')
         self.furthest_place_got = tk.Label(self, text=f'Furthest place they got: ', font='helvetica 30')
@@ -42,18 +43,20 @@ class TestGUI(tk.Tk):
 
     def place_widgets(self):
         self.title_country.grid(row=0, columnspan=10)
-        self.percentage_they_won_wc.grid(row=1, columnspan=3)
-        self.furthest_place_got.grid(row=2, column=0)
-        self.average_goals_scored_overall.grid(row=3, columnspan=5)
-        self.average_goals_scored_group.grid(row=4, columnspan=5)
-        self.average_goals_scored_knockouts.grid(row=5, columnspan=5)
-        self.average_goals_conceded_overall.grid(row=6, columnspan=5)
-        self.average_goals_conceded_group.grid(row=7, columnspan=5)
-        self.average_goals_conceded_knockouts.grid(row=8, columnspan=5)
-        self.won_most_to_and_percentage_won_most.grid(row=9, columnspan=10)
-        self.lost_most_to_and_percentage_lost_most.grid(row=10, columnspan=10)
-        self.back_to_home_screen.grid(row=12, column=0)
-        self.quit.grid(row=12, column=10)
+        self.percentage_they_won_wc.place(x=5, y=140)
+        self.furthest_place_got.place(x=5, y=182)
+        self.average_goals_scored_overall.place(x=5, y=227)
+        self.average_goals_scored_group.place(x=5, y=272)
+        self.average_goals_scored_knockouts.place(x=5, y=317)
+        self.average_goals_conceded_overall.place(x=5, y=362)
+        self.average_goals_conceded_group.place(x=5, y=407)
+        self.average_goals_conceded_knockouts.place(x=5, y=452)
+        self.won_most_to_and_percentage_won_most.place(x=5, y=497)
+        self.lost_most_to_and_percentage_lost_most.place(x=5, y=542)
+        self.back_to_home_screen.place(x=5, y=665)
+
+
+
 
 
 if __name__ == '__main__':

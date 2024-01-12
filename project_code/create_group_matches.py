@@ -2,7 +2,7 @@ from random import randint, sample
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import update
-from sim_game import SimGame
+from project_code.sim_game import SimGame
 from project_code.models import Country, CountryMatch
 
 
