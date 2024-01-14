@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
-NavigationToolbar2Tk)
+import Selecting_countries_page
 
 class TestGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -20,7 +18,7 @@ class TestGUI(tk.Tk):
 
         self.background = tk.Label(self, image=self.bg_image, highlightthickness=0, borderwidth=0)
         self.title = tk.Label(self, image=self.title_image, highlightthickness=0, borderwidth=0)
-        self.start = tk.Button(self, image=self.start_image, highlightthickness=0, borderwidth=0)
+        self.start = tk.Button(self, image=self.start_image, highlightthickness=0, borderwidth=0, command=self.go_to_next_page)
         self.quit = tk.Button(self, image=self.quit_image, highlightthickness=0, borderwidth=0, command=quit)
 
         self.Next_Page_Button = tk.Button(self, text='See Results', font='FuturaStd-Medium')
@@ -33,6 +31,11 @@ class TestGUI(tk.Tk):
         self.title.place(x=374, y=534)
         self.start.place(x=956, y=594)
         self.quit.place(x=1095, y=597)
+
+    def go_to_next_page(self):
+        self.destroy()
+        self.gui = Selecting_countries_page.GUI()
+        self.gui.mainloop()
 
 
 

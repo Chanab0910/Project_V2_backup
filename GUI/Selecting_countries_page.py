@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from Welcome_screen import TestGUI
+
 from project_code.analyse_results import Analyse
 from project_code.models import Country, CountryMatch
+
 
 class GUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -11,6 +12,7 @@ class GUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.Argentina = tk.PhotoImage(file="../img/Argentina.png")
+        self.Argentina.subsample(2,2)
         self.Australia = tk.PhotoImage(file="../img/Australia.png")
         self.Austria = tk.PhotoImage(file="../img/Austria.png")
         self.Belgium = tk.PhotoImage(file="../img/Belgium.png")
@@ -43,9 +45,7 @@ class GUI(tk.Tk):
         self.Japan = tk.PhotoImage(file="../img/Japan.png")
         self.China = tk.PhotoImage(file="../img/China.png")
 
-
-
-        self.Argentina_button = tk.Button(self, image=self.Argentina, width=220, height=140,command=show_results())
+        self.Argentina_button = tk.Button(self, image=self.Argentina,)
         self.Australia_button = tk.Button(self, image=self.Australia, width=220, height=140)
         self.Austria_button = tk.Button(self, image=self.Austria, width=220, height=140)
         self.Belgium_button = tk.Button(self, image=self.Belgium, width=220, height=140)
@@ -177,7 +177,7 @@ class GUI(tk.Tk):
         self.Scotland_button.grid(column=0, row=7, padx=10, )
         self.Spain_button.grid(column=1, row=7, padx=10, )
         self.Sweden_button.grid(column=2, row=7, padx=10, )
-        self.Ukraine_button.grid(column=3, row=7, padx=10,)
+        self.Ukraine_button.grid(column=3, row=7, padx=10, )
         self.USA_button.grid(column=4, row=7, padx=10, )
         self.Wales_button.grid(column=5, row=7, padx=10, )
         self.Japan_button.grid(column=6, row=7, padx=10, )
@@ -193,14 +193,10 @@ class GUI(tk.Tk):
         self.China_label.grid(column=7, row=8)
 
 
-
-def show_stats():
-    root = TestGUI()
-    root.mainloop()
-
 def show_results():
     a = Analyse()
     print(a.controller('England'))
+
 
 if __name__ == '__main__':
     root = GUI()
