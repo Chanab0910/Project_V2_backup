@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from project_code.analyse_results import Analyse
-from project_code.models import Country, CountryMatch
+
 from PIL import Image, ImageTk
 
 class GUI(tk.Tk):
