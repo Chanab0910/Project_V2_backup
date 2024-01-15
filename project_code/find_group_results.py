@@ -3,7 +3,7 @@ from random import randint, shuffle, sample, random
 from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from run_group_matches import MakeMatches
+from run_group_matches import RunMatches
 from project_code.models import Country, Match, CountryMatch, Stage
 from project_code.create_group_matches import GroupGenerator
 
@@ -19,7 +19,7 @@ class FindGroupResults:
         self.sess = Session(self.engine)
         self.countries = []
         self.group_generator = GroupGenerator()
-        self.mm = MakeMatches()
+        self.mm = RunMatches()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
         self.country_dict = {}

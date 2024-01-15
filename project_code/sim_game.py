@@ -70,4 +70,24 @@ class SimGame:
             self.result = ('loss', Home_team_score, Away_team_score)
 
         else:
-            self.extra_time(Home_team_score, Away_team_score, home_country, away_country, stage, match_number)
+            self.penalties(Home_team_score, Away_team_score, home_country, away_country)
+
+    def penalties(self,home_goals, away_goals, home_country, away_country,):
+        stop = False
+        home_country_attack = home_country.attack
+        away_country_attack = away_country.attack
+        home_country_defense = home_country.defense
+        away_country_defense = away_country.defense
+        self.time = 1
+        while not stop:
+            Home_team_score = self.calculate_goals(home_country_attack,away_country_defense) + home_goals
+            Away_team_score = self.calculate_goals(away_country_attack,home_country_defense) + away_goals
+            if Home_team_score > Away_team_score:
+                self.result = ('win', Home_team_score, Away_team_score)
+                stop = True
+
+            elif Home_team_score < Away_team_score:
+                self.result = ('loss', Home_team_score, Away_team_score)
+                stop = True
+
+

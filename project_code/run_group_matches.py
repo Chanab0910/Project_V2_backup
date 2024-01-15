@@ -11,7 +11,7 @@ from project_code.models import Country, CountryMatch
 import sqlite3
 
 
-class MakeMatches:
+class RunMatches:
     def __init__(self):
         self.match_id_lists = [x for x in range(49)]
         self.match_number = 0
@@ -104,5 +104,5 @@ class MakeMatches:
 
 
 if __name__ == '__main__':
-    gg = MakeMatches()
+    gg = RunMatches()
     print(gg.sim_the_game(2))

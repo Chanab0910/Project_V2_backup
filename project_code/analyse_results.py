@@ -117,7 +117,7 @@ class Analyse:
     def furthest_got_and_average_place(self,country_name):
         cn = str(country_name)
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
-        for i in range(1, 10):
+        for i in range(1, 20):
 
             highest_in_sim = 0
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
@@ -207,7 +207,7 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
-        for i in range(1, 10):
+        for i in range(1, 20):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
             for match in all_games_in_sim:

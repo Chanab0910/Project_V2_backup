@@ -3,7 +3,7 @@ from random import randint, shuffle, sample, random
 from numpy import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from run_group_matches import MakeMatches
+from run_group_matches import RunMatches
 from project_code.models import Country, Match, CountryMatch, Stage
 
 from redo_find_group_results import FindGroupResults
