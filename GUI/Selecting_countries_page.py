@@ -139,7 +139,7 @@ class GUI(tk.Tk):
         resized_image = im.resize((150, 95))
         self.China = ImageTk.PhotoImage(resized_image)
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina,)
+        self.Argentina_button = tk.Button(self, image=self.Argentina,command=show_results())
         self.Australia_button = tk.Button(self, image=self.Australia)
         self.Austria_button = tk.Button(self, image=self.Austria)
         self.Belgium_button = tk.Button(self, image=self.Belgium)

@@ -114,8 +114,9 @@ class Analyse:
                 country_name = self.sess.query(Country.country_name).filter_by(country_id=opposition.country_id).first()
                 self.number_of_loses_dict[country_name[0]] +=1
 
-    def furthest_got_and_average_place(self):
-
+    def furthest_got_and_average_place(self,country_name):
+        cn = str(country_name)
+        self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         for i in range(1, 10):
 
             highest_in_sim = 0
@@ -140,7 +141,13 @@ class Analyse:
                 self.dict_of_where_they_came['Final'] += 1
 
         self.highest_stage = self.sess.query(Stage.level).filter_by(stage_id=self.highest_stage_id).first()
-        '''Doesnt have average place'''
+        self.average_place_final_number =self.average_place_number()
+        return self.average_place_final_number
+
+    def average_place_number(self):
+        count = self.dict_of_where_they_came['Group'] + self.dict_of_where_they_came['Round of 16']*2 + self.dict_of_where_they_came['Quarter-final']*3 + self.dict_of_where_they_came['Semi-final']*4 + self.dict_of_where_they_came['Final']*5
+        total =self.dict_of_where_they_came['Group'] + self.dict_of_where_they_came['Round of 16'] + self.dict_of_where_they_came['Quarter-final'] + self.dict_of_where_they_came['Semi-final'] + self.dict_of_where_they_came['Final']
+        return total/count
 
     def average_goals_conceded(self):
         total = 0
@@ -272,6 +279,7 @@ class Analyse:
         print(f"                              The Quarter-Finals {self.dict_of_where_they_came['Quarter-final']} times")
         print(f"                              The Semi-Finals {self.dict_of_where_they_came['Semi-final']} times")
         print(f"                              The Final {self.dict_of_where_they_came['Final']} times")
+        print(f'{self.average_place_final_number}')
         print(f'Number of times they won the World Cup: {self.number_of_wc_wins}')
         print(f'The country that they beat the most number of times was {self.team_beat_the_most}, but they beat {self.team_they_beat_the_highest_percentage_of_times} with the highest percentage win rate')
         print(f'The country that they lost to the most was {self.team_lost_to_most}, but they lost to {self.team_they_lost_to_the_highest_percentage_of_times} with the highest percentage loss rate')
@@ -279,4 +287,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('England'))
+    print(ff.controller('Argentina'))
