@@ -2,6 +2,8 @@ from analyse_results import Analyse
 
 class GeneralAnalysis:
     def __init__(self):
+        self.order_place_list = []
+        self.highest = ['', 0]
         self.analyse = Analyse()
         self.dict_of_countries_place_came = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
                                      'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
@@ -36,10 +38,12 @@ class GeneralAnalysis:
 
     def get_stats(self):
         self.get_average_goals()
-        self.get_final_result()
         self.get_average_goals_conceded()
+        self.get_dict_with_data()
+        self.order_place_dict()
 
-    def get_final_result(self):
+
+    def get_dict_with_data(self):
         for country in self.dict_of_countries_place_came:
             self.dict_place = self.analyse.furthest_got_and_average_place(country)
             group_num = self.dict_place['Group']
@@ -51,8 +55,36 @@ class GeneralAnalysis:
             places = [group_num,R16_num,quarter_num,semi_num,final_num, win_num]
             self.dict_of_countries_place_came[country] = places
 
+    def order_place_dict(self):
+        for i in range(len(self.dict_of_countries_place_came)):
+            highest = self.get_highest_country()
+            self.dict_of_countries_place_came.pop(highest[0])
+            self.order_place_list.append(highest[0])
+
+    def get_highest_country(self):
+
         for country in self.dict_of_countries_place_came:
-            '''order in terms of: won most times then got to final most times etc going down untill a country has a better stat '''
+            if self.dict_of_countries_place_came[country][-1] > self.highest[1]:
+                self.highest = [country, self.dict_of_countries_place_came[country][-1]]
+            elif self.dict_of_countries_place_came[country][-1] == self.highest[1]:
+                highest_dict =self.dict_of_countries_place_came[self.highest[0]]
+                if self.dict_of_countries_place_came[country][-2] > highest_dict[-2]:
+                    self.highest = [country,self.dict_of_countries_place_came[country][-1]]
+                elif self.dict_of_countries_place_came[country][-2] == highest_dict[-2]:
+                    if self.dict_of_countries_place_came[country][-3] > highest_dict[-3]:
+                        self.highest = [country,self.dict_of_countries_place_came[country][-1]]
+                    elif self.dict_of_countries_place_came[country][-3] == highest_dict[-3]:
+                        if self.dict_of_countries_place_came[country][-4] > highest_dict[-4]:
+                            self.highest = [country,self.dict_of_countries_place_came[country][-1]]
+                        elif self.dict_of_countries_place_came[country][-4] == highest_dict[-4]:
+                            if self.dict_of_countries_place_came[country][-5] > highest_dict[-5]:
+                                self.highest = [country,self.dict_of_countries_place_came[country][-1]]
+        return self.highest
+
+
+
+
+
 
 
 
@@ -73,4 +105,4 @@ class GeneralAnalysis:
 
 if __name__ == '__main__':
     g = GeneralAnalysis()
-    g.get_final_result()
+    g.get_stats()
