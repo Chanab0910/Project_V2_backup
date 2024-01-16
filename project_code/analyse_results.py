@@ -2,11 +2,11 @@ from random import randint, sample
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import update
-
 from project_code.models import Country, CountryMatch, Match, Stage
 from project_code.redo_find_group_results import FindGroupResults
 engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
 sess = Session(engine)
+
 class Analyse:
     def __init__(self):
         self.number_of_wc_wins = 0
