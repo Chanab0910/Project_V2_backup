@@ -2,16 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 from project_code.analyse_results import Analyse
 a = Analyse()
-
-class TestGUI(tk.Tk):
+import Selecting_countries_page
+class ResultGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
 
     def __init__(self):
         super().__init__()
         self.geometry("1239x697")
-
-        self.
         self.title_country = tk.Label(self, text='Country', font='helvetica 100', underline=True)
         self.percentage_they_won_wc_label = tk.Label(self, text=f'Percentage that they won they won the World Cup: ',
                                                font='helvetica 30')
@@ -39,7 +37,7 @@ class TestGUI(tk.Tk):
         self.won_most_to_and_percentage_won_most_label = tk.Label(self, text=f'They beat ... the most amount of times, '
                                                                        f'but they had the best win percentage '
                                                                        f'record to ...', font='helvetica 30')
-        self.back_to_home_screen = tk.Button(self, text='Back to home screen')
+        self.back_to_home_screen = tk.Button(self, text='Back to home screen',command=self.go_to_next_page)
         self.quit = tk.Button(self, text='Quit', command=quit)
 
         self.place_widgets()
@@ -49,7 +47,7 @@ class TestGUI(tk.Tk):
         self.percentage_they_won_wc_label.place(x=5, y=140)
         self.furthest_place_got_label.place(x=5, y=182)
         self.average_goals_scored_overall_label.place(x=5, y=227)
-        self.average_goals_scored_groupv.place(x=5, y=272)
+        self.average_goals_scored_group_label.place(x=5, y=272)
         self.average_goals_scored_knockouts_label.place(x=5, y=317)
         self.average_goals_conceded_overall_label.place(x=5, y=362)
         self.average_goals_conceded_group_label.place(x=5, y=407)
@@ -58,10 +56,15 @@ class TestGUI(tk.Tk):
         self.lost_most_to_and_percentage_lost_most_label.place(x=5, y=542)
         self.back_to_home_screen.place(x=5, y=665)
 
+    def go_to_next_page(self):
+        self.destroy()
+        self.gui = Selecting_countries_page.GUI()
+        self.gui.mainloop()
+
 
 
 
 
 if __name__ == '__main__':
-    root = TestGUI()
+    root = ResultGUI()
     root.mainloop()

@@ -22,23 +22,26 @@ class GeneralAnalysis:
                                              'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
                                              'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
-        self.dict_of_countries_average_goals_conceded = {'Argentina': [0,0,0,0,0,0], 'Australia': [0,0,0,0,0,0], 'Austria': [0,0,0,0,0,0], 'Belgium': [0,0,0,0,0,0],
-                                                       'Canada': [0,0,0,0,0,0],
-                                                       'Croatia':[0,0,0,0,0,0], 'Czech Republic': [0,0,0,0,0,0], 'Denmark':[0,0,0,0,0,0],
-                                                       'England': [0,0,0,0,0,0], 'Finland': [0,0,0,0,0,0], 'France': [0,0,0,0,0,0], 'Germany': [0,0,0,0,0,0],
-                                                       'Hungary': [0,0,0,0,0,0],
-                                                       'Iceland': [0,0,0,0,0,0],
-                                                       'Ireland': [0,0,0,0,0], 'Italy': [0,0,0,0,0], 'Mexico': [0,0,0,0,0], 'Ghana': [0,0,0,0,0],
-                                                       'Netherlands': [0,0,0,0,0], 'Morocco': [0,0,0,0,0], 'Norway': [0,0,0,0,0], 'Poland': [0,0,0,0,0],
-                                                       'Portugal': [0,0,0,0,0],
-                                                       'Romania': [0,0,0,0,0], 'Scotland': [0,0,0,0,0], 'Spain': [0,0,0,0,0], 'Sweden': [0,0,0,0,0],
-                                                       'Ukraine': [0,0,0,0,0],
-                                                       'USA': [0,0,0,0,0], 'Wales': [0,0,0,0,0], 'Japan': [0,0,0,0,0], 'China': [0,0,0,0,0]}
+        self.dict_of_countries_average_goals_conceded = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
+                                     'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
+                                     'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
+                                     'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
+                                     'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
+                                     'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
+                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+
+        self.second_dict_of_countries_place_came = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
+                                     'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
+                                     'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
+                                     'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
+                                     'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
+                                     'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
+                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
 
 
     def get_stats(self):
-        self.get_average_goals()
-        self.get_average_goals_conceded()
+        '''self.get_average_goals()
+        self.get_average_goals_conceded()'''
         self.get_dict_with_data()
         self.order_place_dict()
 
@@ -54,6 +57,7 @@ class GeneralAnalysis:
             win_num = self.dict_place['Win']
             places = [group_num,R16_num,quarter_num,semi_num,final_num, win_num]
             self.dict_of_countries_place_came[country] = places
+            self.second_dict_of_countries_place_came[country] = places
 
     def order_place_dict(self):
         for i in range(len(self.dict_of_countries_place_came)):
@@ -64,10 +68,11 @@ class GeneralAnalysis:
     def get_highest_country(self):
 
         for country in self.dict_of_countries_place_came:
+            z = self.dict_of_countries_place_came[country][-1]
             if self.dict_of_countries_place_came[country][-1] > self.highest[1]:
                 self.highest = [country, self.dict_of_countries_place_came[country][-1]]
             elif self.dict_of_countries_place_came[country][-1] == self.highest[1]:
-                highest_dict =self.dict_of_countries_place_came[self.highest[0]]
+                highest_dict =self.second_dict_of_countries_place_came[self.highest[0]]
                 if self.dict_of_countries_place_came[country][-2] > highest_dict[-2]:
                     self.highest = [country,self.dict_of_countries_place_came[country][-1]]
                 elif self.dict_of_countries_place_came[country][-2] == highest_dict[-2]:

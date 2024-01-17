@@ -4,7 +4,7 @@ from tkinter import ttk
 from project_code.analyse_results import Analyse
 
 from PIL import Image, ImageTk
-
+import results_page
 class GUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
@@ -139,7 +139,7 @@ class GUI(tk.Tk):
         resized_image = im.resize((150, 95))
         self.China = ImageTk.PhotoImage(resized_image)
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina,)
+        self.Argentina_button = tk.Button(self, image=self.Argentina,command=self.go_to_next_page)
         self.Australia_button = tk.Button(self, image=self.Australia)
         self.Austria_button = tk.Button(self, image=self.Austria)
         self.Belgium_button = tk.Button(self, image=self.Belgium)
@@ -286,10 +286,10 @@ class GUI(tk.Tk):
         self.Japan_label.grid(column=6, row=8)
         self.China_label.grid(column=7, row=8)
 
-
-def show_results():
-    a = Analyse()
-    print(a.controller('England'))
+    def go_to_next_page(self):
+        self.destroy()
+        self.gui = results_page.ResultGUI()
+        self.gui.mainloop()
 
 
 if __name__ == '__main__':
