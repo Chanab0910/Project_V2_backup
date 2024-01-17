@@ -1,32 +1,40 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
+from project_code.general_analysis import GeneralAnalysis
+
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title('Treeview demo')
+        self.title('Table')
         self.geometry('620x200')
         self.create_table()
 
     def create_table(self):
         # define columns
-        columns = ('first_name', 'last_name', 'email')
+        columns = ('Country', 'GA', 'GC')
         self.tree = ttk.Treeview(self, columns=columns, show='headings')
 
         # define headings
-        self.tree.heading('first_name', text='First Name')
-        self.tree.heading('last_name', text='Last Name')
-        self.tree.heading('email', text='Email')
+        self.tree.heading('Country', text='Country')
+        self.tree.heading('GA', text='GA')
+        self.tree.heading('GC', text='GC')
 
         # generate sample data
-        contacts = []
-        for n in range(1, 100):
-            contacts.append((f'first {n}', f'last {n}', f'email{n}@example.com'))
+        countries = []
+        ga = GeneralAnalysis()
+        everything = ga.get_stats()
+        place_list = everything[0]
+        scored = everything[1]
+        conceded = everything[2]
+
+        for i in range(place_list):
+            countries.append((place_list[i], scored[i], conceded[i]))
 
         # add data to the treeview
-        for contact in contacts:
-            self.tree.insert('', tk.END, values=contact)
+        for country in countries:
+            self.tree.insert('', tk.END, values=country)
 
         self.tree.bind('<<TreeviewSelect>>', self.item_selected)
 
@@ -43,6 +51,7 @@ class App(tk.Tk):
             record = item['values']
             # show a message on clicking
             showinfo(title='Information', message=','.join(record))
+
 
 if __name__ == "__main__":
     app = App()
