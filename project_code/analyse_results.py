@@ -59,7 +59,9 @@ class Analyse:
         self.get_all_basic_stats(country_name)
 
         '''self.print_everything()'''
-        return
+        return self.average_goals_conceded, self.average_goals_conceded_in_group, self.average_goals_conceded_in_ko, self.average_goals, self.average_goals_group, self.average_goals_ko, \
+               self.highest_stage[
+                   0], self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times
 
     def get_all_basic_stats(self, country_name):
         self.get_all_goals_and_games_played(country_name)
@@ -73,6 +75,9 @@ class Analyse:
         self.team_beat_the_most = max(self.number_of_wins_dict, key=self.number_of_wins_dict.get)
         self.get_number_of_times_they_played_each_country()
         self.team_they_beat_and_lost_to_the_most_percentage()
+        self.average_goals = self.goals / self.num_of_matches_played
+        self.average_goals_group = self.group_goals / self.num_of_group_matches_played
+        self.average_goals_ko = self.ko_goals / self.num_of_ko_matches_played
         self.number_of_wins()
 
     def get_all_goals_and_games_played(self, country_name):
@@ -309,4 +314,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.furthest_got_and_average_place('Germany'))
+    print(ff.controller('Germany'))
