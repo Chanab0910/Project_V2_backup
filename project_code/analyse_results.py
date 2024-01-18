@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update
 from project_code.models import Country, CountryMatch, Match, Stage
 from project_code.redo_find_group_results import FindGroupResults
-engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
 sess = Session(engine)
 
 class Analyse:
@@ -21,7 +21,7 @@ class Analyse:
         self.num_of_group_matches_played = 0
         self.group_goals = 0
         self.num_of_matches_played = 0
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
         self.goals = 0
         self.number_of_loses_dict = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
@@ -125,7 +125,7 @@ class Analyse:
         self.dict_of_where_they_came['Semi-final']=0
         self.dict_of_where_they_came['Final']=0
         self.dict_of_where_they_came['Win'] = 0
-        for i in range(1, 100):
+        for i in range(1, 10):
             win = False
             highest_in_sim = 0
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
@@ -224,7 +224,7 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
-        for i in range(1, 100):
+        for i in range(1, 10):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
             for match in all_games_in_sim:
@@ -296,7 +296,6 @@ class Analyse:
         print(f"                              The Quarter-Finals {self.dict_of_where_they_came['Quarter-final']} times")
         print(f"                              The Semi-Finals {self.dict_of_where_they_came['Semi-final']} times")
         print(f"                              The Final {self.dict_of_where_they_came['Final']} times")
-        print(f'{self.average_place_final_number}')
         print(f'Number of times they won the World Cup: {self.number_of_wc_wins}')
         print(f'The country that they beat the most number of times was {self.team_beat_the_most}, but they beat {self.team_they_beat_the_highest_percentage_of_times} with the highest percentage win rate')
         print(f'The country that they lost to the most was {self.team_lost_to_most}, but they lost to {self.team_they_lost_to_the_highest_percentage_of_times} with the highest percentage loss rate')
@@ -304,4 +303,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.furthest_got_and_average_place('Germany'))
+    print(ff.controller('Germany'))

@@ -3,7 +3,7 @@ from run_group_matches import RunMatches
 from redo_find_group_results import FindGroupResults
 from knockouts import Knockouts
 
-for i in range(1,100):
+for i in range(1,10):
     gg = GroupGenerator()
     gg.collate_groups()
     cm = CreateMatches()

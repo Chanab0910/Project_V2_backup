@@ -139,7 +139,7 @@ class GUI(tk.Tk):
         resized_image = im.resize((150, 95))
         self.China = ImageTk.PhotoImage(resized_image)
 
-        self.Argentina_button = tk.Button(self, image=self.Argentina,command=self.go_to_next_page)
+        self.Argentina_button = tk.Button(self, image=self.Argentina,command=lambda: [self.go_to_next_page('Argentina')])
         self.Australia_button = tk.Button(self, image=self.Australia)
         self.Austria_button = tk.Button(self, image=self.Austria)
         self.Belgium_button = tk.Button(self, image=self.Belgium)
@@ -286,7 +286,8 @@ class GUI(tk.Tk):
         self.Japan_label.grid(column=6, row=8)
         self.China_label.grid(column=7, row=8)
 
-    def go_to_next_page(self):
+    def go_to_next_page(self,country_name):
+        self.country_name = country_name
         self.destroy()
         self.gui = results_page.ResultGUI()
         self.gui.mainloop()
