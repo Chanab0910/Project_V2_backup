@@ -201,11 +201,13 @@ class GUI(tk.Tk):
         self.Scotland_label = tk.Label(self, text='Scotland', font='FuturaStd-Medium 20')
         self.Spain_label = tk.Label(self, text='Spain', font='FuturaStd-Medium 20')
         self.Sweden_label = tk.Label(self, text='Sweden', font='FuturaStd-Medium 20')
-        self.Ukraine_label = tk.Label(self, text='Ukraine', font='FuturaStd-Medium 20')
+        self.Ukraine_label = tk.Label(self, text='Ukraine', font='FuturaStd-Medium 20', pady=10)
         self.USA_label = tk.Label(self, text='USA', font='FuturaStd-Medium 20')
         self.Wales_label = tk.Label(self, text='Wales', font='FuturaStd-Medium 20')
         self.Japan_label = tk.Label(self, text='Japan', font='FuturaStd-Medium 20')
         self.China_label = tk.Label(self, text='China', font='FuturaStd-Medium 20')
+
+        self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25', pady=0)
 
         self.place_widgets()
 
@@ -285,6 +287,8 @@ class GUI(tk.Tk):
         self.Wales_label.grid(column=5, row=8)
         self.Japan_label.grid(column=6, row=8)
         self.China_label.grid(column=7, row=8)
+
+        self.general_stats.grid(columnspan=8,row=9)
 
     def go_to_next_page(self,country_name):
         a = Analyse()
