@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from project_code.analyse_results import Analyse
-
+from general_stats import GeneralStatsGUI
 from PIL import Image, ImageTk
 import results_page
 class GUI(tk.Tk):
@@ -207,7 +207,7 @@ class GUI(tk.Tk):
         self.Japan_label = tk.Label(self, text='Japan', font='FuturaStd-Medium 20')
         self.China_label = tk.Label(self, text='China', font='FuturaStd-Medium 20')
 
-        self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25', pady=0)
+        self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25', command=self.go_to_general_stats)
 
         self.place_widgets()
 
@@ -298,6 +298,11 @@ class GUI(tk.Tk):
         self.destroy()
         self.gui = results_page.ResultGUI(country_name,results)
         self.gui.mainloop()
+
+    def go_to_general_stats(self):
+        g = GeneralStatsGUI()
+        self.destroy()
+        g.mainloop()
 
 
 if __name__ == '__main__':

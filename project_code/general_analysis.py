@@ -57,7 +57,7 @@ class GeneralAnalysis:
         self.get_dict_with_data()
         self.order_place_dict()
         print('hello')
-        return self.order_place_list,self.dict_of_countries_average_goals_scored, self.dict_of_countries_average_goals_conceded
+        return self.order_place_list, self.dict_of_countries_average_goals_scored, self.dict_of_countries_average_goals_conceded
 
     def get_dict_with_data(self):
         for country in self.dict_of_countries_place_came:
@@ -84,7 +84,7 @@ class GeneralAnalysis:
 
             if self.dict_of_countries_place_came[country][-1] > highest[1]:
                 highest = [country, self.dict_of_countries_place_came[country][-1]]
-            elif self.dict_of_countries_place_came[country][-1] ==highest[1]:
+            elif self.dict_of_countries_place_came[country][-1] == highest[1]:
                 highest_dict = self.second_dict_of_countries_place_came[highest[0]]
                 if self.dict_of_countries_place_came[country][-2] > highest_dict[-2]:
                     highest = [country, self.dict_of_countries_place_came[country][-1]]
@@ -102,14 +102,12 @@ class GeneralAnalysis:
     def get_average_goals(self):
         for country in self.dict_of_countries_average_goals_scored:
             average = self.analyse.get_all_goals_and_games_played(country)
-            self.dict_of_countries_average_goals_scored[country] = average
-        self.dict_of_countries_average_goals_scored = sorted(self.dict_of_countries_average_goals_scored)
+            self.dict_of_countries_average_goals_scored[country] = f'{average:.3f}'
 
     def get_average_goals_conceded(self):
         for country in self.dict_of_countries_average_goals_conceded:
             average = self.analyse.get_all_goals_and_games_played(country)
-            self.dict_of_countries_average_goals_conceded[country] = average
-        self.dict_of_countries_average_goals_conceded = sorted(self.dict_of_countries_average_goals_conceded)
+            self.dict_of_countries_average_goals_conceded[country] = f'{average:.3f}'
 
 
 if __name__ == '__main__':

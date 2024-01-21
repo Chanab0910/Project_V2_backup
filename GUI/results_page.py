@@ -2,7 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from project_code.analyse_results import Analyse
 
-a = Analyse()
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+analyse = Analyse()
 import Selecting_countries_page
 
 
@@ -54,6 +58,8 @@ class ResultGUI(tk.Tk):
         self.back_to_home_screen = tk.Button(self, text='Back to home screen', command=self.go_to_next_page)
         self.quit = tk.Button(self, text='Quit', command=quit)
 
+        self.pie_chart()
+
         self.place_widgets()
 
     def place_widgets(self):
@@ -70,6 +76,8 @@ class ResultGUI(tk.Tk):
         self.lost_most_to_and_percentage_lost_most_label.place(x=5, y=542)
         self.back_to_home_screen.place(x=5, y=600)
 
+    def pie_chart(self):
+        ...
     def go_to_next_page(self):
         self.destroy()
         self.gui = Selecting_countries_page.GUI()

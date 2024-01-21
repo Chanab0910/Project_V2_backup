@@ -4,7 +4,7 @@ from tkinter.messagebox import showinfo
 from project_code.general_analysis import GeneralAnalysis
 
 
-class App(tk.Tk):
+class GeneralStatsGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Table')
@@ -29,14 +29,14 @@ class App(tk.Tk):
         scored = everything[1]
         conceded = everything[2]
 
-        for i in range(place_list):
-            countries.append((place_list[i], scored[i], conceded[i]))
+        for i,country in enumerate(place_list):
+            countries.append((place_list[i], scored[country], conceded[country]))
 
         # add data to the treeview
         for country in countries:
             self.tree.insert('', tk.END, values=country)
 
-        self.tree.bind('<<TreeviewSelect>>', self.item_selected)
+
 
         self.tree.grid(row=0, column=0, sticky='nsew')
 
@@ -45,14 +45,9 @@ class App(tk.Tk):
         self.tree.configure(yscroll=scrollbar.set)
         scrollbar.grid(row=0, column=1, sticky='ns')
 
-    def item_selected(self, event):
-        for selected_item in self.tree.selection():
-            item = self.tree.item(selected_item)
-            record = item['values']
-            # show a message on clicking
-            showinfo(title='Information', message=','.join(record))
+
 
 
 if __name__ == "__main__":
-    app = App()
+    app = GeneralStatsGUI()
     app.mainloop()
