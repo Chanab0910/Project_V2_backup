@@ -22,3 +22,4 @@ pie = FigureCanvasTkAgg(fig, Pie_frame)
 pie.get_tk_widget().pack()
 
 root.mainloop()
+
