@@ -262,8 +262,7 @@ class Analyse:
                              'Denmark', 'England', 'Finland', 'France', 'Germany',
                              'Hungary', 'Iceland', 'Ireland', 'Italy', 'Mexico', 'Ghana', 'Netherlands', 'Morocco',
                              'Norway', 'Poland', 'Portugal', 'Romania', 'Scotland', 'Spain',
-                             'Sweden', 'Ukraine', 'USA', 'Wales', 'Japan', 'China'
-                             ]
+                             'Sweden', 'Ukraine', 'USA', 'Wales', 'Japan', 'China']
         percentage_list_won = []
         percentage_list_lost = []
         for country in list_of_countries:
