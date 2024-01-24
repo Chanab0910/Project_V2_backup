@@ -60,8 +60,7 @@ class Analyse:
 
         '''self.print_everything()'''
         return self.average_goals_conceded, self.average_goals_conceded_in_group, self.average_goals_conceded_in_ko, self.average_goals, self.average_goals_group, self.average_goals_ko, \
-               self.highest_stage[
-                   0], self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times
+               self.highest_stage, self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times
 
     def get_all_basic_stats(self, country_name):
         self.get_all_goals_and_games_played(country_name)
@@ -134,6 +133,7 @@ class Analyse:
         self.dict_of_where_they_came['Semi-final'] = 0
         self.dict_of_where_they_came['Final'] = 0
         self.dict_of_where_they_came['Win'] = 0
+        highest_is_winner = False
         for i in range(1, 25):
             '''Can delete first bit and use dict to find highest result'''
             win = False
@@ -153,8 +153,10 @@ class Analyse:
 
                 if game[0].result == 'win' and game[0].country_id == self.country_object.country_id:
                     win = True
+                    highest_is_winner = True
                 elif game[1].result == 'win' and game[1].country_id == self.country_object.country_id:
                     win = True
+                    highest_is_winner = True
 
             if win:
                 self.dict_of_where_they_came['Win'] += 1
@@ -170,7 +172,12 @@ class Analyse:
             elif highest_in_sim == 23:
                 self.dict_of_where_they_came['Final'] += 1
 
-        self.highest_stage = self.sess.query(Stage.level).filter_by(stage_id=self.highest_stage_id).first()
+        if highest_is_winner:
+            self.highest_stage = 'Winner'
+
+        else:
+            self.highest_stage = self.sess.query(Stage.level).filter_by(stage_id=self.highest_stage_id).first()
+            self.highest_stage= self.highest_stage[0]
 
         return self.dict_of_where_they_came
 
@@ -314,4 +321,4 @@ class Analyse:
 
 if __name__ == '__main__':
     ff = Analyse()
-    print(ff.controller('Germany'))
+    print(ff.controller('Romania'))
