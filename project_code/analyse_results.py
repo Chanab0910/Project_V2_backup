@@ -134,7 +134,7 @@ class Analyse:
         self.dict_of_where_they_came['Semi-final'] = 0
         self.dict_of_where_they_came['Final'] = 0
         self.dict_of_where_they_came['Win'] = 0
-        for i in range(1, 100):
+        for i in range(1, 25):
             win = False
             highest_in_sim = 0
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
@@ -231,7 +231,7 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
-        for i in range(1, 100):
+        for i in range(1, 25):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
             for match in all_games_in_sim:
