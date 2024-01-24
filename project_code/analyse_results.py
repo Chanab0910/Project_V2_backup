@@ -135,6 +135,7 @@ class Analyse:
         self.dict_of_where_they_came['Final'] = 0
         self.dict_of_where_they_came['Win'] = 0
         for i in range(1, 25):
+            '''Can delete first bit and use dict to find highest result'''
             win = False
             highest_in_sim = 0
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(

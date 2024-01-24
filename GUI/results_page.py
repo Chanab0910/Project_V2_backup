@@ -15,9 +15,9 @@ class ResultGUI(tk.Tk):
 
     def __init__(self, country_name, results):
         super().__init__()
-        self.geometry("1770x650")
+        self.geometry("1810x650")
 
-        self.title_country = tk.Label(self, text=f'{country_name}', font='helvetica 100', underline=True)
+        self.title_country = tk.Label(self, text=f'{country_name}', font='helvetica 100',)
         self.came_dict = results[7]
         self.percentage_they_won_wc_label = tk.Label(self,
                                                      text=f"Percentage that they won they won the World Cup: {((self.came_dict['Win'] / 24) * 100):.2f}%",
@@ -58,7 +58,7 @@ class ResultGUI(tk.Tk):
         self.quit = tk.Button(self, text='Quit', command=quit)
 
         self.pie_title = tk.Label(self, text=f'Pie chart to illustrate how many times' '\n' f' the {country_name} '
-                                             'got knocked out of each particular' '\n' 'stage in the competition  ',
+                                             'got knocked out of each ' '\n' 'particular stage in the competition  ',
                                   font='helvetica 20 italic')
         self.pie_chart(results[7])
         self.place_widgets()
@@ -77,7 +77,7 @@ class ResultGUI(tk.Tk):
         self.average_goals_conceded_knockouts_label.grid(row=8, column =0, sticky='w')
         self.won_most_to_and_percentage_won_most_label.grid(row=9, column =0, sticky='w')
         self.lost_most_to_and_percentage_lost_most_label.grid(row=10, column =0, sticky='w')
-        self.pie_title.place(x=1220, y=400)
+        self.pie_title.place(x=1230, y=400)
         self.back_to_home_screen.grid(row=11, column =0, sticky='w')
 
     def pie_chart(self, where_they_came):
@@ -89,7 +89,7 @@ class ResultGUI(tk.Tk):
         ax = fig.add_subplot(111)
         ax.pie(data, radius=1, labels=titles, autopct='%0.2f%%')
         pie = FigureCanvasTkAgg(fig)
-        pie.get_tk_widget().place(x=1300, y=0)
+        pie.get_tk_widget().place(x=1310, y=0)
 
     def go_to_next_page(self):
         self.destroy()

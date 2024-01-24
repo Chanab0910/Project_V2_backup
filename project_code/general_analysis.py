@@ -79,6 +79,7 @@ class GeneralAnalysis:
             self.order_place_list.append(highest[0])
 
     def get_highest_country(self):
+        '''Try doing it recursively???'''
         highest = ['', -1]
         for country in self.dict_of_countries_place_came:
 
