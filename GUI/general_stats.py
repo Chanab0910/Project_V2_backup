@@ -14,7 +14,7 @@ class GeneralStatsGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Table')
-        self.geometry('1400x770')
+        self.geometry('1585x630')
         self.create_table()
         self.general_stats = tk.Label(self,text='General Statistics', font='helvetica 100')
         self.title = tk.Label(self,text='Table that shows the overall place each country came after' '\n''taking into account every simulation:',font='helvetica 20', pady=10,)
@@ -30,9 +30,10 @@ class GeneralStatsGUI(tk.Tk):
                                        font='helvetica 15')
         self.back_to_home_screen = tk.Button(self, text='Back to home screen', command=self.go_to_next_page)
         self.space = tk.Label(self,text = ' ')
-        self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup',font='helvetica 20')
-        self.place_widgets()
+        self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup:',font='helvetica 20')
         self.num_wins()
+        self.place_widgets()
+
 
     def create_table(self):
         # define columns
@@ -89,10 +90,10 @@ class GeneralStatsGUI(tk.Tk):
         ax = fig.add_subplot(111)
         ax.pie(data, radius=1.3, labels=titles, autopct='%0.2f%%')
         pie = FigureCanvasTkAgg(fig)
-        pie.get_tk_widget().place(x=910, y=230)
+        pie.get_tk_widget().place(x=960, y=230)
 
     def place_widgets(self):
-        self.general_stats.grid(row=0, column=0)
+        self.general_stats.grid(row=0, columnspan=10)
         self.title.grid(row=1, column=0, padx=5, sticky='w')
         self.pie_title.grid(row=1, column=2, sticky='w')
         self.tree.grid(row=2, column=0, sticky='nsew')

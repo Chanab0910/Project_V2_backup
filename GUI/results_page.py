@@ -60,10 +60,10 @@ class ResultGUI(tk.Tk):
         self.pie_title = tk.Label(self, text=f'Pie chart to illustrate how many times' '\n' f' the {country_name} '
                                              'got knocked out of each particular' '\n' 'stage in the competition  ',
                                   font='helvetica 20 italic')
-
+        self.pie_chart(results[7])
         self.place_widgets()
 
-        self.pie_chart(results[7])
+
 
     def place_widgets(self):
         self.title_country.grid(row=0, column=0, sticky = 'w')
