@@ -6,7 +6,6 @@ import Selecting_countries_page
 class TestGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
-
     def __init__(self):
         super().__init__()
         self.geometry("1239x697")
