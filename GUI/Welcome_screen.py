@@ -36,9 +36,6 @@ class TestGUI(tk.Tk):
         self.gui = Selecting_countries_page.GUI()
         self.gui.mainloop()
 
-
-
-
 if __name__ == '__main__':
     root = TestGUI()
     root.mainloop()

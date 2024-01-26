@@ -4,6 +4,7 @@ from project_code.analyse_results import Analyse
 from general_stats import GeneralStatsGUI
 from PIL import Image, ImageTk
 import results_page
+
 class GUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
@@ -208,6 +209,8 @@ class GUI(tk.Tk):
 
         self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25', command=self.go_to_general_stats)
 
+        '''self.general_stats = tk.Button(self,text='General Statistics',font='FuturaStd-Medium 20', commmand=self.get_general_stats )'''
+
         self.place_widgets()
 
     def place_widgets(self):
@@ -292,7 +295,6 @@ class GUI(tk.Tk):
     def go_to_next_page(self,country_name):
         a = Analyse()
         results = a.controller(country_name)
-        print()
 
         self.destroy()
         self.gui = results_page.ResultGUI(country_name,results)
@@ -302,6 +304,11 @@ class GUI(tk.Tk):
         g = GeneralStatsGUI()
         self.destroy()
         g.mainloop()
+
+    def get_general_stats(self):
+        self.destroy()
+        a = App()
+        self.a.mainloop()
 
 
 if __name__ == '__main__':

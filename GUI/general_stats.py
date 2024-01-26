@@ -30,6 +30,8 @@ class GeneralStatsGUI(tk.Tk):
         self.back_to_home_screen = tk.Button(self, text='Back to home screen', command=self.go_to_next_page)
         self.space = tk.Label(self,text = ' ')
         self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup:',font='helvetica 20')
+        self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_table)
+        self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_table)
         self.num_wins()
         self.place_widgets()
 
@@ -94,14 +96,16 @@ class GeneralStatsGUI(tk.Tk):
     def place_widgets(self):
         self.general_stats.grid(row=0, columnspan=10)
         self.title.grid(row=1, column=0, padx=5, sticky='w')
-        self.pie_title.grid(row=1, column=2, sticky='w')
-        self.tree.grid(row=2, column=0, sticky='nsew')
-        self.scrollbar.grid(row=2, column=1, sticky='ns')
-        self.description_ga1.grid(row=3,column=0, sticky='w')
-        self.description_ga2.grid(row=4, column=0, sticky='w')
-        self.space.grid(row=5,column=0)
+        self.pie_title.grid(row=1, column=4, sticky='w')
+        self.order_by_ga.grid(row=1, column=1)
+        self.order_by_gc.grid(row=1, column=2)
+        self.tree.grid(row=3, columnspan=3, sticky='nsew')
+        self.scrollbar.grid(row=3, column=3, sticky='ns')
+        self.description_ga1.grid(row=4,column=0, sticky='w')
+        self.description_ga2.grid(row=5, column=0, sticky='w')
 
-        self.description_gc1.grid(row=5, column=0,sticky='w')
+
+        self.description_gc1.grid(row=6, column=0,sticky='w')
         self.description_gc2.grid(row=7, column=0, sticky='w')
         self.space.grid(row=8, column=0)
         self.back_to_home_screen.grid(row=9,column=0, sticky='w')
