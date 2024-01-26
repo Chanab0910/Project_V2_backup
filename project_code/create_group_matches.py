@@ -70,6 +70,7 @@ class CreateMatches:
                 self.create_initial_country_match(country_object_id, sim_num)
 
     def create_initial_country_match(self, id, sim_num):
+        '''Can make list and commit them all at one'''
         # Commits the id
         add_to_country_match = CountryMatch(country_id=id, match_id=self.match_id, simulation_number=sim_num)
         self.sess.add(add_to_country_match)
