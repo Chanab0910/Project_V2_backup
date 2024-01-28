@@ -101,14 +101,19 @@ class GeneralAnalysis:
         return highest
 
     def get_average_goals(self):
+        self.average_goals_scored_list = []
         for country in self.dict_of_countries_average_goals_scored:
             average = self.analyse.get_all_goals_and_games_played(country)
-            self.dict_of_countries_average_goals_scored[country] = f'{average:.3f}'
+            self.dict_of_countries_average_goals_scored[country] = f'{average:.5f}'
+            self.average_goals_scored_list.append([country,self.dict_of_countries_average_goals_scored[country]])
+
 
     def get_average_goals_conceded(self):
+        self.average_goals_conceded_list = []
         for country in self.dict_of_countries_average_goals_conceded:
             average = self.analyse.get_all_goals_and_games_played(country)
-            self.dict_of_countries_average_goals_conceded[country] = f'{average:.3f}'
+            self.dict_of_countries_average_goals_conceded[country] = f'{average:.5f}'
+            self.average_goals_conceded_list.append([country, self.dict_of_countries_average_goals_conceded[country]])
 
 
 if __name__ == '__main__':

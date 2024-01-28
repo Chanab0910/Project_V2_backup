@@ -8,6 +8,9 @@ import Selecting_countries_page
 from project_code.general_analysis import GeneralAnalysis
 from project_code.analyse_results import Analyse
 
+from collections import OrderedDict
+import numpy as np
+
 
 class GeneralStatsGUI(tk.Tk):
     def __init__(self):
@@ -30,8 +33,8 @@ class GeneralStatsGUI(tk.Tk):
         self.back_to_home_screen = tk.Button(self, text='Back to home screen', command=self.go_to_next_page)
         self.space = tk.Label(self,text = ' ')
         self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup:',font='helvetica 20')
-        self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_table)
-        self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_table)
+        self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_GA_table)
+        self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_GC_table)
         self.num_wins()
         self.place_widgets()
 
@@ -66,6 +69,79 @@ class GeneralStatsGUI(tk.Tk):
         self.scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=self.scrollbar.set)
         self.scrollbar.grid(row=0, column=1, sticky='wns')
+
+    def create_GA_table(self):
+        columns = ('Place', 'Country', 'GA', 'GC')
+        self.tree = ttk.Treeview(self, columns=columns, show='headings')
+
+        # define headings
+        self.tree.heading('Place', text='Place')
+        self.tree.heading('Country', text='Country')
+        self.tree.heading('GA', text='GA')
+        self.tree.heading('GC', text='GC')
+
+        countries = []
+        ga = GeneralAnalysis()
+        everything = ga.get_stats()
+        scored = everything[1]
+        conceded = everything[2]
+
+        self.ga_sorted = self.mergeSort(scored)
+        reversed_list = []
+        for country in self.ga_sorted:
+            reversed_list.append(country)
+
+        for i,country in enumerate(self.ga_sorted):
+            countries.append((i+1,country, self.ga_sorted[reversed_list[-i]], conceded[country]))
+
+        for country in countries:
+            self.tree.insert('', tk.END, values=country)
+
+        # add a scrollbar
+        self.scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=self.scrollbar.set)
+        self.tree.grid(row=3, columnspan=3, sticky='nsew')
+
+
+    def create_GC_table(self):
+        columns = ('Place', 'Country', 'GA', 'GC')
+        self.tree = ttk.Treeview(self, columns=columns, show='headings')
+
+        # define headings
+        self.tree.heading('Place', text='Place')
+        self.tree.heading('Country', text='Country')
+        self.tree.heading('GA', text='GA')
+        self.tree.heading('GC', text='GC')
+
+        countries = []
+        ga = GeneralAnalysis()
+        everything = ga.get_stats()
+        scored = everything[1]
+        conceded = everything[2]
+
+        self.gc_sorted = self.mergeSort(conceded)
+        reversed_list = []
+        for country in self.gc_sorted:
+            reversed_list.append(country)
+
+        for i,country in enumerate(self.gc_sorted):
+            countries.append((i+1,country, self.gc_sorted[country], conceded[reversed_list[-i]]))
+
+        for country in countries:
+            self.tree.insert('', tk.END, values=country)
+
+        # add a scrollbar
+        self.scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=self.scrollbar.set)
+        self.tree.grid(row=3, columnspan=3, sticky='nsew')
+
+
+    def mergeSort(self,myList):
+        keys = list(myList.keys())
+        values = list(myList.values())
+        sorted_value_index = np.argsort(values)
+        sorted_dict = {keys[i]: values[i] for i in sorted_value_index}
+        return sorted_dict
 
     def num_wins(self):
         list_of_countries = ['Argentina', 'Australia', 'Austria', 'Belgium', 'Canada', 'Croatia', 'Czech Republic',
