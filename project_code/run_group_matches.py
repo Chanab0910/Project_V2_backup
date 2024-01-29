@@ -13,6 +13,7 @@ import sqlite3
 
 class RunMatches:
     def __init__(self):
+        self.list = []
         self.match_id_lists = [x for x in range(49)]
         self.match_number = 0
         self.score = []
@@ -85,6 +86,7 @@ class RunMatches:
             if self.match_number == 63:
                 self.match_number = 0
 
+
     def update_table(self, sim_num):
         match_id = self.match_id_lists[self.counter]
         country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id, simulation_number=sim_num).all()
@@ -99,10 +101,12 @@ class RunMatches:
         else:
             country_matches[0].result = 'draw'
             country_matches[1].result = 'draw'
-
         self.sess.commit()
+
+
+
 
 
 if __name__ == '__main__':
     gg = RunMatches()
-    print(gg.sim_the_game(2))
+    print(gg.sim_the_game(1))

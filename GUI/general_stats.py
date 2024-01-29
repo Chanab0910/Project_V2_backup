@@ -121,11 +121,9 @@ class GeneralStatsGUI(tk.Tk):
 
         self.gc_sorted = self.mergeSort(conceded)
         reversed_list = []
-        for country in self.gc_sorted:
-            reversed_list.append(country)
 
         for i,country in enumerate(self.gc_sorted):
-            countries.append((i+1,country, self.gc_sorted[country], conceded[reversed_list[-i]]))
+            countries.append((i+1,country, scored[country], self.gc_sorted[country]))
 
         for country in countries:
             self.tree.insert('', tk.END, values=country)
