@@ -12,7 +12,6 @@ class GroupGenerator:
         self.collated_groups = []
         self.sess = Session(self.engine)
         self.team = ''
-        self.country = self.sess.query(Country).first()
 
         self.countries = [sample(self.sess.query(Country).filter_by(tier=i + 1).all(),
                                  k=len(self.sess.query(Country).filter_by(tier=i + 1).all())) for i in range(4)]

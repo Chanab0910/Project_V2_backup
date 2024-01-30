@@ -35,6 +35,7 @@ class GeneralStatsGUI(tk.Tk):
         self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup:',font='helvetica 20')
         self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_GA_table)
         self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_GC_table)
+        self.order_by_overall= tk.Button(self, text='Order by Overall', command=self.num_wins)
         self.num_wins()
         self.place_widgets()
 
@@ -92,7 +93,7 @@ class GeneralStatsGUI(tk.Tk):
             reversed_list.append(country)
 
         for i,country in enumerate(self.ga_sorted):
-            countries.append((i+1,country, self.ga_sorted[reversed_list[-i]], conceded[country]))
+            countries.append((i+1,country, self.ga_sorted[reversed_list[-i-1]], conceded[country]))
 
         for country in countries:
             self.tree.insert('', tk.END, values=country)
@@ -173,8 +174,9 @@ class GeneralStatsGUI(tk.Tk):
         self.pie_title.grid(row=1, column=4, sticky='w')
         self.order_by_ga.grid(row=1, column=1)
         self.order_by_gc.grid(row=1, column=2)
-        self.tree.grid(row=3, columnspan=3, sticky='nsew')
-        self.scrollbar.grid(row=3, column=3, sticky='ns')
+        self.order_by_overall.grid(row=1, column=3)
+        self.tree.grid(row=3, columnspan=4, sticky='nsew')
+        self.scrollbar.grid(row=3, column=4, sticky='wns')
         self.description_ga1.grid(row=4,column=0, sticky='w')
         self.description_ga2.grid(row=5, column=0, sticky='w')
 
