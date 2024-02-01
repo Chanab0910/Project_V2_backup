@@ -16,7 +16,7 @@ class GeneralStatsGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Table')
-        self.geometry('1585x630')
+        self.geometry('1650x630')
         self.create_table()
         self.general_stats = tk.Label(self,text='General Statistics', font='helvetica 100')
         self.title = tk.Label(self,text='Table that shows the overall place each country came after' '\n''taking into account every simulation:',font='helvetica 20', pady=10,)
@@ -35,7 +35,7 @@ class GeneralStatsGUI(tk.Tk):
         self.pie_title = tk.Label(self,text = 'Pie chart that shows the distribution of how often each' '\n'' team won the World Cup:',font='helvetica 20')
         self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_GA_table)
         self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_GC_table)
-        self.order_by_overall= tk.Button(self, text='Order by Overall', command=self.num_wins)
+        self.order_by_overall= tk.Button(self, text='Order by Overall', command=self.create_table)
         self.num_wins()
         self.place_widgets()
 
@@ -69,7 +69,8 @@ class GeneralStatsGUI(tk.Tk):
         # add a scrollbar
         self.scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=self.scrollbar.set)
-        self.scrollbar.grid(row=0, column=1, sticky='wns')
+        self.tree.grid(row=3, columnspan=3, sticky='nsew')
+
 
     def create_GA_table(self):
         columns = ('Place', 'Country', 'GA', 'GC')
@@ -166,7 +167,7 @@ class GeneralStatsGUI(tk.Tk):
         ax = fig.add_subplot(111)
         ax.pie(data, radius=1.3, labels=titles, autopct='%0.2f%%')
         pie = FigureCanvasTkAgg(fig)
-        pie.get_tk_widget().place(x=960, y=230)
+        pie.get_tk_widget().place(x=1060, y=230)
 
     def place_widgets(self):
         self.general_stats.grid(row=0, columnspan=10)

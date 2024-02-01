@@ -293,32 +293,4 @@ class Analyse:
         self.team_they_lost_to_the_highest_percentage_of_times = list_of_countries[
             percentage_list_lost.index(max(percentage_list_lost))]
 
-        '''Doesnt quite work yet'''
 
-    def print_everything(self):
-        print(f'Average goals conceded per match overall: {self.average_goals_conceded:.2f}')
-        print(f'Average goals conceded in the group per match: {self.average_goals_conceded_in_group:.2f}')
-        print(f'Average goals conceded in the ko per match: {self.average_goals_conceded_in_ko:.2f}')
-        print(f'Average goals scored per match overall: {self.goals / self.num_of_matches_played:.2f}')
-        print(f'Average goals scored in the group per match: {self.group_goals / self.num_of_group_matches_played:.2f}')
-        try:
-            print(f'Average goals scored in the ko per match: {self.ko_goals / self.num_of_ko_matches_played:.2f}')
-        except:
-            print(f'Average goals scored in the ko per match: 0')
-        print(f'The highest stage reached was: {self.highest_stage[0]}')
-        print(
-            f"{self.country_object.country_name} got knocked out in: The Groups {self.dict_of_where_they_came['Group']} times")
-        print(f"                              The Round of 16 {self.dict_of_where_they_came['Round of 16']} times")
-        print(f"                              The Quarter-Finals {self.dict_of_where_they_came['Quarter-final']} times")
-        print(f"                              The Semi-Finals {self.dict_of_where_they_came['Semi-final']} times")
-        print(f"                              The Final {self.dict_of_where_they_came['Final']} times")
-        print(f'Number of times they won the World Cup: {self.number_of_wc_wins}')
-        print(
-            f'The country that they beat the most number of times was {self.team_beat_the_most}, but they beat {self.team_they_beat_the_highest_percentage_of_times} with the highest percentage win rate')
-        print(
-            f'The country that they lost to the most was {self.team_lost_to_most}, but they lost to {self.team_they_lost_to_the_highest_percentage_of_times} with the highest percentage loss rate')
-
-
-if __name__ == '__main__':
-    ff = Analyse()
-    print(ff.controller('Romania'))

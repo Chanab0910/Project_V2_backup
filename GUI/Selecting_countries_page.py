@@ -305,10 +305,6 @@ class GUI(tk.Tk):
         self.destroy()
         g.mainloop()
 
-    def get_general_stats(self):
-        self.destroy()
-        a = App()
-        self.a.mainloop()
 
 
 if __name__ == '__main__':
