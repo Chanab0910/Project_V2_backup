@@ -56,7 +56,6 @@ class GeneralAnalysis:
         self.get_average_goals_conceded()
         self.get_dict_with_data()
         self.order_place_dict()
-        print('hello')
         return self.order_place_list, self.dict_of_countries_average_goals_scored, self.dict_of_countries_average_goals_conceded
 
     def get_dict_with_data(self):
