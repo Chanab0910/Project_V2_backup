@@ -59,6 +59,7 @@ class Knockouts:
             self.list_of_second_place.pop(0)
             self.match_id += 1
 
+
     def other_rounds(self, round_list, iterations, stage_start, next_round_list,sim_num):
         for i in range(iterations):
             home_team = round_list[0]
@@ -81,6 +82,9 @@ class Knockouts:
             round_list.pop(0)
             self.match_id+=1
 
+        if round_list == self.final_list:
+            self.sess.commit()
+
     def get_winner(self, first_goals, second_goals):
         if first_goals > second_goals:
             first_result = 'win'
@@ -93,7 +97,7 @@ class Knockouts:
     def add_to_country_match(self, country_id, score, result,sim_num):
         add_to_country_match = CountryMatch(country_id=country_id, match_id=self.match_id, score=score, result=result,simulation_number=sim_num)
         self.sess.add(add_to_country_match)
-        self.sess.commit()
+
 
     def collate(self,sim_num):
         self.randomise_lists(sim_num)

@@ -46,7 +46,9 @@ class SimGame:
                 return self.result
 
     def calculate_goals(self, attack, defense):
-        self.goals = random.poisson(self.time * (self.base * (attack / defense)))
+        self.goals = 0
+        for i in range(self.time):
+            self.goals += random.poisson((self.base * (attack / defense)) )
         return self.goals
 
     def add_to_match(self, stage, match_number,sim_num,match_id):

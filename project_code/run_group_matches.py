@@ -87,6 +87,8 @@ class RunMatches:
                 self.match_number = 0
 
 
+
+
     def update_table(self, sim_num):
         match_id = self.match_id_lists[self.counter]
         country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id, simulation_number=sim_num).all()
@@ -101,7 +103,9 @@ class RunMatches:
         else:
             country_matches[0].result = 'draw'
             country_matches[1].result = 'draw'
+
         self.sess.commit()
+
 
 
 
