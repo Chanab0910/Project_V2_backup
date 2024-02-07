@@ -31,7 +31,7 @@ class FindGroupResults:
 
         self.get_all_countries()
         self.get_countries_points(sim_num)
-        self.work_out_who_goes_through()
+        self.work_out_who_goes_through(sim_num)
         return self.came_first,self.came_second
 
     def get_all_countries(self):
@@ -61,13 +61,13 @@ class FindGroupResults:
 
         return self.all_points
 
-    def work_out_who_goes_through(self):
+    def work_out_who_goes_through(self, sim_num):
         group_index = -1
         self.get_points_per_group(self.all_points)
         for group in self.group_points:
             group_index += 1
-            self.highest_id = self.find_who_came_first(group, group_index)
-            self.find_who_came_second(group, group_index)
+            self.highest_id = self.find_who_came_first(group, group_index, sim_num)
+            self.find_who_came_second(group, group_index, sim_num)
 
     def get_points_per_group(self, list_to_split):
         for a, b, c, d in self.pairing(list_to_split):
@@ -77,40 +77,40 @@ class FindGroupResults:
         a = iter(iterable)
         return zip(a, a, a, a)
 
-    def find_who_came_first(self, group, group_index):
+    def find_who_came_first(self, group, group_index, sim_num):
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx)
+            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
 
         self.came_first.append(self.list_of_groups[group_index][highest_index])
         return highest_index
 
-    def find_who_came_second(self, group, group_index, ):
+    def find_who_came_second(self, group, group_index, sim_num ):
         group.pop(self.highest_id)
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx)
+            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
         if highest_index >= self.highest_id:
             highest_index += 1
         self.came_second.append(self.list_of_groups[group_index][highest_index])
 
-    def check_gd_for_first(self, group, group_index, highest):
+    def check_gd_for_first(self, group, group_index, highest, sim_num):
         gd_list_i = []
-        gd = self.get_goal_difference(group, group_index)
+        gd = self.get_goal_difference(group, group_index, sim_num)
         for i, number in enumerate(group):
             if number == highest:
                 gd_list_i.append(i)
         highest_index = max(gd_list_i)
         return highest_index
 
-    def get_goal_difference(self, group, group_index):
+    def get_goal_difference(self, group, group_index, sim_num):
         gd_list = []
-        gf = self.get_gf(group, group_index)
-        ga = self.get_ga(group, group_index)
+        gf = self.get_gf(group, group_index, sim_num)
+        ga = self.get_ga(group, group_index, sim_num)
 
         for i in range(len(gf)):
             gd = gf[i] - ga[i]
@@ -118,19 +118,19 @@ class FindGroupResults:
 
         return gd_list
 
-    def get_gf(self, group, group_index):
+    def get_gf(self, group, group_index, sim_num):
         group_goals = []
         for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
 
             id = country_object.country_id
-            goals = self.get_total_goals(id)
+            goals = self.get_total_goals(id, sim_num)
             group_goals.append(goals)
         return group_goals
 
-    def get_total_goals(self, id):
+    def get_total_goals(self, id, sim_num):
         total_goals = 0
-        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id).all()
+        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number = sim_num).all()
 
         for goals in all_goals:
             goals = str(goals[0])
@@ -138,20 +138,20 @@ class FindGroupResults:
             total_goals += goals
         return total_goals
 
-    def get_ga(self, group, group_index):
+    def get_ga(self, group, group_index, sim_num):
         group_conceded = []
         for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
 
             id = country_object.country_id
-            goals = self.get_total_goals_conceded(id)
+            goals = self.get_total_goals_conceded(id, sim_num)
             group_conceded.append(goals)
         return group_conceded
 
-    def get_total_goals_conceded(self, id):
+    def get_total_goals_conceded(self, id, sim_num):
         total = 0
 
-        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id).all()
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number = sim_num).all()
         for game in all_games:
             ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
             if ids[0].country_id == id:
