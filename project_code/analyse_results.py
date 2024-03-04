@@ -26,32 +26,31 @@ class Analyse:
         self.engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
         self.goals = 0
-        self.number_of_loses_dict = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
-                                     'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                     'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
-                                     'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                     'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
-                                     'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                     'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
-        self.number_of_wins_dict = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
-                                    'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                    'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0, 'Iceland': 0,
-                                    'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                    'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
-                                    'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                    'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.number_of_loses_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
+        self.number_of_wins_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
         self.dict_of_where_they_came = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
                                         'Win': 0}
 
-        self.number_of_times_played_dict = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
-                                            'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                            'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0,
-                                            'Iceland': 0,
-                                            'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                            'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
-                                            'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                            'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.number_of_times_played_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def controller(self, country_name):
         cn = str(country_name)
@@ -134,7 +133,7 @@ class Analyse:
         self.dict_of_where_they_came['Final'] = 0
         self.dict_of_where_they_came['Win'] = 0
         highest_is_winner = False
-        for i in range(1, 25):
+        for i in range(1, 101):
             '''Can delete first bit and use dict to find highest result'''
             win = False
             highest_in_sim = 0
@@ -239,7 +238,7 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
-        for i in range(1, 25):
+        for i in range(1, 101):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
             for match in all_games_in_sim:
@@ -266,11 +265,13 @@ class Analyse:
             self.number_of_times_played_dict[country_name[0]] += 1
 
     def team_they_beat_and_lost_to_the_most_percentage(self):
-        list_of_countries = ['Argentina', 'Australia', 'Austria', 'Belgium', 'Canada', 'Croatia', 'Czech Republic',
-                             'Denmark', 'England', 'Finland', 'France', 'Germany',
-                             'Hungary', 'Iceland', 'Ireland', 'Italy', 'Mexico', 'Ghana', 'Netherlands', 'Morocco',
-                             'Norway', 'Poland', 'Portugal', 'Romania', 'Scotland', 'Spain',
-                             'Sweden', 'Ukraine', 'USA', 'Wales', 'Japan', 'China']
+        list_of_countries = ['Argentina', 'France', 'England', 'Belgium', 'Brazil',
+                                     'Netherlands', 'Portugal', 'Spain',
+                                     'Italy', 'Croatia', 'Uruguay', 'Morocco', 'USA', 'Columbia',
+                                     'Mexico', 'Germany', 'Senegal', 'Japan',
+                                     'Switzerland', 'Iran', 'Denmark', 'Korea', 'Australia',
+                                     'Ukraine', 'Austria', 'Sweden', 'Hungary', 'Nigeria',
+                                     'Wales', 'Poland', 'Equador', 'Serbia']
         percentage_list_won = []
         percentage_list_lost = []
         for country in list_of_countries:

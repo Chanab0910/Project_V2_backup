@@ -6,57 +6,43 @@ class GeneralAnalysis:
         self.order_place_list = []
         self.highest = ['', 0]
         self.analyse = Analyse()
-        self.dict_of_countries_place_came = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0, 'Canada': 0,
-                                             'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                             'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0,
-                                             'Iceland': 0,
-                                             'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                             'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0, 'Portugal': 0,
-                                             'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                             'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.dict_of_countries_place_came = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
-        self.dict_of_countries_average_goals_scored = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0,
-                                                       'Canada': 0,
-                                                       'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                                       'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0,
-                                                       'Hungary': 0,
-                                                       'Iceland': 0,
-                                                       'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                                       'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0,
-                                                       'Portugal': 0,
-                                                       'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0,
-                                                       'Ukraine': 0,
-                                                       'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.dict_of_countries_average_goals_scored = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
-        self.dict_of_countries_average_goals_conceded = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0,
-                                                         'Canada': 0,
-                                                         'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                                         'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0,
-                                                         'Hungary': 0, 'Iceland': 0,
-                                                         'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                                         'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0,
-                                                         'Portugal': 0,
-                                                         'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0,
-                                                         'Ukraine': 0,
-                                                         'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.dict_of_countries_average_goals_conceded = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
-        self.second_dict_of_countries_place_came = {'Argentina': 0, 'Australia': 0, 'Austria': 0, 'Belgium': 0,
-                                                    'Canada': 0,
-                                                    'Croatia': 0, 'Czech Republic': 0, 'Denmark': 0,
-                                                    'England': 0, 'Finland': 0, 'France': 0, 'Germany': 0, 'Hungary': 0,
-                                                    'Iceland': 0,
-                                                    'Ireland': 0, 'Italy': 0, 'Mexico': 0, 'Ghana': 0,
-                                                    'Netherlands': 0, 'Morocco': 0, 'Norway': 0, 'Poland': 0,
-                                                    'Portugal': 0,
-                                                    'Romania': 0, 'Scotland': 0, 'Spain': 0, 'Sweden': 0, 'Ukraine': 0,
-                                                    'USA': 0, 'Wales': 0, 'Japan': 0, 'China': 0}
+        self.second_dict_of_countries_place_came = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
+                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def get_stats(self):
         self.get_average_goals()
         self.get_average_goals_conceded()
         self.get_dict_with_data()
         self.order_place_dict()
-        print('hello')
         return self.order_place_list, self.dict_of_countries_average_goals_scored, self.dict_of_countries_average_goals_conceded
 
     def get_dict_with_data(self):
