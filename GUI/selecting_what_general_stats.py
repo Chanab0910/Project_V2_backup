@@ -40,6 +40,7 @@ class SelectGUI(tk.Tk):
 
     def graph(self):
         g = GraphGUI()
+
         g.mainloop()
 
     def back_to_home(self):

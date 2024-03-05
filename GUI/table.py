@@ -12,7 +12,6 @@ from project_code.analyse_results import Analyse
 from collections import OrderedDict
 import numpy as np
 
-from project_code.practice import canvas
 
 
 class GeneralStatsGUI(tk.Tk):
