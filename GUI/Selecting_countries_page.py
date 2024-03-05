@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from project_code.analyse_results import Analyse
-from general_stats import GeneralStatsGUI
+from table import GeneralStatsGUI
 from PIL import Image, ImageTk
 import results_page
+from selecting_what_general_stats import SelectGUI
 
 class GUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
@@ -305,7 +306,7 @@ class GUI(tk.Tk):
         self.gui.mainloop()
 
     def go_to_general_stats(self):
-        g = GeneralStatsGUI()
+        g = SelectGUI()
         self.destroy()
         g.mainloop()
 
