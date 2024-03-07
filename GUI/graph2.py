@@ -19,7 +19,6 @@ class GraphGUI(tk.Tk):
         self.bar_chart()
 
         self.place_widgets()
-
     def bar_chart(self):
         list_of_countries = ['Argentina', 'France', 'England', 'Belgium', 'Brazil',
                              'Netherlands', 'Portugal', 'Spain',
@@ -45,11 +44,11 @@ class GraphGUI(tk.Tk):
         rects1 = ax.bar(titles, data, width)
         canvas = FigureCanvasTkAgg(f)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=0,column=0)
+        canvas.get_tk_widget().grid(row=1,column=0)
 
 
     def place_widgets(self):
-        ...
+        self.title.grid(row=0,column=0)
 
 
 

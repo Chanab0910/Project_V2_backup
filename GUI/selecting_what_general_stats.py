@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import *
 import Selecting_countries_page
 from table import GeneralStatsGUI
-from graph import GraphGUI
+from graph2 import GraphGUI
 class SelectGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""

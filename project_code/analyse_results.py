@@ -59,7 +59,8 @@ class Analyse:
 
         '''self.print_everything()'''
         return self.average_goals_conceded, self.average_goals_conceded_in_group, self.average_goals_conceded_in_ko, self.average_goals, self.average_goals_group, self.average_goals_ko, \
-               self.highest_stage, self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times
+               self.highest_stage, self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times,self.percentage_get_to_dict
+
 
     def get_all_basic_stats(self, country_name):
         self.get_all_goals_and_games_played(country_name)
@@ -125,6 +126,7 @@ class Analyse:
 
     def furthest_got_and_average_place(self, country_name):
         cn = str(country_name)
+        self.percentage_get_to_dict = {'Group':0,'Round of 16':0,'Quarter-final':0,'Semi-final':0,'Final':0,'Win':0}
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.dict_of_where_they_came['Group'] = 0
         self.dict_of_where_they_came['Round of 16'] = 0
@@ -159,6 +161,7 @@ class Analyse:
 
             if win:
                 self.dict_of_where_they_came['Win'] += 1
+                self.percentage_get_to_dict['Win'] +=1
 
             elif highest_in_sim < 9:
                 self.dict_of_where_they_came['Group'] += 1
@@ -170,6 +173,17 @@ class Analyse:
                 self.dict_of_where_they_came['Semi-final'] += 1
             elif highest_in_sim == 23:
                 self.dict_of_where_they_came['Final'] += 1
+
+            if highest_in_sim >0:
+                self.percentage_get_to_dict['Group'] += 1
+            if 8 < highest_in_sim :
+                self.percentage_get_to_dict['Round of 16'] += 1
+            if 16 < highest_in_sim :
+                self.percentage_get_to_dict['Quarter-final'] += 1
+            if highest_in_sim>20:
+                self.percentage_get_to_dict['Semi-final'] += 1
+            if highest_in_sim == 23:
+                self.percentage_get_to_dict['Final'] += 1
 
         if highest_is_winner:
             self.highest_stage = 'Winner'
@@ -294,4 +308,8 @@ class Analyse:
         self.team_they_lost_to_the_highest_percentage_of_times = list_of_countries[
             percentage_list_lost.index(max(percentage_list_lost))]
 
+
+if __name__ == '__main__':
+    g = Analyse()
+    g.controller('England')
 
