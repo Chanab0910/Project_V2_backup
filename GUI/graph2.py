@@ -16,6 +16,7 @@ class GraphGUI(tk.Tk):
         self.title = tk.Label(self,
                               text=f'A graph to show the percentage chance that each country has of winning the World Cup',
                               font='helvetica 20')
+
         self.bar_chart()
 
         self.place_widgets()

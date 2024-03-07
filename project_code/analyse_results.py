@@ -53,6 +53,7 @@ class Analyse:
                                      'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def controller(self, country_name):
+        #This is the method that calls everything and is called by other methods to get all of the data about the country
         cn = str(country_name)
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats(country_name)
@@ -63,6 +64,7 @@ class Analyse:
 
 
     def get_all_basic_stats(self, country_name):
+        #calls the methods needed to get the basic data which can be manipulated later
         self.get_all_goals_and_games_played(country_name)
         self.get_all_group_stage_goals_and_num_of_matches_played()
         self.get_all_ko_goals_and_num_of_matches_played()
@@ -80,6 +82,9 @@ class Analyse:
         self.number_of_wins()
 
     def get_all_goals_and_games_played(self, country_name):
+        # this queries all the goals scored in each match by a country. It then works out the total number of goals
+        # by looping through each match and adding the goals to the total. At the same time it increments the number
+        # of matches played which allows an average goals per game to be created
         self.country_object = self.sess.query(Country).filter_by(country_name=country_name).first()
         goals_list = self.sess.query(CountryMatch.score).filter_by(country_id=self.country_object.country_id).all()
         for goals in goals_list:
@@ -88,6 +93,8 @@ class Analyse:
         return self.goals / self.num_of_matches_played
 
     def get_all_group_stage_goals_and_num_of_matches_played(self):
+        #this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then ...
+        '''Bad code i shoudl rewrite'''
         all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
         for game in all_group_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
@@ -97,6 +104,7 @@ class Analyse:
                 self.num_of_group_matches_played += 1
 
     def get_all_ko_goals_and_num_of_matches_played(self):
+        '''Same as above'''
         all_ko_games = self.sess.query(Match.match_id).filter(Match.stage_id > 8).all()
         for game in all_ko_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
@@ -106,6 +114,8 @@ class Analyse:
                 self.num_of_ko_matches_played += 1
 
     def get_country_they_lost_or_won_to_most(self):
+        # this gets all the games that a country won and keeps count of the number of times that they beat or lost
+        # to a country
         all_games_played = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
 
         for game in all_games_played:
@@ -125,6 +135,7 @@ class Analyse:
                 self.number_of_loses_dict[country_name[0]] += 1
 
     def furthest_got_and_average_place(self, country_name):
+        '''This is too long '''
         cn = str(country_name)
         self.percentage_get_to_dict = {'Group':0,'Round of 16':0,'Quarter-final':0,'Semi-final':0,'Final':0,'Win':0}
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
@@ -163,15 +174,15 @@ class Analyse:
                 self.dict_of_where_they_came['Win'] += 1
                 self.percentage_get_to_dict['Win'] +=1
 
-            elif highest_in_sim < 9:
+            if highest_in_sim >0:
                 self.dict_of_where_they_came['Group'] += 1
-            elif 8 < highest_in_sim < 17:
+            if 8 < highest_in_sim :
                 self.dict_of_where_they_came['Round of 16'] += 1
-            elif 16 < highest_in_sim < 21:
+            if 16 < highest_in_sim :
                 self.dict_of_where_they_came['Quarter-final'] += 1
-            elif highest_in_sim == 21 or highest_in_sim == 22:
+            if highest_in_sim > 20 :
                 self.dict_of_where_they_came['Semi-final'] += 1
-            elif highest_in_sim == 23:
+            if highest_in_sim == 23:
                 self.dict_of_where_they_came['Final'] += 1
 
             if highest_in_sim >0:
@@ -195,6 +206,9 @@ class Analyse:
         return self.dict_of_where_they_came
 
     def average_goals_conceded(self):
+        # This gets all the games that the user played. It then uses the id of the other country in the game to find
+        # the goals that they scored in the match. This is then added to the total and the number of matches is
+        # incremented by 1.
         total = 0
         count = 0
         all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
@@ -211,6 +225,7 @@ class Analyse:
         self.average_goals_conceded = total / count
 
     def average_goals_conceded_group_or_ko(self):
+        #
         group_count = 0
         group_total = 0
         ko_count = 0
