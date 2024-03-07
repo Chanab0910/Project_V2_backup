@@ -23,7 +23,7 @@ class ResultGUI(tk.Tk):
         self.title_country = tk.Label(self, text=f'{country_name}', font='helvetica 100', )
         self.came_dict = results[7]
         self.percentage_they_won_wc_label = tk.Label(self,
-                                                     text=f"Percentage that they won they won the World Cup: {((self.came_dict['Win'] / 100) * 100):.2f}%",
+                                                     text=f"Percentage that they won the World Cup: {((self.came_dict['Win'] / 100) * 100):.2f}%",
                                                      font='helvetica 27')
         self.furthest_place_got_label = tk.Label(self, text=f'Furthest place they got: {results[6]}',
                                                  font='helvetica 27')
@@ -60,11 +60,11 @@ class ResultGUI(tk.Tk):
         self.back_to_home_screen = tk.Button(self, text='Back to home screen', command=self.go_to_next_page)
         self.quit = tk.Button(self, text='Quit', command=quit)
 
-        self.pie_title = tk.Label(self, text=f'Pie chart to illustrate the probability' '\n' f' that {country_name} '
-                                             'gets to each particular' '\n' ' stage in the competition  ',
-                                  font='helvetica 20 italic')
-        self.figures =tk.Button(self, text='Figures', command=lambda: [self.get_figures(results)])
-        self.pie_chart(results[7])
+        ''' self.pie_title = tk.Label(self, text=f'Pie chart to illustrate the probability' '\n' f' that {country_name} '
+                                             'gets knocked out in' '\n' ' each stage in the competition  ',
+                                  font='helvetica 20 italic')'''
+        self.figures =tk.Button(self, text='Figures', font='helvetica 27',command=lambda: [self.get_figures(results)])
+        '''self.pie_chart(results[7])'''
         '''self.bar_chart(results[-1])'''
         self.place_widgets()
 
@@ -85,7 +85,7 @@ class ResultGUI(tk.Tk):
         self.average_goals_conceded_knockouts_label.grid(row=8, column=0, sticky='w')
         self.won_most_to_and_percentage_won_most_label.grid(row=9, column=0, sticky='w')
         self.lost_most_to_and_percentage_lost_most_label.grid(row=10, column=0, sticky='w')
-        self.pie_title.place(x=1230, y=400)
+        '''self.pie_title.place(x=1230, y=400)'''
         self.figures.grid(row=12,column=0)
         self.back_to_home_screen.grid(row=11, column=0, sticky='w')
 
@@ -127,8 +127,8 @@ class ResultsFigures(tk.Tk):
     def __init__(self,results):
         super().__init__()
         self.title = tk.Label(self,text='title')
-        self.bar_chart(results[7])
-        self.pie_chart(results[-1])
+        self.bar_chart(results[-1])
+        self.pie_chart(results[7])
         self.place_widgets()
 
     def pie_chart(self, where_they_came):
