@@ -176,7 +176,7 @@ class GUI(tk.Tk):
         self.Uruguay_button = tk.Button(self, image=self.Uruguay,command=lambda: [self.go_to_next_page('Uruguay')])
 
 
-        self.title = tk.Label(self, text="Select the country who's stats you would like to see",
+        self.title = tk.Label(self, text="Select the country whos stats you would like to see",
                               font='FuturaStd-Medium 50')
         self.Argentina_label = tk.Label(self, text='Argentina', font='FuturaStd-Medium 20')
         self.Australia_label = tk.Label(self, text='Australia', font='FuturaStd-Medium 20')
