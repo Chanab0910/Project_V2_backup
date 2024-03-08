@@ -41,7 +41,7 @@ class ResultsFigures(tk.Toplevel):
         ax.bar(titles, data, width)
         canvas = FigureCanvasTkAgg(f,master=self)
         canvas.draw()
-        canvas.get_tk_widget().place(x=0,y=0)
+        canvas.get_tk_widget().grid(row=1,column=1)
 
     def place_widgets(self):
         self.title.grid(row=0,column=0)
