@@ -10,9 +10,9 @@ class ResultsFigures(tk.Toplevel):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
 
-    def __init__(self,results):
+    def __init__(self,results,country_name):
         super().__init__()
-        self.title = tk.Label(self,text='title')
+        self.title = tk.Label(self,text=f"{country_name}'s Figures",font='helvetica 70')
         self.pie_chart(results[7])
         self.bar_chart(results[-1])
         self.place_widgets()
@@ -44,6 +44,6 @@ class ResultsFigures(tk.Toplevel):
         canvas.get_tk_widget().grid(row=1,column=1)
 
     def place_widgets(self):
-        self.title.grid(row=0,column=0)
+        self.title.grid(row=0,columnspan=2)
 
 
