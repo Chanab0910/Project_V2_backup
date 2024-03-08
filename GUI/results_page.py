@@ -63,12 +63,12 @@ class ResultGUI(tk.Tk):
         ''' self.pie_title = tk.Label(self, text=f'Pie chart to illustrate the probability' '\n' f' that {country_name} '
                                              'gets knocked out in' '\n' ' each stage in the competition  ',
                                   font='helvetica 20 italic')'''
-        self.figures =tk.Button(self, text='Figures', font='helvetica 27',command=lambda: [self.go_to_next_page(results)])
+        self.figures =tk.Button(self, text='Figures', font='helvetica 27',command=lambda: [self.go_to_figures(results)])
         '''self.pie_chart(results[7])'''
         '''self.bar_chart(results[-1])'''
         self.place_widgets()
 
-    def go_to_next_page(self, results):
+    def go_to_figures(self, results):
         self.gui = results_figures.ResultsFigures(results)
         self.gui.mainloop()
 

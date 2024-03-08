@@ -6,7 +6,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 
-class ResultsFigures(tk.Tk):
+class ResultsFigures(tk.Toplevel):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
 
@@ -26,7 +26,7 @@ class ResultsFigures(tk.Tk):
 
         ax = fig.add_subplot(111)
         ax.pie(data, radius=1, labels=titles, autopct='%0.2f%%')
-        pie = FigureCanvasTkAgg(fig)
+        pie = FigureCanvasTkAgg(fig,master=self)
         pie.get_tk_widget().grid(row=1,column=0)
 
     def bar_chart(self, where_they_came):
@@ -39,7 +39,7 @@ class ResultsFigures(tk.Tk):
 
         width = 0.5
         ax.bar(titles, data, width)
-        canvas = FigureCanvasTkAgg(f)
+        canvas = FigureCanvasTkAgg(f,master=self)
         canvas.draw()
         canvas.get_tk_widget().place(x=0,y=0)
 
