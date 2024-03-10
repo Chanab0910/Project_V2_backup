@@ -45,7 +45,7 @@ class SelectGUI(tk.Tk):
 
     def back_to_home(self):
         self.destroy()
-        self.gui = Selecting_countries_page.GUI()
+        self.gui = Selecting_countries_page.SelectingCountriesPageGUI()
         self.gui.mainloop()
 
 if __name__ == '__main__':

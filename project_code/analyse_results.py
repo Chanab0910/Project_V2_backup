@@ -15,7 +15,7 @@ class Analyse:
         self.average_goals_scored_per_game_ko = None
         self.average_goals_scored_per_game_group = None
         self.average_goals_scored_per_game_overall = None
-        self.fgr = FindGroupResults
+        self.fgr = FindGroupResults()
         self.all_countries = self.fgr.get_all_countries
         self.highest_stage_id = 0
         self.num_of_ko_matches_played = 0
@@ -146,7 +146,7 @@ class Analyse:
         self.dict_of_where_they_came['Final'] = 0
         self.dict_of_where_they_came['Win'] = 0
         highest_is_winner = False
-        for i in range(1, 101):
+        for i in range(1, 501):
             '''Can delete first bit and use dict to find highest result'''
             win = False
             highest_in_sim = 0
@@ -267,7 +267,7 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
-        for i in range(1, 101):
+        for i in range(1, 501):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
             for match in all_games_in_sim:
@@ -327,4 +327,3 @@ class Analyse:
 if __name__ == '__main__':
     g = Analyse()
     g.controller('England')
-

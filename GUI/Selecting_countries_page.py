@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 import results_page
 from selecting_what_general_stats import SelectGUI
 
-class GUI(tk.Tk):
+class SelectingCountriesPageGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
 
@@ -313,5 +313,5 @@ class GUI(tk.Tk):
 
 
 if __name__ == '__main__':
-    root = GUI()
+    root = SelectingCountriesPageGUI()
     root.mainloop()

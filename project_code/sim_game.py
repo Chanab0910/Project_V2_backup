@@ -10,7 +10,7 @@ class SimGame:
         self.group_input = None
         self.group_id = 0
         self.country_match_input = None
-        self.Away_team_score = None
+
         self.goals = None
         self.time = 90
 

@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import *
 import Selecting_countries_page
 
-class TestGUI(tk.Tk):
+class WelcomeGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
     def __init__(self):
@@ -33,11 +33,11 @@ class TestGUI(tk.Tk):
 
     def go_to_next_page(self):
         self.destroy()
-        self.gui = Selecting_countries_page.GUI()
+        self.gui = Selecting_countries_page.SelectingCountriesPageGUI()
         self.gui.mainloop()
 
 if __name__ == '__main__':
-    root = TestGUI()
+    root = WelcomeGUI()
     root.mainloop()
 
 

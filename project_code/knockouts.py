@@ -19,7 +19,7 @@ class Knockouts:
 
         self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
         self.sess = Session(self.engine)
-        self.create_matches = CreateMatches()
+
         self.sim_game_class = SimGame()
         
         self.qf_list = []

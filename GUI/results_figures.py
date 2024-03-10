@@ -15,6 +15,13 @@ class ResultsFigures(tk.Toplevel):
         self.title = tk.Label(self,text=f"{country_name}'s Figures",font='helvetica 70')
         self.pie_chart(results[7])
         self.bar_chart(results[-1])
+        self.pie_title = tk.Label(self, text=f'Pie chart to illustrate the probability' '\n' f' that {country_name} '
+                                             'gets knocked out in' '\n' ' each stage in the competition  ',
+                                  font='helvetica 20 italic')
+        self.bar_title = tk.Label(self, text=f'Bar chart to illustrate the probability' '\n' f' that {country_name} '
+                                             'reach each individual' '\n' 'stage in the competition  ',
+                                  font='helvetica 20 italic')
+        self.quit= tk.Button(self,text='Quit',font='helvetica 20',command=self.quits)
         self.place_widgets()
 
 
@@ -27,7 +34,7 @@ class ResultsFigures(tk.Toplevel):
         ax = fig.add_subplot(111)
         ax.pie(data, radius=1, labels=titles, autopct='%0.2f%%')
         pie = FigureCanvasTkAgg(fig,master=self)
-        pie.get_tk_widget().grid(row=1,column=0)
+        pie.get_tk_widget().grid(row=1,column=0,padx=20)
 
     def bar_chart(self, where_they_came):
         titles = ['Group', 'R16', 'Quarters', 'Semis', 'Final', 'Win']
@@ -43,7 +50,13 @@ class ResultsFigures(tk.Toplevel):
         canvas.draw()
         canvas.get_tk_widget().grid(row=1,column=1)
 
+    def quits(self):
+        self.destroy()
+
     def place_widgets(self):
         self.title.grid(row=0,columnspan=2)
+        self.pie_title.grid(row=2,column=0)
+        self.bar_title.grid(row=2,column=1)
+        self.quit.grid(row=3,column=0,pady=20)
 
 

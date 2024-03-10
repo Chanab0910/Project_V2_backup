@@ -123,7 +123,7 @@ class GeneralStatsGUI(tk.Tk):
         scored = everything[1]
         conceded = everything[2]
 
-        self.gc_sorted = self.mergeSort(conceded)
+        self.gc_sorted = self.dictToList(conceded)
         reversed_list = []
 
         for i,country in enumerate(self.gc_sorted):
@@ -137,13 +137,50 @@ class GeneralStatsGUI(tk.Tk):
         self.tree.configure(yscroll=self.scrollbar.set)
         self.tree.grid(row=3, columnspan=3, sticky='nsew')
 
+    def dictToList(self,dictionary):
+        football = []
+        keys = dictionary.keys()
 
-    def mergeSort(self,myList):
-        keys = list(myList.keys())
-        values = list(myList.values())
-        sorted_value_index = np.argsort(values)
-        sorted_dict = {keys[i]: values[i] for i in sorted_value_index}
-        return sorted_dict
+        for key in keys:
+            football.append([key, dictionary[key]])
+        return football
+
+    def mergeSort(self,merged, list_1, list_2, key):
+        index_1 = 0
+        index_2 = 0
+        index_merged = 0
+        while index_1 < len(list_1) and index_2 < len(list_2):
+            if key(list_1[index_1]) < key(list_2[index_2]):  # comparision line
+                merged[index_merged] = list_1[index_1]
+                index_1 = index_1 + 1
+            else:
+                merged[index_merged] = list_2[index_2]
+                index_2 = index_2 + 1
+            index_merged = index_merged + 1
+
+        while index_1 < len(list_1):
+            merged[index_merged] = list_1[index_1]
+            index_1 = index_1 + 1
+            index_merged = index_merged + 1
+
+        while index_2 < len(list_2):
+            merged[index_merged] = list_2[index_2]
+            index_2 = index_2 + 1
+            index_merged = index_merged + 1
+        return merged
+
+    def merge_sort(self,items, key):
+        if len(items) < 2:
+            return items
+        else:
+            midpoint = len(items) // 2
+            left_half = items[:midpoint]
+            right_half = items[midpoint:]
+
+        left_half = self.merge_sort(left_half, key)
+        right_half = self.merge_sort(right_half, key)
+        result = self.merge(items, left_half, right_half, key)
+        return result
 
 
     def place_widgets(self):
@@ -166,7 +203,7 @@ class GeneralStatsGUI(tk.Tk):
 
     def go_to_next_page(self):
         self.destroy()
-        self.gui = Selecting_countries_page.GUI()
+        self.gui = Selecting_countries_page.SelectingCountriesPageGUI()
         self.gui.mainloop()
 
     def quits(self):
