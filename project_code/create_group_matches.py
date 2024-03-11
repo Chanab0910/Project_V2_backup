@@ -8,7 +8,7 @@ from project_code.models import Country, CountryMatch
 
 class GroupGenerator:
     def __init__(self):
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
         self.collated_groups = []
         self.sess = Session(self.engine)
         self.team = ''

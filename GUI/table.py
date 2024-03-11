@@ -56,13 +56,13 @@ class GeneralStatsGUI(tk.Tk):
         # generate sample data
         countries = []
         ga = GeneralAnalysis()
-        everything = ga.get_stats()
-        place_list = everything[0]
-        scored = everything[1]
-        conceded = everything[2]
+        self.everything = ga.get_stats()
+        self.place_list = self.everything[0]
+        self.scored = self.everything[1]
+        self.conceded = self.everything[2]
 
-        for i,country in enumerate(place_list):
-            countries.append((i+1,place_list[i], scored[country], conceded[country]))
+        for i,country in enumerate(self.place_list):
+            countries.append((i+1,self.place_list[i], self.scored[country], self.conceded[country]))
 
         # add data to the treeview
         for country in countries:
@@ -85,18 +85,15 @@ class GeneralStatsGUI(tk.Tk):
         self.tree.heading('GC', text='GC')
 
         countries = []
-        ga = GeneralAnalysis()
-        everything = ga.get_stats()
-        scored = everything[1]
-        conceded = everything[2]
 
-        self.ga_sorted = self.mergeSort(scored)
+        self.list_ga_sorted = self.dictToList(self.scored)
+        self.ga_sorted = self.merge_sort(self.list_ga_sorted, self.keyGoalScored)
         reversed_list = []
-        for country in self.ga_sorted:
-            reversed_list.append(country)
+        for i,country in enumerate(self.ga_sorted[::-1]):
+            reversed_list.append([country[0],country[1]])
 
-        for i,country in enumerate(self.ga_sorted):
-            countries.append((i+1,country, self.ga_sorted[reversed_list[-i-1]], conceded[country]))
+        for i,country in enumerate(reversed_list):
+            countries.append((i+1,country[0], reversed_list[i][1], self.conceded[country[0]]))
 
         for country in countries:
             self.tree.insert('', tk.END, values=country)
@@ -118,16 +115,14 @@ class GeneralStatsGUI(tk.Tk):
         self.tree.heading('GC', text='GC')
 
         countries = []
-        ga = GeneralAnalysis()
-        everything = ga.get_stats()
-        scored = everything[1]
-        conceded = everything[2]
 
-        self.gc_sorted = self.dictToList(conceded)
+
+        self.list_gc_sorted = self.dictToList(self.conceded)
+        self.gc_sorted = self.merge_sort(self.list_gc_sorted,self.keyGoalScored)
         reversed_list = []
 
         for i,country in enumerate(self.gc_sorted):
-            countries.append((i+1,country, scored[country], self.gc_sorted[country]))
+            countries.append((i+1,country[0], self.scored[country[0]], self.gc_sorted[i][1]))
 
         for country in countries:
             self.tree.insert('', tk.END, values=country)
@@ -145,7 +140,7 @@ class GeneralStatsGUI(tk.Tk):
             football.append([key, dictionary[key]])
         return football
 
-    def mergeSort(self,merged, list_1, list_2, key):
+    def merge(self,merged, list_1, list_2, key):
         index_1 = 0
         index_2 = 0
         index_merged = 0
@@ -181,6 +176,9 @@ class GeneralStatsGUI(tk.Tk):
         right_half = self.merge_sort(right_half, key)
         result = self.merge(items, left_half, right_half, key)
         return result
+
+    def keyGoalScored(self,country):
+        return country[1]
 
 
     def place_widgets(self):
