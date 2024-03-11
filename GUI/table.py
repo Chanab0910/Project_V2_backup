@@ -36,7 +36,7 @@ class GeneralStatsGUI(tk.Tk):
 
         self.order_by_ga = tk.Button(self,text='Order by GA',command=self.create_GA_table)
         self.order_by_gc = tk.Button(self, text='Order by GC', command=self.create_GC_table)
-        self.order_by_overall= tk.Button(self, text='Order by Overall', command=self.create_table)
+        self.order_by_overall= tk.Button(self, text='Order by Overall', command=self.overall_table_so_no_reload)
         '''self.num_wins()'''
         self.quit = tk.Button(self, text='Quit', command=self.quits)
         self.place_widgets()
@@ -124,6 +124,32 @@ class GeneralStatsGUI(tk.Tk):
         for i,country in enumerate(self.gc_sorted):
             countries.append((i+1,country[0], self.scored[country[0]], self.gc_sorted[i][1]))
 
+        for country in countries:
+            self.tree.insert('', tk.END, values=country)
+
+        # add a scrollbar
+        self.scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscroll=self.scrollbar.set)
+        self.tree.grid(row=3, columnspan=3, sticky='nsew')
+
+
+    def overall_table_so_no_reload(self):
+        columns = ('Place', 'Country', 'GA', 'GC')
+        self.tree = ttk.Treeview(self, columns=columns, show='headings')
+
+        # define headings
+        self.tree.heading('Place', text='Place')
+        self.tree.heading('Country', text='Country')
+        self.tree.heading('GA', text='GA')
+        self.tree.heading('GC', text='GC')
+
+        # generate sample data
+        countries = []
+
+        for i, country in enumerate(self.place_list):
+            countries.append((i + 1, self.place_list[i], self.scored[country], self.conceded[country]))
+
+        # add data to the treeview
         for country in countries:
             self.tree.insert('', tk.END, values=country)
 
