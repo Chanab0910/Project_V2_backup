@@ -23,7 +23,7 @@ class ResultGUI(tk.Tk):
         self.title_country = tk.Label(self, text=f'{country_name}', font='helvetica 100', )
         self.came_dict = results[7]
         self.percentage_they_won_wc_label = tk.Label(self,
-                                                     text=f"Percentage that they won the World Cup: {((self.came_dict['Win'] / 500) * 100):.2f}%",
+                                                     text=f"Percentage that they won the World Cup: {((self.came_dict['Win'] / 100) * 100):.2f}%",
                                                      font='helvetica 27')
         self.furthest_place_got_label = tk.Label(self, text=f'Furthest place they got: {results[6]}',
                                                  font='helvetica 27')
