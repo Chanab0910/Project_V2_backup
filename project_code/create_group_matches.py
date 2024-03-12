@@ -38,7 +38,7 @@ class GroupGenerator:
 
 
 class CreateMatches:
-    # Fills in intial information so that it lays out which matches play in what order and makes it easy to simulate
+    # Fills in initial information so that it lays out which matches play in what order and makes it easy to simulate
     # through all games
     def __init__(self):
 
@@ -53,12 +53,23 @@ class CreateMatches:
         self.order = [[0], [2], [1], [3], [2], [1], [0], [3], [0], [1], [2], [3]]
         self.list = []
 
-    def get_match_id(self,sim_num):
-        self.match_id = self.sess.query(CountryMatch.match_id).filter_by(simulation_number=sim_num).order_by(CountryMatch.match_id.desc()).first()
+    def get_match_id(self, sim_num):
+        self.match_id = self.sess.query(CountryMatch.match_id).filter_by(simulation_number=sim_num).order_by(
+            CountryMatch.match_id.desc()).first()
         if self.match_id is None:
-            self.match_id =0
+            self.match_id = 0
 
     def creates_ids(self, sim_num):
+        """
+
+        Parameters
+        ----------
+        sim_num
+
+        Returns
+        -------
+
+        """
         # creates the ID for each entry and sends it to create_initial_country_match to commit
         self.get_match_id(sim_num)
         for group in self.list_of_groups:
@@ -75,7 +86,6 @@ class CreateMatches:
         # Commits the id
         add_to_country_match = CountryMatch(country_id=id, match_id=self.match_id, simulation_number=sim_num)
         self.sess.add(add_to_country_match)
-
 
     def update_every_second_time(self):
         self.match_id_counter += 1

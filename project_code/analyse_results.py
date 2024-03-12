@@ -34,37 +34,54 @@ class Analyse:
                                      'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
                                      'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
         self.number_of_wins_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
-                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
-                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
-                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
-                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
-                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
-                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
+                                    'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                    'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
+                                    'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                    'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                    'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                    'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
         self.dict_of_where_they_came = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
                                         'Win': 0}
 
         self.number_of_times_played_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
-                                     'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
-                                     'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0, 'Columbia': 0,
-                                     'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
-                                     'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
-                                     'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
-                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
+                                            'Netherlands': 0, 'Portugal': 0, 'Spain': 0,
+                                            'Italy': 0, 'Croatia': 0, 'Uruguay': 0, 'Morocco': 0, 'USA': 0,
+                                            'Columbia': 0,
+                                            'Mexico': 0, 'Germany': 0, 'Senegal': 0, 'Japan': 0,
+                                            'Switzerland': 0, 'Iran': 0, 'Denmark': 0, 'Korea': 0, 'Australia': 0,
+                                            'Ukraine': 0, 'Austria': 0, 'Sweden': 0, 'Hungary': 0, 'Nigeria': 0,
+                                            'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def controller(self, country_name):
-        #This is the method that calls everything and is called by other methods to get all of the data about the country
+        """
+
+        Parameters
+        ----------
+        country_name
+
+        Returns
+        -------
+
+
+        """
+        # This is the method that calls everything and is called by other methods to get all of the data about the country
         cn = str(country_name)
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats(country_name)
 
         '''self.print_everything()'''
         return self.average_goals_conceded, self.average_goals_conceded_in_group, self.average_goals_conceded_in_ko, self.average_goals, self.average_goals_group, self.average_goals_ko, \
-               self.highest_stage, self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times,self.percentage_get_to_dict
-
+            self.highest_stage, self.dict_of_where_they_came, self.team_beat_the_most, self.team_they_beat_the_highest_percentage_of_times, self.team_lost_to_most, self.team_they_lost_to_the_highest_percentage_of_times, self.percentage_get_to_dict
 
     def get_all_basic_stats(self, country_name):
-        #calls the methods needed to get the basic data which can be manipulated later
+        """
+
+        Parameters
+        ----------
+        country_name
+        """
+        # calls the methods needed to get the basic data which can be manipulated later
         self.get_all_goals_and_games_played(country_name)
         self.get_all_group_stage_goals_and_num_of_matches_played()
         self.get_all_ko_goals_and_num_of_matches_played()
@@ -82,6 +99,16 @@ class Analyse:
         self.number_of_wins()
 
     def get_all_goals_and_games_played(self, country_name):
+        """
+
+        Parameters
+        ----------
+        country_name
+
+        Returns
+        -------
+
+        """
         # this queries all the goals scored in each match by a country. It then works out the total number of goals
         # by looping through each match and adding the goals to the total. At the same time it increments the number
         # of matches played which allows an average goals per game to be created
@@ -93,8 +120,8 @@ class Analyse:
         return self.goals / self.num_of_matches_played
 
     def get_all_group_stage_goals_and_num_of_matches_played(self):
-        #this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then ...
-        '''Bad code i shoudl rewrite'''
+        # this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then ...
+        #Bad code i shoudl rewrite
         all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
         for game in all_group_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
@@ -135,9 +162,19 @@ class Analyse:
                 self.number_of_loses_dict[country_name[0]] += 1
 
     def furthest_got_and_average_place(self, country_name):
-        '''This is too long '''
+        '''
+
+        Parameters
+        ----------
+        country_name
+
+        Returns
+        -------
+
+        '''
         cn = str(country_name)
-        self.percentage_get_to_dict = {'Group':0,'Round of 16':0,'Quarter-final':0,'Semi-final':0,'Final':0,'Win':0}
+        self.percentage_get_to_dict = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
+                                       'Win': 0}
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.dict_of_where_they_came['Group'] = 0
         self.dict_of_where_they_came['Round of 16'] = 0
@@ -172,26 +209,26 @@ class Analyse:
 
             if win:
                 self.dict_of_where_they_came['Win'] += 1
-                self.percentage_get_to_dict['Win'] +=1
+                self.percentage_get_to_dict['Win'] += 1
 
-            if highest_in_sim >0:
+            if highest_in_sim > 0:
                 self.dict_of_where_they_came['Group'] += 1
-            if 8 < highest_in_sim :
+            if 8 < highest_in_sim:
                 self.dict_of_where_they_came['Round of 16'] += 1
-            if 16 < highest_in_sim :
+            if 16 < highest_in_sim:
                 self.dict_of_where_they_came['Quarter-final'] += 1
-            if highest_in_sim > 20 :
+            if highest_in_sim > 20:
                 self.dict_of_where_they_came['Semi-final'] += 1
             if highest_in_sim == 23:
                 self.dict_of_where_they_came['Final'] += 1
 
-            if highest_in_sim >0:
+            if highest_in_sim > 0:
                 self.percentage_get_to_dict['Group'] += 1
-            if 8 < highest_in_sim :
+            if 8 < highest_in_sim:
                 self.percentage_get_to_dict['Round of 16'] += 1
-            if 16 < highest_in_sim :
+            if 16 < highest_in_sim:
                 self.percentage_get_to_dict['Quarter-final'] += 1
-            if highest_in_sim>20:
+            if highest_in_sim > 20:
                 self.percentage_get_to_dict['Semi-final'] += 1
             if highest_in_sim == 23:
                 self.percentage_get_to_dict['Final'] += 1
@@ -201,7 +238,7 @@ class Analyse:
 
         else:
             self.highest_stage = self.sess.query(Stage.level).filter_by(stage_id=self.highest_stage_id).first()
-            self.highest_stage= self.highest_stage[0]
+            self.highest_stage = self.highest_stage[0]
 
         return self.dict_of_where_they_came
 
@@ -295,12 +332,12 @@ class Analyse:
 
     def team_they_beat_and_lost_to_the_most_percentage(self):
         list_of_countries = ['Argentina', 'France', 'England', 'Belgium', 'Brazil',
-                                     'Netherlands', 'Portugal', 'Spain',
-                                     'Italy', 'Croatia', 'Uruguay', 'Morocco', 'USA', 'Columbia',
-                                     'Mexico', 'Germany', 'Senegal', 'Japan',
-                                     'Switzerland', 'Iran', 'Denmark', 'Korea', 'Australia',
-                                     'Ukraine', 'Austria', 'Sweden', 'Hungary', 'Nigeria',
-                                     'Wales', 'Poland', 'Equador', 'Serbia']
+                             'Netherlands', 'Portugal', 'Spain',
+                             'Italy', 'Croatia', 'Uruguay', 'Morocco', 'USA', 'Columbia',
+                             'Mexico', 'Germany', 'Senegal', 'Japan',
+                             'Switzerland', 'Iran', 'Denmark', 'Korea', 'Australia',
+                             'Ukraine', 'Austria', 'Sweden', 'Hungary', 'Nigeria',
+                             'Wales', 'Poland', 'Equador', 'Serbia']
         percentage_list_won = []
         percentage_list_lost = []
         for country in list_of_countries:

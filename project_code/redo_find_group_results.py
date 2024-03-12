@@ -78,6 +78,12 @@ class FindGroupResults:
         return zip(a, a, a, a)
 
     def find_who_came_first(self, group, group_index, sim_num):
+        """
+        :param group:
+        :param group_index:
+        :param sim_num:
+        :return: highest_index:
+        """
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
@@ -88,6 +94,13 @@ class FindGroupResults:
         return highest_index
 
     def find_who_came_second(self, group, group_index, sim_num ):
+        '''
+        Parameters
+        ----------
+        group
+        group_index
+        sim_num
+        '''
         group.pop(self.highest_id)
         mx = max(group)
         highest_index = group.index(max(group))
