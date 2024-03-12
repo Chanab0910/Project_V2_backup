@@ -20,7 +20,6 @@ class ResultGUI(tk.Tk):
 
     def __init__(self, country_name, results):
         super().__init__()
-        '''self.geometry("1810x650")'''
 
         self.title_country = tk.Label(self, text=f'{country_name}', font='helvetica 100', )
         self.came_dict = results[7]
