@@ -18,7 +18,7 @@ class FindGroupResults:
         self.sess = Session(self.engine)
         self.countries = []
         self.group_generator = GroupGenerator()
-        self.mm = RunMatches()
+
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collate_groups()
 
