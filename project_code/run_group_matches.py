@@ -105,6 +105,18 @@ class RunMatches:
 
 
     def update_table(self, sim_num):
+        """
+        This updates the CountryMatch table based on the results of each game
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
+
         match_id = self.match_id_lists[self.counter]
         country_matches = self.sess.query(CountryMatch).filter_by(match_id=match_id, simulation_number=sim_num).all()
         country_matches[0].score = self.score[0]

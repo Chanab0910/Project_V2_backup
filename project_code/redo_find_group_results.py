@@ -26,28 +26,58 @@ class FindGroupResults:
         self.came_first = []
         self.came_second = []
 
-    def collective(self,sim_num):
-        """collates of the functions being done"""
+    def collective(self, sim_num):
+        """
+        collates of the functions being done
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        self.came_first: a list containing all the countries that came first in their group
+        self.came_second: a list containing all the countries that came second in their group
+
+        """
 
         self.get_all_countries()
         self.get_countries_points(sim_num)
         self.work_out_who_goes_through(sim_num)
-        return self.came_first,self.came_second
+        return self.came_first, self.came_second
 
     def get_all_countries(self):
-        """gets all the country objects and adds them to a list"""
+        """
+        gets all the country objects and adds them to a list
+
+        Returns
+        -------
+        self.countries: a list of all the countries in the order of groups
+        """
 
         for group in self.list_of_groups:
             for country in group:
                 self.countries.append(country)
         return self.countries
 
-    def get_countries_points(self,sim_num):
-        """totals up the points that each country got and creates a list in the order that they are in the Country
-        table"""
+    def get_countries_points(self, sim_num):
+        """
+        totals up the points that each country got and creates a list in the order that they are in the
+        self.countries list
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        self.all_points: a list of all the points that each country has in each group
+        """
+
 
         for country in self.countries:
-            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id,simulation_number=sim_num).all()
+            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id,
+                                                                         simulation_number=sim_num).all()
             points = 0
             for result in all_results:
                 result = result[0][0:]
@@ -62,6 +92,17 @@ class FindGroupResults:
         return self.all_points
 
     def work_out_who_goes_through(self, sim_num):
+        """
+        Goes through each group and works out who came first and second by calling the relevant methods
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         group_index = -1
         self.get_points_per_group(self.all_points)
         for group in self.group_points:
@@ -93,7 +134,7 @@ class FindGroupResults:
         self.came_first.append(self.list_of_groups[group_index][highest_index])
         return highest_index
 
-    def find_who_came_second(self, group, group_index, sim_num ):
+    def find_who_came_second(self, group, group_index, sim_num):
         '''
         Parameters
         ----------
@@ -143,7 +184,7 @@ class FindGroupResults:
 
     def get_total_goals(self, id, sim_num):
         total_goals = 0
-        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number = sim_num).all()
+        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number=sim_num).all()
 
         for goals in all_goals:
             goals = str(goals[0])
@@ -164,7 +205,7 @@ class FindGroupResults:
     def get_total_goals_conceded(self, id, sim_num):
         total = 0
 
-        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number = sim_num).all()
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number=sim_num).all()
         for game in all_games:
             ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
             if ids[0].country_id == id:
