@@ -111,48 +111,88 @@ class FindGroupResults:
             self.find_who_came_second(group, group_index, sim_num)
 
     def get_points_per_group(self, list_to_split):
+        """
+        splits the list into a list of list with each smaller list being a group
+
+        Parameters
+        ----------
+        list_to_split: a list of all the points that each country has in each group
+
+        Returns
+        -------
+        None
+
+        """
         for a, b, c, d in self.pairing(list_to_split):
             self.group_points.append([a, b, c, d])
 
     def pairing(self, iterable):
+        '''DO'''
         a = iter(iterable)
         return zip(a, a, a, a)
 
     def find_who_came_first(self, group, group_index, sim_num):
         """
-        :param group:
-        :param group_index:
-        :param sim_num:
-        :return: highest_index:
+        Finds the country which came first by looking at points and goal difference if needed
+
+        Parameters
+        ----------
+        group: List of the points that each country got in the group
+        group_index: The index of the group within self.group_points
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        highest_index: The index of the country that came first
         """
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
+            highest_index = self.get_highest_gd(group, group_index, mx, sim_num)
 
         self.came_first.append(self.list_of_groups[group_index][highest_index])
         return highest_index
 
     def find_who_came_second(self, group, group_index, sim_num):
-        '''
+        """
+        Finds the country which came second by looking at points and goal difference if needed
+
         Parameters
         ----------
-        group
-        group_index
-        sim_num
-        '''
+        group: List of the points that each country got in the group
+        group_index: The index of the group within self.group_points
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         group.pop(self.highest_id)
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
+            highest_index = self.get_highest_gd(group, group_index, mx, sim_num)
         if highest_index >= self.highest_id:
             highest_index += 1
         self.came_second.append(self.list_of_groups[group_index][highest_index])
 
-    def check_gd_for_first(self, group, group_index, highest, sim_num):
+    def get_highest_gd(self, group, group_index, highest, sim_num):
+        """
+        This gets the country with the highest goal difference in the group
+
+        Parameters
+        ----------
+        group: List of the points that each country got in the group
+        group_index:The index of the group within self.group_points
+        highest: The country with te initial highest points
+        sim_num:This is the simulation number that the program is on
+
+        Returns
+        -------
+        highest_index: The index of the country that had the highest gd
+        """
         gd_list_i = []
         gd = self.get_goal_difference(group, group_index, sim_num)
         for i, number in enumerate(group):
