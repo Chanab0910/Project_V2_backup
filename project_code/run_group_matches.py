@@ -42,19 +42,23 @@ class RunMatches:
     """from stack overflow"""
 
     def pair_match_object(self, list_to_split):
-        for a, b in self.pairing(list_to_split):
-            self.matches.append([a, b])
+        for thing1, thing2 in self.pairing(list_to_split):
+            self.matches.append([thing1, thing2])
 
     """from stack overflow"""
 
-    def get_pair_list_of_objects(self):
-        for group in self.list_of_groups:
-            for i in range(len(self.order)):
-                country_object = group[self.order[i][0]]
-                self.object_pair_list.append(country_object)
-        return self.object_pair_list
+    def get_list_of_objects(self, sim_num):
+        """
+        Gets a list of the country objects by going through each CountryMatch row and appending the object to the list.
 
-    def get_loo(self, sim_num):
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns ------- self.list_of_objects: This gives the program a list of objects in the order of the matches
+        and what countries are in them.
+
+        """
         self.country_match_ids = self.sess.query(CountryMatch.country_id).filter_by(simulation_number=sim_num).all()
         for ids in self.country_match_ids:
             object = self.sess.get(Country, ids)
@@ -62,8 +66,19 @@ class RunMatches:
         return self.list_of_objects
 
     def sim_the_game(self, sim_num):
+        """
+        This loops though each game and calls the relevant methods to simulate it. It then gets the result and score and calls the update_table method.
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         match_id = 0
-        self.get_loo(sim_num)
+        self.get_list_of_objects(sim_num)
         self.pair_match_object(self.list_of_objects)
         for i, match in enumerate(self.matches):
             match_id += 1

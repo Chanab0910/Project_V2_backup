@@ -211,15 +211,15 @@ class Analyse:
                 self.dict_of_where_they_came['Win'] += 1
                 self.percentage_get_to_dict['Win'] += 1
 
-            if highest_in_sim > 0:
+            elif highest_in_sim < 9:
                 self.dict_of_where_they_came['Group'] += 1
-            if 8 < highest_in_sim:
+            elif 8 < highest_in_sim < 17:
                 self.dict_of_where_they_came['Round of 16'] += 1
-            if 16 < highest_in_sim:
+            elif 16 < highest_in_sim < 21:
                 self.dict_of_where_they_came['Quarter-final'] += 1
-            if highest_in_sim > 20:
+            elif highest_in_sim == 21 or highest_in_sim == 22:
                 self.dict_of_where_they_came['Semi-final'] += 1
-            if highest_in_sim == 23:
+            elif highest_in_sim == 23:
                 self.dict_of_where_they_came['Final'] += 1
 
             if highest_in_sim > 0:
