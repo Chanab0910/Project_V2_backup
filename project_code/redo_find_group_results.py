@@ -26,28 +26,58 @@ class FindGroupResults:
         self.came_first = []
         self.came_second = []
 
-    def collective(self,sim_num):
-        """collates of the functions being done"""
+    def collective(self, sim_num):
+        """
+        collates of the functions being done
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        self.came_first: a list containing all the countries that came first in their group
+        self.came_second: a list containing all the countries that came second in their group
+
+        """
 
         self.get_all_countries()
         self.get_countries_points(sim_num)
         self.work_out_who_goes_through(sim_num)
-        return self.came_first,self.came_second
+        return self.came_first, self.came_second
 
     def get_all_countries(self):
-        """gets all the country objects and adds them to a list"""
+        """
+        gets all the country objects and adds them to a list
+
+        Returns
+        -------
+        self.countries: a list of all the countries in the order of groups
+        """
 
         for group in self.list_of_groups:
             for country in group:
                 self.countries.append(country)
         return self.countries
 
-    def get_countries_points(self,sim_num):
-        """totals up the points that each country got and creates a list in the order that they are in the Country
-        table"""
+    def get_countries_points(self, sim_num):
+        """
+        totals up the points that each country got and creates a list in the order that they are in the
+        self.countries list
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        self.all_points: a list of all the points that each country has in each group
+        """
+
 
         for country in self.countries:
-            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id,simulation_number=sim_num).all()
+            all_results = self.sess.query(CountryMatch.result).filter_by(country_id=country.country_id,
+                                                                         simulation_number=sim_num).all()
             points = 0
             for result in all_results:
                 result = result[0][0:]
@@ -62,6 +92,17 @@ class FindGroupResults:
         return self.all_points
 
     def work_out_who_goes_through(self, sim_num):
+        """
+        Goes through each group and works out who came first and second by calling the relevant methods
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         group_index = -1
         self.get_points_per_group(self.all_points)
         for group in self.group_points:
@@ -70,48 +111,88 @@ class FindGroupResults:
             self.find_who_came_second(group, group_index, sim_num)
 
     def get_points_per_group(self, list_to_split):
+        """
+        splits the list into a list of list with each smaller list being a group
+
+        Parameters
+        ----------
+        list_to_split: a list of all the points that each country has in each group
+
+        Returns
+        -------
+        None
+
+        """
         for a, b, c, d in self.pairing(list_to_split):
             self.group_points.append([a, b, c, d])
 
     def pairing(self, iterable):
+        '''DO'''
         a = iter(iterable)
         return zip(a, a, a, a)
 
     def find_who_came_first(self, group, group_index, sim_num):
         """
-        :param group:
-        :param group_index:
-        :param sim_num:
-        :return: highest_index:
+        Finds the country which came first by looking at points and goal difference if needed
+
+        Parameters
+        ----------
+        group: List of the points that each country got in the group
+        group_index: The index of the group within self.group_points
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        highest_index: The index of the country that came first
         """
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
+            highest_index = self.get_highest_gd(group, group_index, mx, sim_num)
 
         self.came_first.append(self.list_of_groups[group_index][highest_index])
         return highest_index
 
-    def find_who_came_second(self, group, group_index, sim_num ):
-        '''
+    def find_who_came_second(self, group, group_index, sim_num):
+        """
+        Finds the country which came second by looking at points and goal difference if needed
+
         Parameters
         ----------
-        group
-        group_index
-        sim_num
-        '''
+        group: List of the points that each country got in the group
+        group_index: The index of the group within self.group_points
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         group.pop(self.highest_id)
         mx = max(group)
         highest_index = group.index(max(group))
         group_list_minus_mx = group[:highest_index] + group[highest_index + 1:]
         if max(group_list_minus_mx) == mx:
-            highest_index = self.check_gd_for_first(group, group_index, mx, sim_num)
+            highest_index = self.get_highest_gd(group, group_index, mx, sim_num)
         if highest_index >= self.highest_id:
             highest_index += 1
         self.came_second.append(self.list_of_groups[group_index][highest_index])
 
-    def check_gd_for_first(self, group, group_index, highest, sim_num):
+    def get_highest_gd(self, group, group_index, highest, sim_num):
+        """
+        This gets the country with the highest goal difference in the group
+
+        Parameters
+        ----------
+        group: List of the points that each country got in the group
+        group_index:The index of the group within self.group_points
+        highest: The country with te initial highest points
+        sim_num:This is the simulation number that the program is on
+
+        Returns
+        -------
+        highest_index: The index of the country that had the highest gd
+        """
         gd_list_i = []
         gd = self.get_goal_difference(group, group_index, sim_num)
         for i, number in enumerate(group):
@@ -143,7 +224,7 @@ class FindGroupResults:
 
     def get_total_goals(self, id, sim_num):
         total_goals = 0
-        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number = sim_num).all()
+        all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number=sim_num).all()
 
         for goals in all_goals:
             goals = str(goals[0])
@@ -164,7 +245,7 @@ class FindGroupResults:
     def get_total_goals_conceded(self, id, sim_num):
         total = 0
 
-        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number = sim_num).all()
+        all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number=sim_num).all()
         for game in all_games:
             ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
             if ids[0].country_id == id:

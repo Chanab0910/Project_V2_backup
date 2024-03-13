@@ -17,7 +17,7 @@ class GroupGenerator:
                                  k=len(self.sess.query(Country).filter_by(tier=i + 1).all())) for i in range(4)]
 
     def group_draw(self):
-        # Creates a single group by taking a random country from each tier and adding it to a list
+        """Creates a single group by taking a random country from each tier and adding it to a list"""
         group = []
         for i, tier in enumerate(self.countries):
             self.team = tier[randint(0, len(tier) - 1)]
@@ -26,8 +26,8 @@ class GroupGenerator:
         return group
 
     def collate_groups(self):
-        # Iterates through group_draw and creates all 8 groups and then adds it to collated groups to make one big
-        # list of lists.
+        """Iterates through group_draw and creates all 8 groups and then adds it to collated groups to make one big
+         list of lists."""
         collated_groups = []
         for i in range(8):
             collated_groups.append(self.group_draw())
@@ -38,8 +38,8 @@ class GroupGenerator:
 
 
 class CreateMatches:
-    # Fills in initial information so that it lays out which matches play in what order and makes it easy to simulate
-    # through all games
+    """ Fills in initial information so that it lays out which matches play in what order and makes it easy to simulate
+    through all games"""
     def __init__(self):
 
         self.match_id = None
@@ -54,6 +54,18 @@ class CreateMatches:
         self.list = []
 
     def get_match_id(self, sim_num):
+        """
+        Gets the match id of the latest entry into the match table. If the table is empty and, therefore,
+        it is the first simulation, then the match id is set to 0.
+
+        Parameters
+        ----------
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         self.match_id = self.sess.query(CountryMatch.match_id).filter_by(simulation_number=sim_num).order_by(
             CountryMatch.match_id.desc()).first()
         if self.match_id is None:
@@ -61,16 +73,18 @@ class CreateMatches:
 
     def creates_ids(self, sim_num):
         """
+        Creates the ID for each entry and sends it to create_initial_country_match to add to session,
+        where it commits once all the entries are created
 
         Parameters
         ----------
-        sim_num
+        sim_num: This is the simulation number that the program is on
 
         Returns
         -------
+        None
 
         """
-        # creates the ID for each entry and sends it to create_initial_country_match to commit
         self.get_match_id(sim_num)
         for group in self.list_of_groups:
             for i in range(len(self.order)):
@@ -82,12 +96,31 @@ class CreateMatches:
         self.sess.commit()
 
     def create_initial_country_match(self, id, sim_num):
-        '''Can make list and commit them all at one'''
+        """
+        It creates the initial CountryMatch entries with the countries id, match id, and the simulation number. It
+        does include the score and result however as that gets updated once the game is simulated.
+
+        Parameters
+        ----------
+        id: The id of the country that is getting their CountryMatch entry
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        None
+        """
         # Commits the id
         add_to_country_match = CountryMatch(country_id=id, match_id=self.match_id, simulation_number=sim_num)
         self.sess.add(add_to_country_match)
 
     def update_every_second_time(self):
+        """
+        This increments the match_id every other time it is called to represent the 2 CountryMatch entries per match
+
+        Returns
+        -------
+        self.match_id: This is the id of the match being simulated
+        """
         self.match_id_counter += 1
         if self.match_id_counter % 2 == 0:
             self.match_id += 1
