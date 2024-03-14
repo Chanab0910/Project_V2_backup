@@ -54,18 +54,8 @@ class Analyse:
                                             'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def controller(self, country_name):
-        """
-
-        Parameters
-        ----------
-        country_name
-
-        Returns
-        -------
-
-
-        """
-        # This is the method that calls everything and is called by other methods to get all of the data about the country
+        """This is the method that calls everything and is called by other methods to get all the data about the
+        country """
         cn = str(country_name)
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
         self.get_all_basic_stats(country_name)
@@ -76,12 +66,16 @@ class Analyse:
 
     def get_all_basic_stats(self, country_name):
         """
+        calls the methods needed to get the basic data which can be manipulated later
 
         Parameters
         ----------
-        country_name
+        country_name: name of the country
+
+        Returns
+        -------
+        None
         """
-        # calls the methods needed to get the basic data which can be manipulated later
         self.get_all_goals_and_games_played(country_name)
         self.get_all_group_stage_goals_and_num_of_matches_played()
         self.get_all_ko_goals_and_num_of_matches_played()
@@ -103,11 +97,11 @@ class Analyse:
 
         Parameters
         ----------
-        country_name
+        country_name: name of the country
 
         Returns
         -------
-
+        self.goals / self.num_of_matches_played: an expression which gives the average goals scored per game
         """
         # this queries all the goals scored in each match by a country. It then works out the total number of goals
         # by looping through each match and adding the goals to the total. At the same time it increments the number
@@ -120,8 +114,8 @@ class Analyse:
         return self.goals / self.num_of_matches_played
 
     def get_all_group_stage_goals_and_num_of_matches_played(self):
-        # this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then ...
-        #Bad code i shoudl rewrite
+        """ this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then """
+
         all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
         for game in all_group_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
