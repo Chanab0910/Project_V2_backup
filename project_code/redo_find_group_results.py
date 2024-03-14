@@ -202,6 +202,20 @@ class FindGroupResults:
         return highest_index
 
     def get_goal_difference(self, group, group_index, sim_num):
+        """
+        This gets the goal difference for each country in the group
+
+        Parameters
+        ----------
+        group: This is the group that the program is analysis
+        group_index: this is the index of the group within the list of groups
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        gd_list: This is a list of each country's gd
+
+        """
         gd_list = []
         gf = self.get_gf(group, group_index, sim_num)
         ga = self.get_ga(group, group_index, sim_num)
@@ -213,6 +227,20 @@ class FindGroupResults:
         return gd_list
 
     def get_gf(self, group, group_index, sim_num):
+        """
+        This compiles each country in the group's goals for
+
+        Parameters
+        ----------
+        group: This is the group that the program is analysis
+        group_index: this is the index of the group within the list of groups
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        group_goals: This is a list of each country's goals for
+
+        """
         group_goals = []
         for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
@@ -223,6 +251,18 @@ class FindGroupResults:
         return group_goals
 
     def get_total_goals(self, id, sim_num):
+        """
+        This gets a countries goals that they scored in the group
+        Parameters
+        ----------
+        id: This is the id of the country it is looking at
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        total_goals: This is the goals for that the country has
+
+        """
         total_goals = 0
         all_goals = self.sess.query(CountryMatch.score).filter_by(country_id=id, simulation_number=sim_num).all()
 
@@ -233,6 +273,19 @@ class FindGroupResults:
         return total_goals
 
     def get_ga(self, group, group_index, sim_num):
+        """
+        This compiles each country in the group's goals against
+
+        Parameters
+        ----------
+        group: This is the group that the program is analysis
+        group_index: this is the index of the group within the list of groups
+        sim_num: This is the simulation number that the program is on
+
+        Returns
+        -------
+        group_conceded: This is a list of each country's goals against
+        """
         group_conceded = []
         for i, country in enumerate(group):
             country_object = self.list_of_groups[group_index][i]
@@ -243,8 +296,19 @@ class FindGroupResults:
         return group_conceded
 
     def get_total_goals_conceded(self, id, sim_num):
-        total = 0
+        """
+        This gets a countries goals that they conceded in the group
+        Parameters
+        ----------
+        id: This is the id of the country it is looking at
+        sim_num: This is the simulation number that the program is on
 
+        Returns
+        -------
+        total_conceded: This is the goals against that the country has
+
+        """
+        total_conceded = 0
         all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=id, simulation_number=sim_num).all()
         for game in all_games:
             ids = self.sess.query(CountryMatch).filter_by(match_id=game[0]).all()
@@ -254,9 +318,9 @@ class FindGroupResults:
             else:
                 goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
                                                                       country_id=ids[0].country_id).first()
-            total += goals[0]
+            total_conceded += goals[0]
 
-        return total
+        return total_conceded
 
 
 if __name__ == '__main__':
