@@ -170,12 +170,8 @@ class Analyse:
         self.percentage_get_to_dict = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
                                        'Win': 0}
         self.country_object = self.sess.query(Country).filter_by(country_name=cn).first()
-        self.dict_of_where_they_came['Group'] = 0
-        self.dict_of_where_they_came['Round of 16'] = 0
-        self.dict_of_where_they_came['Quarter-final'] = 0
-        self.dict_of_where_they_came['Semi-final'] = 0
-        self.dict_of_where_they_came['Final'] = 0
-        self.dict_of_where_they_came['Win'] = 0
+        self.dict_of_where_they_came = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
+                                        'Win': 0}
         highest_is_winner = False
         for i in range(1, 101):
             '''Can delete first bit and use dict to find highest result'''
@@ -201,31 +197,8 @@ class Analyse:
                     win = True
                     highest_is_winner = True
 
-            if win:
-                self.dict_of_where_they_came['Win'] += 1
-                self.percentage_get_to_dict['Win'] += 1
-
-            elif highest_in_sim < 9:
-                self.dict_of_where_they_came['Group'] += 1
-            elif 8 < highest_in_sim < 17:
-                self.dict_of_where_they_came['Round of 16'] += 1
-            elif 16 < highest_in_sim < 21:
-                self.dict_of_where_they_came['Quarter-final'] += 1
-            elif highest_in_sim == 21 or highest_in_sim == 22:
-                self.dict_of_where_they_came['Semi-final'] += 1
-            elif highest_in_sim == 23:
-                self.dict_of_where_they_came['Final'] += 1
-
-            if highest_in_sim > 0:
-                self.percentage_get_to_dict['Group'] += 1
-            if 8 < highest_in_sim:
-                self.percentage_get_to_dict['Round of 16'] += 1
-            if 16 < highest_in_sim:
-                self.percentage_get_to_dict['Quarter-final'] += 1
-            if highest_in_sim > 20:
-                self.percentage_get_to_dict['Semi-final'] += 1
-            if highest_in_sim == 23:
-                self.percentage_get_to_dict['Final'] += 1
+            self.append_to_dict_where_came(highest_in_sim, win)
+            self.append_to_percentage_get_dict(highest_in_sim, win)
 
         if highest_is_winner:
             self.highest_stage = 'Winner'
@@ -235,6 +208,34 @@ class Analyse:
             self.highest_stage = self.highest_stage[0]
 
         return self.dict_of_where_they_came
+
+    def append_to_dict_where_came(self, highest_in_sim, win):
+        if win:
+            self.dict_of_where_they_came['Win'] += 1
+        elif highest_in_sim < 9:
+            self.dict_of_where_they_came['Group'] += 1
+        elif 8 < highest_in_sim < 17:
+            self.dict_of_where_they_came['Round of 16'] += 1
+        elif 16 < highest_in_sim < 21:
+            self.dict_of_where_they_came['Quarter-final'] += 1
+        elif highest_in_sim == 21 or highest_in_sim == 22:
+            self.dict_of_where_they_came['Semi-final'] += 1
+        elif highest_in_sim == 23:
+            self.dict_of_where_they_came['Final'] += 1
+
+    def append_to_percentage_get_dict(self, highest_in_sim, win):
+        if highest_in_sim > 0:
+            self.percentage_get_to_dict['Group'] += 1
+        if 8 < highest_in_sim:
+            self.percentage_get_to_dict['Round of 16'] += 1
+        if 16 < highest_in_sim:
+            self.percentage_get_to_dict['Quarter-final'] += 1
+        if highest_in_sim > 20:
+            self.percentage_get_to_dict['Semi-final'] += 1
+        if highest_in_sim == 23:
+            self.percentage_get_to_dict['Final'] += 1
+        if win:
+            self.percentage_get_to_dict['Win'] += 1
 
     def average_goals_conceded(self):
         # This gets all the games that the user played. It then uses the id of the other country in the game to find
