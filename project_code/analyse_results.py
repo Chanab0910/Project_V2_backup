@@ -310,10 +310,12 @@ class Analyse:
 
     def average_goals_conceded_group_or_ko(self):
         """
+        This gets the number of goals conceded in the group stage and knockout and calculates the number of games
+        they played in both
 
         Returns
         -------
-
+        None
         """
         group_count = 0
         group_total = 0
@@ -356,6 +358,12 @@ class Analyse:
         self.average_goals_conceded_in_ko = ko_total / ko_count
 
     def number_of_wins(self):
+        """
+        This gets the number of times that the country won the WC
+        Returns
+        -------
+        None
+        """
         for i in range(1, 101):
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
                 country_id=self.country_object.country_id, simulation_number=i).all()
@@ -369,6 +377,13 @@ class Analyse:
                         self.number_of_wc_wins += 1
 
     def get_number_of_times_they_played_each_country(self):
+        """
+        This goes through very game that the country played and works out how many times they played each country
+
+        Returns
+        -------
+        None
+        """
         all_games_played = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
 
         for game in all_games_played:
@@ -383,6 +398,13 @@ class Analyse:
             self.number_of_times_played_dict[country_name[0]] += 1
 
     def team_they_beat_and_lost_to_the_most_percentage(self):
+        """
+        This goes through very game that the country played and works out how many times they beat and lost to each country
+
+        Returns
+        -------
+        None
+        """
         list_of_countries = ['Argentina', 'France', 'England', 'Belgium', 'Brazil',
                              'Netherlands', 'Portugal', 'Spain',
                              'Italy', 'Croatia', 'Uruguay', 'Morocco', 'USA', 'Columbia',
