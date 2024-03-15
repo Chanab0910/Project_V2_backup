@@ -222,8 +222,8 @@ class SelectingCountriesPageGUI(tk.Tk):
         self.place_widgets()
 
     def place_widgets(self):
-        # This project_code creates the widgets and grids them
-        '''self.background.grid()'''
+        '''This creates the widgets and grids them'''
+
         self.title.grid(columnspan=8, row=0, pady=10)
 
         self.Argentina_button.grid(column=0, row=1, padx=10)
@@ -301,6 +301,16 @@ class SelectingCountriesPageGUI(tk.Tk):
         self.general_stats.grid(columnspan=8, row=9)
 
     def go_to_next_page(self, country_name):
+        """
+        Goes to a new page with stats according to the country_name
+        Parameters
+        ----------
+        country_name: the name of the country
+
+        Returns
+        -------
+        None
+        """
         a = Analyse()
         results = a.controller(country_name)
 
@@ -309,6 +319,7 @@ class SelectingCountriesPageGUI(tk.Tk):
         self.gui.mainloop()
 
     def go_to_general_stats(self):
+        """goes to the general stats page"""
         g = SelectGUI()
         self.destroy()
         g.mainloop()
