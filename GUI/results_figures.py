@@ -26,6 +26,18 @@ class ResultsFigures(tk.Toplevel):
 
 
     def pie_chart(self, where_they_came):
+        """
+        Creates a pie chart based on how many times they got to each section
+
+        Parameters
+        ----------
+        where_they_came: This is a dictionary with the data of where they got to
+
+        Returns
+        -------
+        None
+
+        """
         titles = ['Group', 'R16', 'Quarters', 'Semis', 'Final', 'Win']
         data = [where_they_came['Group'], where_they_came['Round of 16'], where_they_came['Quarter-final'],
                 where_they_came['Semi-final'], where_they_came['Final'], where_they_came['Win']]
@@ -37,6 +49,16 @@ class ResultsFigures(tk.Toplevel):
         pie.get_tk_widget().grid(row=1,column=0,padx=20)
 
     def bar_chart(self, where_they_came):
+        """
+        This creates a bar chart with the probability of a country getting to each stage
+        Parameters
+        ----------
+        where_they_came: This is a dictionary with the data of where they got to
+
+        Returns
+        -------
+        None
+        """
         titles = ['Group', 'R16', 'Quarters', 'Semis', 'Final', 'Win']
         data = [where_they_came['Group'], where_they_came['Round of 16'], where_they_came['Quarter-final'],
                 where_they_came['Semi-final'], where_they_came['Final'], where_they_came['Win']]
@@ -54,6 +76,13 @@ class ResultsFigures(tk.Toplevel):
         self.destroy()
 
     def place_widgets(self):
+        """
+        places widgets
+        Returns
+        -------
+        None
+        """
+
         self.title.grid(row=0,columnspan=2)
         self.pie_title.grid(row=2,column=0)
         self.bar_title.grid(row=2,column=1)

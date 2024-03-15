@@ -21,6 +21,12 @@ class GraphGUI(tk.Tk):
 
         self.place_widgets()
     def bar_chart(self):
+        """
+        Creates a bar chart
+        Returns
+        -------
+        None
+        """
         list_of_countries = ['Argentina', 'France', 'England', 'Belgium', 'Brazil',
                              'Netherlands', 'Portugal', 'Spain',
                              'Italy', 'Croatia', 'Uruguay', 'Morocco', 'USA', 'Columbia',
@@ -49,6 +55,12 @@ class GraphGUI(tk.Tk):
 
 
     def place_widgets(self):
+        """
+        Places the widgets
+        Returns
+        -------
+        None
+        """
         self.title.grid(row=0,column=0)
 
 
