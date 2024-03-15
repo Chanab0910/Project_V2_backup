@@ -6,14 +6,15 @@ from PIL import Image, ImageTk
 import results_page
 from selecting_what_general_stats import SelectGUI
 
+
 class SelectingCountriesPageGUI(tk.Tk):
     """ Test GUI subclasses the tk.Frame, so that we can use all the attributes of the tk.Frame and add our own widgets to
     the Frame"""
 
     def __init__(self):
         super().__init__()
-        im=Image.open("../img/Argentina.png")
-        resized_image = im.resize((150,95))
+        im = Image.open("../img/Argentina.png")
+        resized_image = im.resize((150, 95))
         self.Argentina = ImageTk.PhotoImage(resized_image)
 
         im = Image.open("../img/Australia.png")
@@ -140,43 +141,44 @@ class SelectingCountriesPageGUI(tk.Tk):
         resized_image = im.resize((150, 95))
         self.Uruguay = ImageTk.PhotoImage(resized_image)
 
-
-
-        self.Argentina_button = tk.Button(self, image=self.Argentina,command=lambda: [self.go_to_next_page('Argentina')])
-        self.Australia_button = tk.Button(self, image=self.Australia,command=lambda: [self.go_to_next_page('Australia')])
-        self.Austria_button = tk.Button(self, image=self.Austria,command=lambda: [self.go_to_next_page('Austria')])
-        self.Belgium_button = tk.Button(self, image=self.Belgium,command=lambda: [self.go_to_next_page('Belgium')])
-        self.Brazil_button = tk.Button(self, image=self.Brazil,command=lambda: [self.go_to_next_page('Brazil')])
-        self.Croatia_button = tk.Button(self, image=self.Croatia,command=lambda: [self.go_to_next_page('Croatia')])
-        self.Colombia_button = tk.Button(self, image=self.Colombia,command=lambda: [self.go_to_next_page('Colombia')])
-        self.Denmark_button = tk.Button(self, image=self.Denmark,command=lambda: [self.go_to_next_page('Denmark')])
-        self.England_button = tk.Button(self, image=self.England,command=lambda: [self.go_to_next_page('England')])
-        self.Equador_button = tk.Button(self, image=self.Equador,command=lambda: [self.go_to_next_page('Equador')])
-        self.France_button = tk.Button(self, image=self.France,command=lambda: [self.go_to_next_page('France')])
-        self.Germany_button = tk.Button(self, image=self.Germany,command=lambda: [self.go_to_next_page('Germany')])
-        self.Hungary_button = tk.Button(self, image=self.Hungary,command=lambda: [self.go_to_next_page('Hungary')])
-        self.Iran_button = tk.Button(self, image=self.Iran,command=lambda: [self.go_to_next_page('Iran')])
+        self.Argentina_button = tk.Button(self, image=self.Argentina,
+                                          command=lambda: [self.go_to_next_page('Argentina')])
+        self.Australia_button = tk.Button(self, image=self.Australia,
+                                          command=lambda: [self.go_to_next_page('Australia')])
+        self.Austria_button = tk.Button(self, image=self.Austria, command=lambda: [self.go_to_next_page('Austria')])
+        self.Belgium_button = tk.Button(self, image=self.Belgium, command=lambda: [self.go_to_next_page('Belgium')])
+        self.Brazil_button = tk.Button(self, image=self.Brazil, command=lambda: [self.go_to_next_page('Brazil')])
+        self.Croatia_button = tk.Button(self, image=self.Croatia, command=lambda: [self.go_to_next_page('Croatia')])
+        self.Colombia_button = tk.Button(self, image=self.Colombia, command=lambda: [self.go_to_next_page('Colombia')])
+        self.Denmark_button = tk.Button(self, image=self.Denmark, command=lambda: [self.go_to_next_page('Denmark')])
+        self.England_button = tk.Button(self, image=self.England, command=lambda: [self.go_to_next_page('England')])
+        self.Equador_button = tk.Button(self, image=self.Equador, command=lambda: [self.go_to_next_page('Equador')])
+        self.France_button = tk.Button(self, image=self.France, command=lambda: [self.go_to_next_page('France')])
+        self.Germany_button = tk.Button(self, image=self.Germany, command=lambda: [self.go_to_next_page('Germany')])
+        self.Hungary_button = tk.Button(self, image=self.Hungary, command=lambda: [self.go_to_next_page('Hungary')])
+        self.Iran_button = tk.Button(self, image=self.Iran, command=lambda: [self.go_to_next_page('Iran')])
         self.Italy_button = tk.Button(self, image=self.Italy, command=lambda: [self.go_to_next_page('Italy')])
         self.Japan_button = tk.Button(self, image=self.Japan, command=lambda: [self.go_to_next_page('Japan')])
         self.Korea_button = tk.Button(self, image=self.Korea, command=lambda: [self.go_to_next_page('Korea')])
-        self.Mexico_button = tk.Button(self, image=self.Mexico,command=lambda: [self.go_to_next_page('Mexico')])
-        self.Netherlands_button = tk.Button(self, image=self.Netherlands,command=lambda: [self.go_to_next_page('Netherlands')])
-        self.Morocco_button = tk.Button(self, image=self.Morocco,command=lambda: [self.go_to_next_page('Morocco')] )
+        self.Mexico_button = tk.Button(self, image=self.Mexico, command=lambda: [self.go_to_next_page('Mexico')])
+        self.Netherlands_button = tk.Button(self, image=self.Netherlands,
+                                            command=lambda: [self.go_to_next_page('Netherlands')])
+        self.Morocco_button = tk.Button(self, image=self.Morocco, command=lambda: [self.go_to_next_page('Morocco')])
         self.Nigeria_button = tk.Button(self, image=self.Nigeria, command=lambda: [self.go_to_next_page('Nigeria')])
-        self.Poland_button = tk.Button(self, image=self.Poland,command=lambda: [self.go_to_next_page('Poland')])
-        self.Portugal_button = tk.Button(self, image=self.Portugal,command=lambda: [self.go_to_next_page('Portugal')])
-        self.Senegal_button = tk.Button(self, image=self.Senegal,command=lambda: [self.go_to_next_page('Senegal')])
-        self.Serbia_button = tk.Button(self, image=self.Serbia,command=lambda: [self.go_to_next_page('Serbia')])
+        self.Poland_button = tk.Button(self, image=self.Poland, command=lambda: [self.go_to_next_page('Poland')])
+        self.Portugal_button = tk.Button(self, image=self.Portugal, command=lambda: [self.go_to_next_page('Portugal')])
+        self.Senegal_button = tk.Button(self, image=self.Senegal, command=lambda: [self.go_to_next_page('Senegal')])
+        self.Serbia_button = tk.Button(self, image=self.Serbia, command=lambda: [self.go_to_next_page('Serbia')])
         self.Spain_button = tk.Button(self, image=self.Spain, command=lambda: [self.go_to_next_page('Spain')])
         self.Sweden_button = tk.Button(self, image=self.Sweden, command=lambda: [self.go_to_next_page('Sweden')])
-        self.Switzerland_button = tk.Button(self, image=self.Switzerland, command=lambda: [self.go_to_next_page('Switzerland')])
+        self.Switzerland_button = tk.Button(self, image=self.Switzerland,
+                                            command=lambda: [self.go_to_next_page('Switzerland')])
         self.Ukraine_button = tk.Button(self, image=self.Ukraine, command=lambda: [self.go_to_next_page('Ukraine')])
         self.USA_button = tk.Button(self, image=self.USA, command=lambda: [self.go_to_next_page('USA')])
-        self.Wales_button = tk.Button(self, image=self.Wales,command=lambda: [self.go_to_next_page('Wales')])
-        self.Uruguay_button = tk.Button(self, image=self.Uruguay,command=lambda: [self.go_to_next_page('Uruguay')])
+        self.Wales_button = tk.Button(self, image=self.Wales, command=lambda: [self.go_to_next_page('Wales')])
+        self.Uruguay_button = tk.Button(self, image=self.Uruguay, command=lambda: [self.go_to_next_page('Uruguay')])
 
-
-        self.title = tk.Label(self, text="Select the country whos stats you would like to see",
+        self.title = tk.Label(self, text="Select the country whose stats you would like to see",
                               font='FuturaStd-Medium 50')
         self.Argentina_label = tk.Label(self, text='Argentina', font='FuturaStd-Medium 20')
         self.Australia_label = tk.Label(self, text='Australia', font='FuturaStd-Medium 20')
@@ -212,7 +214,8 @@ class SelectingCountriesPageGUI(tk.Tk):
         self.Japan_label = tk.Label(self, text='Japan', font='FuturaStd-Medium 20')
         self.Uruguay_label = tk.Label(self, text='Uruguay', font='FuturaStd-Medium 20')
 
-        self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25', command=self.go_to_general_stats)
+        self.general_stats = tk.Button(self, text='General Stats', font='FuturaStd-Medium 25',
+                                       command=self.go_to_general_stats)
 
         '''self.general_stats = tk.Button(self,text='General Statistics',font='FuturaStd-Medium 20', commmand=self.get_general_stats )'''
 
@@ -295,21 +298,20 @@ class SelectingCountriesPageGUI(tk.Tk):
         self.Uruguay_label.grid(column=6, row=8)
         self.Wales_label.grid(column=7, row=8)
 
-        self.general_stats.grid(columnspan=8,row=9)
+        self.general_stats.grid(columnspan=8, row=9)
 
-    def go_to_next_page(self,country_name):
+    def go_to_next_page(self, country_name):
         a = Analyse()
         results = a.controller(country_name)
 
         self.destroy()
-        self.gui = results_page.ResultGUI(country_name,results)
+        self.gui = results_page.ResultGUI(country_name, results)
         self.gui.mainloop()
 
     def go_to_general_stats(self):
         g = SelectGUI()
         self.destroy()
         g.mainloop()
-
 
 
 if __name__ == '__main__':

@@ -117,8 +117,13 @@ class Analyse:
         return self.goals / self.num_of_matches_played
 
     def get_all_group_stage_goals_and_num_of_matches_played(self):
-        """ this goes through every game that was played in the groups and looks to see if the country scored in it. If it did then """
-
+        """
+        This goes through every group stage game and gets all the goals that the country scored. It also calculates
+        the number of group games that they played
+        Returns
+        -------
+        None
+        """
         all_group_games = self.sess.query(Match.match_id).filter(Match.stage_id < 9).all()
         for game in all_group_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
@@ -128,7 +133,13 @@ class Analyse:
                 self.num_of_group_matches_played += 1
 
     def get_all_ko_goals_and_num_of_matches_played(self):
-        '''Same as above'''
+        """
+        This goes through every knockout game and gets all the goals that the country scored. It also calculates
+        the number of group games that they played
+        Returns
+        -------
+        None
+        """
         all_ko_games = self.sess.query(Match.match_id).filter(Match.stage_id > 8).all()
         for game in all_ko_games:
             goals = self.sess.query(CountryMatch.score).filter_by(match_id=game[0],
@@ -138,8 +149,14 @@ class Analyse:
                 self.num_of_ko_matches_played += 1
 
     def get_country_they_lost_or_won_to_most(self):
-        # this gets all the games that a country won and keeps count of the number of times that they beat or lost
-        # to a country
+        """
+        this gets all the games that a country won and keeps count of the number of times that they beat or lost
+        to a country
+        Returns
+        -------
+        None
+        """
+
         all_games_played = self.sess.query(CountryMatch).filter_by(country_id=self.country_object.country_id).all()
 
         for game in all_games_played:
@@ -211,6 +228,8 @@ class Analyse:
             self.highest_stage = self.highest_stage[0]
 
         return self.dict_of_where_they_came
+
+
 
     def append_to_dict_where_came(self, highest_in_sim, win):
         if win:
