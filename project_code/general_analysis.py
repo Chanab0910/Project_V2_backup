@@ -67,10 +67,12 @@ class GeneralAnalysis:
 
     def get_dict_with_data(self):
         """
+        This goes through each country and calls 'furthest_got_and_average_place'. It then appends this data to a
+        dictionary to make a dictionary with all the countries data
 
         Returns
         -------
-
+        None
         """
         for country in self.dict_of_countries_place_came:
             self.dict_place = self.analyse.furthest_got_and_average_place(country)
@@ -84,36 +86,64 @@ class GeneralAnalysis:
             self.dict_of_countries_place_came[country] = places
             self.second_dict_of_countries_place_came[country] = places
 
-    def get_order_of_overall(self, list):
-        if len(list) == 0:
+    def get_order_of_overall(self, dict):
+        """
+        This uses recursion to get the country that did the best overall in the dict, add it to a list, pop it from the
+        dict and then call itself again
+
+        Parameters
+        ----------
+        dict: This is the dict of countries data
+
+        Returns
+        -------
+        NOne
+        """
+        if len(dict) == 0:
             return self.order_place_list
-        highest = self.get_highest_country(list)
+        highest = self.get_highest_country(dict)
         self.order_place_list.append(highest[0])
-        list.pop(highest[0])
-        self.get_order_of_overall(list)
+        dict.pop(highest[0])
+        self.get_order_of_overall(dict)
 
-    def get_highest_country(self, list):
+    def get_highest_country(self, dict):
+        """
+        This gets the country that did the best overall in the dict
+        Parameters
+        ----------
+        dict: This is the dict of countries data
+
+        Returns
+        -------
+        highest: This is the country tht did the best
+        """
         highest = ['', -1]
-        for country in list:
+        for country in dict:
 
-            if list[country][-1] > highest[1]:
-                highest = [country, list[country][-1]]
-            elif list[country][-1] == highest[1]:
+            if dict[country][-1] > highest[1]:
+                highest = [country, dict[country][-1]]
+            elif dict[country][-1] == highest[1]:
                 highest_dict = self.second_dict_of_countries_place_came[highest[0]]
-                if list[country][-2] > highest_dict[-2]:
-                    highest = [country, list[country][-1]]
-                elif list[country][-2] == highest_dict[-2]:
-                    if list[country][-3] > highest_dict[-3]:
-                        highest = [country, list[country][-1]]
-                    elif list[country][-3] == highest_dict[-3]:
-                        if list[country][-4] > highest_dict[-4]:
-                            highest = [country, list[country][-1]]
-                        elif list[country][-4] == highest_dict[-4]:
-                            if list[country][-5] > highest_dict[-5]:
-                                highest = [country, list[country][-1]]
+                if dict[country][-2] > highest_dict[-2]:
+                    highest = [country, dict[country][-1]]
+                elif dict[country][-2] == highest_dict[-2]:
+                    if dict[country][-3] > highest_dict[-3]:
+                        highest = [country, dict[country][-1]]
+                    elif dict[country][-3] == highest_dict[-3]:
+                        if dict[country][-4] > highest_dict[-4]:
+                            highest = [country, dict[country][-1]]
+                        elif dict[country][-4] == highest_dict[-4]:
+                            if dict[country][-5] > highest_dict[-5]:
+                                highest = [country, dict[country][-1]]
         return highest
 
     def get_average_goals(self):
+        """
+        This gets the average goals that a country scored per game overall
+        Returns
+        -------
+        None
+        """
         self.average_goals_scored_list = []
         for country in self.dict_of_countries_average_goals_scored:
             average = self.analyse.get_all_goals_and_games_played(country)
@@ -121,6 +151,12 @@ class GeneralAnalysis:
             self.average_goals_scored_list.append([country, self.dict_of_countries_average_goals_scored[country]])
 
     def get_average_goals_conceded(self):
+        """
+        This gets the average goals that a country conceded per game overall
+        Returns
+        -------
+        None
+        """
         self.average_goals_conceded_list = []
         for country in self.dict_of_countries_average_goals_conceded:
             average = self.analyse.get_all_goals_and_games_played(country)
