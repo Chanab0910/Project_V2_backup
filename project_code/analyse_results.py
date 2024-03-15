@@ -177,14 +177,16 @@ class Analyse:
 
     def furthest_got_and_average_place(self, country_name):
         '''
+        This gets the furthest place that the country got to in all simulations as well filling in dictionaries about
+        how they did in each simulation in order to create figures in the GUI
 
         Parameters
         ----------
-        country_name
+        country_name: name of the country
 
         Returns
         -------
-
+        self.dict_of_where_they_came: This is a dictionary of how many times the country got knocked out in each stage
         '''
         cn = str(country_name)
         self.percentage_get_to_dict = {'Group': 0, 'Round of 16': 0, 'Quarter-final': 0, 'Semi-final': 0, 'Final': 0,
@@ -194,7 +196,6 @@ class Analyse:
                                         'Win': 0}
         highest_is_winner = False
         for i in range(1, 101):
-            '''Can delete first bit and use dict to find highest result'''
             win = False
             highest_in_sim = 0
             all_games_in_sim = self.sess.query(CountryMatch.match_id).filter_by(
@@ -232,6 +233,17 @@ class Analyse:
 
 
     def append_to_dict_where_came(self, highest_in_sim, win):
+        """
+        This appends the necessary information into the dictionary
+        Parameters
+        ----------
+        highest_in_sim: This is the stage that they got to in the simulation
+        win: This is a boolean value for whether they won the WC
+
+        Returns
+        -------
+        None
+        """
         if win:
             self.dict_of_where_they_came['Win'] += 1
         elif highest_in_sim < 9:
@@ -246,6 +258,17 @@ class Analyse:
             self.dict_of_where_they_came['Final'] += 1
 
     def append_to_percentage_get_dict(self, highest_in_sim, win):
+        """
+        This appends the necessary information into the dictionary
+        Parameters
+        ----------
+        highest_in_sim: This is the stage that they got to in the simulation
+        win: This is a boolean value for whether they won the WC
+
+        Returns
+        -------
+        None
+        """
         if highest_in_sim > 0:
             self.percentage_get_to_dict['Group'] += 1
         if 8 < highest_in_sim:
@@ -260,9 +283,16 @@ class Analyse:
             self.percentage_get_to_dict['Win'] += 1
 
     def average_goals_conceded(self):
-        # This gets all the games that the user played. It then uses the id of the other country in the game to find
-        # the goals that they scored in the match. This is then added to the total and the number of matches is
-        # incremented by 1.
+        """
+        This gets all the games that the user played. It then uses the id of the other country in the game to find
+        the goals that they scored in the match. This is then added to the total and the number of matches is
+        incremented by 1
+
+        Returns
+        -------
+        None
+        """
+
         total = 0
         count = 0
         all_games = self.sess.query(CountryMatch.match_id).filter_by(country_id=self.country_object.country_id).all()
@@ -279,7 +309,12 @@ class Analyse:
         self.average_goals_conceded = total / count
 
     def average_goals_conceded_group_or_ko(self):
-        #
+        """
+
+        Returns
+        -------
+
+        """
         group_count = 0
         group_total = 0
         ko_count = 0
