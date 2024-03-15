@@ -51,6 +51,14 @@ class GeneralAnalysis:
                                                     'Wales': 0, 'Poland': 0, 'Equador': 0, 'Serbia': 0}
 
     def get_stats(self):
+        """
+        calls all the relevant methods to get all the stats
+        Returns
+        -------
+        self.order_place_list: This is the order that the countries came when taking all simulations into account
+        self.dict_of_countries_average_goals_scored: This is the average goals scored by each country
+        self.dict_of_countries_average_goals_conceded: This is the average goals conceded by each country
+        """
         self.get_average_goals()
         self.get_average_goals_conceded()
         self.get_dict_with_data()
@@ -58,6 +66,12 @@ class GeneralAnalysis:
         return self.order_place_list, self.dict_of_countries_average_goals_scored, self.dict_of_countries_average_goals_conceded
 
     def get_dict_with_data(self):
+        """
+
+        Returns
+        -------
+
+        """
         for country in self.dict_of_countries_place_came:
             self.dict_place = self.analyse.furthest_got_and_average_place(country)
             group_num = self.dict_place['Group']
