@@ -17,7 +17,7 @@ class Knockouts:
         self.winner = []
         self.find_group_results = FindGroupResults()
 
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=False)
         self.sess = Session(self.engine)
 
         self.sim_game_class = SimGame()

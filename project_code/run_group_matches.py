@@ -21,7 +21,7 @@ class RunMatches:
         self.group_generator = GroupGenerator()
         self.list_of_groups = []
         self.list_of_groups = self.group_generator.collated_groups
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=False)
         self.sess = Session(self.engine)
 
         self.list_of_objects = []

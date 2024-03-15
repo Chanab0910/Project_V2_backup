@@ -15,7 +15,7 @@ class SimGame:
         self.time = 90
 
         self.base = 0.0128125
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=False)
         self.order = [[0, 2], [1, 3], [2, 1], [0, 3], [0, 1], [2, 3]]
         self.sess = Session(self.engine)
         self.team = ''

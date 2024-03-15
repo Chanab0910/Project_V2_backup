@@ -14,7 +14,7 @@ class FindGroupResults:
         self.group_points = []
         self.all_points = []
         self.winner = None
-        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///World_cup.sqlite3', echo=False)
         self.sess = Session(self.engine)
         self.countries = []
         self.group_generator = GroupGenerator()

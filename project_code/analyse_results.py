@@ -5,11 +5,14 @@ from sqlalchemy import update
 from project_code.models import Country, CountryMatch, Match, Stage
 from project_code.redo_find_group_results import FindGroupResults
 
-engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
+engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=False)
 sess = Session(engine)
 
 
 class Analyse:
+    '''descr
+    attr
+    methods'''
     def __init__(self):
         self.number_of_wc_wins = 0
         self.average_goals_scored_per_game_ko = None
@@ -23,7 +26,7 @@ class Analyse:
         self.num_of_group_matches_played = 0
         self.group_goals = 0
         self.num_of_matches_played = 0
-        self.engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=True)
+        self.engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=False)
         self.sess = Session(self.engine)
         self.goals = 0
         self.number_of_loses_dict = {'Argentina': 0, 'France': 0, 'England': 0, 'Belgium': 0, 'Brazil': 0,
