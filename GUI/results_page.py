@@ -67,10 +67,23 @@ class ResultGUI(tk.Tk):
         self.place_widgets()
 
     def go_to_figures(self, results, country_name):
+        """
+        creates a new frame with the figures
+        Parameters
+        ----------
+        results: All the data from the Analyse class
+        country_name: The name of the country
+
+        Returns
+        -------
+        None
+        """
+
         self.gui = results_figures.ResultsFigures(results, country_name)
         self.gui.mainloop()
 
     def place_widgets(self):
+        """Places the widgets"""
         self.title_country.grid(row=0, column=0, sticky='w')
         self.percentage_they_won_wc_label.grid(row=1, column=0, sticky='w')
         self.furthest_place_got_label.grid(row=2, column=0, sticky='w')
