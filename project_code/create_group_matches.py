@@ -28,18 +28,18 @@ class GroupGenerator:
     def collate_groups(self):
         """Iterates through group_draw and creates all 8 groups and then adds it to collated groups to make one big
          list of lists."""
-        collated_groups = []
         for i in range(8):
-            collated_groups.append(self.group_draw())
+            self.collated_groups.append(self.group_draw())
 
-        self.collated_groups = collated_groups
-
+        for group in self.collated_groups:
+            print(group)
         return self.collated_groups
 
 
 class CreateMatches:
     """ Fills in initial information so that it lays out which matches play in what order and makes it easy to simulate
     through all games"""
+
     def __init__(self):
 
         self.match_id = None
@@ -130,5 +130,3 @@ class CreateMatches:
 if __name__ == '__main__':
     ff = GroupGenerator()
     print(ff.collate_groups())
-    gg = CreateMatches()
-    print(gg.creates_ids(1))

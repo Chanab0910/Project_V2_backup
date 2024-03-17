@@ -140,4 +140,4 @@ class RunMatches:
 
 if __name__ == '__main__':
     gg = RunMatches()
-    print(gg.sim_the_game(1))
+    print(gg.sim_the_game(101))

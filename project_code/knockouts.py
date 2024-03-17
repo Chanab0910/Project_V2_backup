@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from run_group_matches import RunMatches
 from project_code.models import Country, Match, CountryMatch, Stage
 
-from redo_find_group_results import FindGroupResults
+from find_group_results import FindGroupResults
 from create_group_matches import CreateMatches
 from sim_game import SimGame
 
@@ -41,8 +41,16 @@ class Knockouts:
         self.first_and_second_list = self.find_group_results.collective(sim_num)
         self.list_of_first_place = self.first_and_second_list[0]
         self.list_of_second_place = self.first_and_second_list[1]
+        print(f'the initial first list was: ')
+        print(self.list_of_first_place)
+        print(f'the initial second list was: ')
+        print(self.list_of_second_place)
         self.list_of_first_place = sample(self.list_of_first_place, k=len(self.list_of_first_place))
         self.list_of_second_place = sample(self.list_of_second_place, k=len(self.list_of_second_place))
+        print(f'the randomised first list was: ')
+        print(self.list_of_first_place)
+        print(f'the randomised second list was: ')
+        print(self.list_of_second_place)
 
     def first_round(self, sim_num):
         """
@@ -60,15 +68,18 @@ class Knockouts:
             CountryMatch.match_id.desc()).first()
         self.match_id = self.match_id[0] + 1
         for i in range(len(self.list_of_first_place)):
-
+            print(f'the home team is {self.list_of_first_place[0]}')
+            print(f'the away team is {self.list_of_second_place[0]}')
             results = self.sim_game_class.sim_game_object(self.list_of_first_place[0], self.list_of_second_place[0],
                                                           stage=9 + i, match_number=1, sim_num=sim_num,
                                                           match_id=self.match_id)
             first_goals = results[1]
             second_goals = results[2]
-
+            print(f'{self.list_of_first_place[0]} got {first_goals} goals')
+            print(f'{self.list_of_second_place[0]} got {second_goals} goals')
             result = self.get_winner(first_goals, second_goals)
-
+            print(f"{self.list_of_first_place[0]}'s result was a {result[0]}")
+            print(f"{self.list_of_second_place[0]}'s result was a {result[1]}")
             self.add_to_country_match(self.list_of_first_place[0].country_id, first_goals, result[0], sim_num)
             self.add_to_country_match(self.list_of_second_place[0].country_id, second_goals, result[1], sim_num)
 
@@ -80,6 +91,8 @@ class Knockouts:
             self.list_of_first_place.pop(0)
             self.list_of_second_place.pop(0)
             self.match_id += 1
+        print(f'The list of countries in the next round is: ')
+        print(self.qf_list)
 
     def other_rounds(self, round_list, stage_start, next_round_list, sim_num):
         """

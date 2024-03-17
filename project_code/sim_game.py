@@ -94,3 +94,6 @@ class SimGame:
                 stop = True
 
 
+if __name__ == '__main__':
+    sm = SimGame()
+    print(sm.calculate_goals(78,82))

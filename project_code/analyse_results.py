@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy import update
 from project_code.models import Country, CountryMatch, Match, Stage
-from project_code.redo_find_group_results import FindGroupResults
+from project_code.find_group_results import FindGroupResults
 
 engine = create_engine('sqlite:///../project_code/World_cup.sqlite3', echo=False)
 sess = Session(engine)
