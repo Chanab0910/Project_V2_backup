@@ -129,4 +129,6 @@ class CreateMatches:
 
 if __name__ == '__main__':
     ff = GroupGenerator()
-    print(ff.collate_groups())
+    c = ff.countries
+    for tier in c:
+        print(tier)

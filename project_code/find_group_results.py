@@ -127,10 +127,20 @@ class FindGroupResults:
         for a, b, c, d in self.pairing(list_to_split):
             self.group_points.append([a, b, c, d])
 
-    def pairing(self, iterable):
-        '''DO'''
-        a = iter(iterable)
-        return zip(a, a, a, a)
+    def pairing(self, countries):
+        """
+        creates a list with the two given countries
+        Parameters
+        ----------
+        countries: The two countries that the list will be created with
+
+        Returns
+        -------
+        zip(a, a): This is a list with the two given countries
+        """
+        a = iter(countries)
+        return zip(a, a)
+
 
     def find_who_came_first(self, group, group_index, sim_num):
         """

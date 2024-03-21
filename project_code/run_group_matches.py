@@ -35,17 +35,36 @@ class RunMatches:
         self.change_num_list = [7, 13, 19, 25, 31]
         self.counter = 0
 
-    def pairing(self, iterable):
-        a = iter(iterable)
+    def pairing(self, countries):
+        """
+        creates a list with the two given countries
+        Parameters
+        ----------
+        countries: The two countries that the list will be created with
+
+        Returns
+        -------
+        zip(a, a): This is a list with the two given countries
+        """
+        a = iter(countries)
         return zip(a, a)
 
-    """from stack overflow"""
+
 
     def pair_match_object(self, list_to_split):
+        """
+        this goes through all the matches and creates a list of list with each match paring being a list
+        Parameters
+        ----------
+        list_to_split: The list of all the matches
+
+        Returns
+        -------
+        None
+        """
         for thing1, thing2 in self.pairing(list_to_split):
             self.matches.append([thing1, thing2])
 
-    """from stack overflow"""
 
     def get_list_of_objects(self, sim_num):
         """

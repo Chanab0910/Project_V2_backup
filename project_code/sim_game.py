@@ -21,8 +21,22 @@ class SimGame:
         self.team = ''
 
     def sim_game_object(self, home_country, away_country, stage, match_number,sim_num,match_id):
-        # takes the object of each country, gets its attack and defense and runs each team through calculate goals.
-        # It then determines who won
+        """
+        takes the object of each country, gets its attack and defense and runs each team through calculate goals.It then determines who won
+        Parameters
+        ----------
+        home_country: the home country
+        away_country: the away country
+        stage: The stage that the match is in
+        match_number: The number of the match in the stage
+        sim_num: The simulation number thst the game is taking place in
+        match_id: The match_id
+
+        Returns
+        -------
+        self.result: this is the result of the match
+        """
+
         home_country_attack = home_country.attack
         away_country_attack = away_country.attack
         home_country_defense = home_country.defense
@@ -46,6 +60,17 @@ class SimGame:
                 return self.result
 
     def calculate_goals(self, attack, defense):
+        """
+        This calculates the number of goals that a country scores in a match
+        Parameters
+        ----------
+        attack: The attack of the country
+        defense: The defense of the opponent
+
+        Returns
+        -------
+        self.goals: number of goals that the country scored
+        """
         self.goals =0
         for i in range(self.time):
             self.variablility = random.uniform(0,0.005)
@@ -53,11 +78,37 @@ class SimGame:
         return self.goals
 
     def add_to_match(self, stage, match_number,sim_num,match_id):
+        """
+        Adds the match to the match table
+        Parameters
+        ----------
+        stage:The stage that the match is in
+        match_number: The number of the match in the stage
+        sim_num: The simulation number thst the game is taking place in
+        match_id: The match_id
+
+        Returns
+        -------
+        None
+        """
         match_addition = Match(stage_id=stage, match_number=match_number,simulation_number=sim_num,match_id =match_id)
         self.sess.add(match_addition)
         self.sess.commit()
 
-    def extra_time(self, home_goals, away_goals,home_country, away_country, stage, match_number):
+    def extra_time(self, home_goals, away_goals,home_country, away_country):
+        """
+        This simulates extra time
+        Parameters
+        ----------
+        home_goals: The number of goals that the home country is on
+        away_goals: The number of goals that the home country is on
+        home_country: the home country
+        away_country: the away country
+
+        Returns
+        -------
+        None
+        """
         self.time = 30
         home_country_attack = home_country.attack
         away_country_attack = away_country.attack
@@ -76,6 +127,19 @@ class SimGame:
             self.penalties(Home_team_score, Away_team_score, home_country, away_country)
 
     def penalties(self,home_goals, away_goals, home_country, away_country,):
+        """
+        Simulates penalties
+        Parameters
+        ----------
+        home_goals: The number of goals that the home country is on
+        away_goals: The number of goals that the home country is on
+        home_country: the home country
+        away_country: the away country
+
+        Returns
+        -------
+
+        """
         stop = False
         home_country_attack = home_country.attack
         away_country_attack = away_country.attack

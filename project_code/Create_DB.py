@@ -74,7 +74,6 @@ stages = [
 ]
 
 sess.add_all(stages)
-sess.commit()
 sess.add_all(countries)
 sess.commit()
 sess.close()
