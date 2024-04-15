@@ -139,7 +139,7 @@ class FindGroupResults:
         zip(a, a): This is a list with the two given countries
         """
         a = iter(countries)
-        return zip(a, a)
+        return zip(a, a, a, a)
 
 
     def find_who_came_first(self, group, group_index, sim_num):

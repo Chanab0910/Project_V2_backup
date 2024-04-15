@@ -56,7 +56,7 @@ class SimGame:
             if stage < 9:
                 return 'draw', Home_team_score, Away_team_score
             else:
-                self.extra_time(Home_team_score,Away_team_score,home_country, away_country, stage, match_number)
+                self.extra_time(Home_team_score,Away_team_score,home_country, away_country)
                 return self.result
 
     def calculate_goals(self, attack, defense):
